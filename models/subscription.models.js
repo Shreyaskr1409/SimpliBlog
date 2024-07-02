@@ -4,11 +4,11 @@ const subscriptionSchema = new mongoose.Schema(
     {
         blogger: {
             type: Schema.Types.ObjectId,
-            ref: "User"
+            ref:  "User"
         },
         subscriber: {
             type: Schema.Types.ObjectId,
-            ref: "User"
+            ref:  "User"
         },
     },{timestamps: true}
 )

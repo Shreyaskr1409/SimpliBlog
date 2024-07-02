@@ -5,38 +5,38 @@ import jwt from "jsonwebtoken"
 const userSchema = new Schema(
     {
         username: {
-            type: String,
-            required: true,
+            type:      String,
+            required:  true,
             lowercase: true,
-            trim: true,
-            index: true,
-            unique: true
+            trim:      true,
+            index:     true,
+            unique:    true
             // index turned to make searching better
         },
         fullname: {
-            type: String,
-            required: true,
-            index: true
+            type:      String,
+            required:  true,
+            index:     true
         },
         email: {
-            type: String,
-            required: true,
-            trim: true,
-            unique: true,
+            type:      String,
+            required:  true,
+            trim:      true,
+            unique:    true,
             lowercase: true
         },
         password: {
-            type: String,
-            required: [true, "Password is Required"]
+            type:      String,
+            required:  [true, "Password is Required"]
         },
         active: {
-            type: Boolean
+            type:      Boolean
         },
         avatar: {
-            type: String
+            type:      String
         },
         refreshToken: {
-            type: String
+            type:      String
         }
     },
     {
