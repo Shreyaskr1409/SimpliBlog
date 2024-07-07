@@ -7,5 +7,3 @@ node_modules
 .env.production
 
 DISCUSSION.md
-
-/frontend/web
