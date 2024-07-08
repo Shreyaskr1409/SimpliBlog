@@ -1,3 +1,6 @@
+@import url("../static/fonts/geist.css");
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
