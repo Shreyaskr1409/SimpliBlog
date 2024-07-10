@@ -125,9 +125,92 @@ const logoutUser = asyncHandler( async (req, res) => {
     .json( new ApiResponse(200, {}, "User logged out successfully") )
 } )
 
+const refreshAccessToken = asyncHandler( async (req, res) => {
+    const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
+
+    if (!incomingRefreshToken) {
+        throw new ApiError(401, "Unauthorized request")
+    }
+
+    try {
+        const decodedToken = jwt.verify(
+          incomingRefreshToken,
+          process.env.REFRESH_TOKEN_SECRET
+        )
+
+        // you will get _id via decoded token (look at generateRefreshToken() in user.model.js)
+
+        const user = await User.findById(decodedToken?._id)
+
+        if (!user) {
+            throw new ApiError(401, "Invalid refresh token")
+        }
+
+        if (incomingRefreshToken !== user?.refreshToken) {
+            throw new ApiError(401, "Refresh token is expired or used")
+        }
+
+        const options = {
+            httpOnly: true,
+            secure: true
+        }
+
+        const {newAccessToken, newRefreshToken} = await generateAccessAndRefreshTokens(user._id)
+
+        return res
+          .status(200)
+          .cookie("accessToken", newAccessToken)
+          .cookie("refreshToken", newRefreshToken)
+          .json(
+            new ApiResponse(
+              200,
+              {
+                  newAccessToken,
+                  newRefreshToken
+              }
+            )
+          )
+    } catch (error) {
+        throw new ApiError(400, error?.message || "Invalid refresh token")
+    }
+
+} )
+
+const changeCurrentUserPassword = asyncHandler(  async (req, res) => {
+    const {oldPassword, newPassword} = req.body
+    const user = await User.findById(req.user._id)
+
+    if( !(oldPassword && newPassword) ) {
+        throw new ApiError(400, "Please provide both old and new password")
+    }
+    if( !user ) {
+        throw new ApiError(400, "Invalid user")
+    }
+
+    const isPasswordCorrect = await user.isPasswordCorrect(oldPassword)
+
+    if (!isPasswordCorrect) {
+        throw new ApiError(400, "Incorrect old password entered")
+    }
+
+    user.password = newPassword
+    await user.save({validateBeforeSave: false})
+
+    return res.status(200)
+        .json(new ApiResponse(200, {}, "Password changed successfully"))
+} )
+
+const getCurrentUser = asyncHandler( async(req, res) => {
+    return res.status(200)
+        .json( new ApiResponse(200, req.user , "User fetched successfully") )
+} )
+
 export {
     generateAccessAndRefreshTokens,
     registerUser,
     loginUser,
-    logoutUser
+    logoutUser,
+    refreshAccessToken,
+    changeCurrentUserPassword,
+    getCurrentUser
 }
