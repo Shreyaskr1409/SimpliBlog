@@ -64,7 +64,27 @@ const getBlog = asyncHandler( async (req, res) => {
         )
 })
 
+const shareBlog = asyncHandler( async (req, res) => {
+    const { blogid } = req.params
+    const blog = await Blog.findById(blogid)
+    // console.log(blog)
+
+    if (!blog) {
+        throw new ApiError(404, "Blog does not exist or Incorrect Blog id")
+    }
+    // console.log(blog)
+    //
+    blog.shareCount++
+    await blog.save({validateBeforeSave: false})
+
+    return res.status(200)
+        .json(
+            new ApiResponse(200, "Blog shared successfully", {})
+        )
+})
+
 export {
     uploadBlog,
-    getBlog
+    getBlog,
+    shareBlog
 }
