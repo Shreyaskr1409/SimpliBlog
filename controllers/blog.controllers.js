@@ -45,6 +45,26 @@ const uploadBlog = asyncHandler( async (req, res) => {
     )
 } )
 
+const getBlog = asyncHandler( async (req, res) => {
+    const { blogid } = req.params
+    const blog = await Blog.findById(blogid)
+    // console.log(blog)
+
+    if (!blog) {
+        throw new ApiError(404, "Blog does not exist or Incorrect Blog id")
+    }
+    // console.log(blog)
+    //
+    blog.readerCount++
+    await blog.save({validateBeforeSave: false})
+
+    return res.status(200)
+        .json(
+            new ApiResponse(200, "Blog fetched successfully", blog)
+        )
+})
+
 export {
-    uploadBlog
+    uploadBlog,
+    getBlog
 }
