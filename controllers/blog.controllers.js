@@ -83,8 +83,71 @@ const shareBlog = asyncHandler( async (req, res) => {
         )
 })
 
+const getUserBlogList = asyncHandler( async (req, res) => {
+    const { username } = req.params
+
+    if (!username?.trim()) {
+        throw new ApiError(400, "Username is missing")
+    }
+
+    const user = await User.findOne({username: username})
+    if (!user) {
+        throw new ApiError(404, "User with this username does not exits")
+    }
+
+    const userBlogList = await User.aggregate([
+        {
+            $match: {
+                username: username
+            }
+        },
+        {
+            $lookup: {
+                from: "blogs",
+                localField: "_id",
+                foreignField: "author",
+                as: "userBlogList"
+            }
+        },
+        {
+            $addFields: {
+                userBlogCount: {
+                    $size: "$userBlogList"
+                }
+            }
+        },
+        {
+            $project: {
+                _id: 0, // Exclude the user's _id
+                userBlogList: {
+                    _id: 1,
+                    title: 1,
+                    subtitle: 1,
+                    readerCount: 1,
+                    shareCount: 1,
+                    createdAt: 1,
+                    updatedAt: 1
+                },
+                userBlogCount: 1 // Include the blog count
+            }
+        }
+    ])
+
+    if (!userBlogList?.length) {
+        throw new ApiError(404, "User does not have existing blogs")
+    }
+
+    console.log(userBlogList)
+
+    return res.status(200)
+        .json(
+            new ApiResponse( 200, "User's blogs fetched successfully", userBlogList[0])
+        )
+})
+
 export {
     uploadBlog,
     getBlog,
-    shareBlog
+    shareBlog,
+    getUserBlogList
 }
