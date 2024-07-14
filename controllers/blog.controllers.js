@@ -72,7 +72,11 @@ const deleteBlog = asyncHandler( async (req, res) => {
         throw new ApiError(404, "Blog does not exist or Incorrect Blog id")
     }
 
-    await Blog.deleteOne({_id: blog._id})
+    try {
+        await Blog.findByIdAndDelete(blog._id)
+    } catch (error) {
+        throw new ApiError(404, "Invalid blog id")        
+    }
 
     return res.status(200)
         .json(
