@@ -64,6 +64,22 @@ const getBlog = asyncHandler( async (req, res) => {
         )
 })
 
+const deleteBlog = asyncHandler( async (req, res) => {
+    const { blogid } = req.params
+    const blog = await Blog.findById(blogid)
+
+    if (!blog) {
+        throw new ApiError(404, "Blog does not exist or Incorrect Blog id")
+    }
+
+    await Blog.deleteOne({_id: blog._id})
+
+    return res.status(200)
+        .json(
+            new ApiResponse(200, "Blog Deleted successfully", {})
+        )
+} )
+
 const shareBlog = asyncHandler( async (req, res) => {
     const { blogid } = req.params
     const blog = await Blog.findById(blogid)
@@ -149,5 +165,6 @@ export {
     uploadBlog,
     getBlog,
     shareBlog,
-    getUserBlogList
+    getUserBlogList,
+    deleteBlog
 }
