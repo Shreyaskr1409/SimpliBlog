@@ -153,11 +153,12 @@ const getUserBlogList = asyncHandler( async (req, res) => {
         }
     ])
 
-    if (!userBlogList?.length) {
-        throw new ApiError(404, "User does not have existing blogs")
-    }
+    // if (!userBlogList?.length) {
+    //     throw new ApiError(404, "User does not have existing blogs")
+    // }
+    // I want the above code to be handled in the frontend
 
-    console.log(userBlogList)
+    // console.log(userBlogList)
 
     return res.status(200)
         .json(

@@ -92,10 +92,10 @@ const loginUser = asyncHandler( async (req, res) => {
     .json(
         new ApiResponse(
             200,
+            "User logged in successfully",
             {
                 user: loggedInUser, accessToken, refreshToken
-            },
-            "User logged in successfully"
+            }
         )
     )
 } )
@@ -122,7 +122,7 @@ const logoutUser = asyncHandler( async (req, res) => {
     return res.status(200)
     .clearCookie("accessToken", options)
     .clearCookie("refreshToken", options)
-    .json( new ApiResponse(200, {}, "User logged out successfully") )
+    .json( new ApiResponse(200, "User logged out successfully", {}) )
 } )
 
 const refreshAccessToken = asyncHandler( async (req, res) => {
@@ -197,12 +197,12 @@ const changeCurrentUserPassword = asyncHandler(  async (req, res) => {
     await user.save({validateBeforeSave: false})
 
     return res.status(200)
-        .json(new ApiResponse(200, {}, "Password changed successfully"))
+        .json(new ApiResponse(200, "Password changed successfully", {}))
 } )
 
 const getCurrentUser = asyncHandler( async(req, res) => {
     return res.status(200)
-        .json( new ApiResponse(200, req.user , "User fetched successfully") )
+        .json( new ApiResponse(200, "User fetched successfully", req.user) )
 } )
 
 export {

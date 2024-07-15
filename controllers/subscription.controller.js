@@ -44,6 +44,7 @@ const subscribe = asyncHandler( async (req, res) => {
             )
         )
 } )
+
 const unsubscribe = asyncHandler( async (req, res) => {
     // i can take subscriber and blogger id again but i do not want to go through the process of searching the users again and again
     // that will increase the await time in the server
@@ -60,7 +61,62 @@ const unsubscribe = asyncHandler( async (req, res) => {
         ) )
 } )
 
+const getUserSubscriptionsList = asyncHandler( async (req, res) => {
+    const { username } = req.params
+    
+    const user = await User.findOne(
+        {username: username}
+    )
+    if (!user) {
+        throw new ApiError(404, "User with this username does not exist")
+    }
+
+    const userSubscriptionsList = await User.aggregate([
+        {
+            $match: {
+                username: username
+            }
+        },
+        {
+            $lookup: {
+                from: "subscriptions",
+                localField: "_id",
+                foreignField: "subscriber",
+                as: "userSubscriptionsList"
+            }
+        },
+        {
+            $addFields: {
+                userSubscriptionsCount: {
+                    $size: "$userSubscriptionsList"
+                }
+            }
+        },
+        {
+            $project: {
+                _id: 1,
+                userSubscriptionsList: {
+                    _id: 1,
+                    blogger: 1,
+                    createdAt: 1
+                },
+                userSubscriptionsCount: 1
+            }
+        }
+    ] )
+
+    return res.status(200)
+        .json(
+            new ApiResponse(
+                200,
+                "User subscriptions list fetched successfully",
+                userSubscriptionsList
+            )
+        )
+} )
+
 export {
     subscribe,
-    unsubscribe
+    unsubscribe,
+    getUserSubscriptionsList
 }
