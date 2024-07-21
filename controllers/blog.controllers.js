@@ -23,14 +23,14 @@ const uploadBlog = asyncHandler( async (req, res) => {
     }
 
     // const author = user.username
-        const blog = await Blog.create(
-            {
-                title: title,
-                body: body,
-                subtitle: subtitle,
-                author: user._id
-            }
-        )
+    const blog = await Blog.create(
+        {
+            title: title,
+            body: body,
+            subtitle: subtitle,
+            author: user._id
+        }
+    )
 
     const createdBlog = await Blog.findById(blog._id)
     // console.log(createdBlog)
