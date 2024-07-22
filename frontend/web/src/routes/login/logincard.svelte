@@ -19,7 +19,7 @@
             </div>
             <div class="flex flex-col space-y-1.5">
             <Label for="password">Password</Label>
-            <Input id="password" placeholder="Enter your password" />
+            <Input id="password" type="password" placeholder="Enter your password" />
             </div>
         </div>
         </form>

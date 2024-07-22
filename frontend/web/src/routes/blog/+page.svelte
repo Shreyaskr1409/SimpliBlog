@@ -11,7 +11,7 @@
 
 <body class="flex flex-col justify-center items-center w-screen h-screen bg-black">
     <ModeWatcher />
-    <div class="flex flex-col h-screen my-8 w-2/3">
+    <div id="bigcont"  class="flex flex-col h-screen my-8">
         <h1 class="scroll-m-20 self-start text-4xl font-extrabold tracking-tight lg:text-5xl pb-4 mt-8">
             Blogs:
         </h1>
@@ -41,6 +41,11 @@
 <style>
     body{
         overflow-x: hidden;
+        padding: 0 30px 0 30px;
+    }
+    #bigcont{
+        width: 100%;
+        max-width: 1300px;
     }
     #outer_box{
         padding: 10px;
