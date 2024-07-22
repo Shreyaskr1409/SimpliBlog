@@ -11,10 +11,10 @@
         </Avatar.Root>
         <div id="spacer"></div>
         <div id="AccountInfoSet" class="flex flex-col">
-            <h4 class="scroll-m-20 text-xl font-semibold tracking-tight">
+            <h4 class="scroll-m-20 text-xl font-semibold tracking-tight hover:underline hover:cursor-pointer">
                 Shreyas Kumar
             </h4>
-            <p class="">
+            <p class="hover:underline hover:cursor-pointer">
                 @shreyaskr.1409
             </p>
         </div>

@@ -1,5 +1,14 @@
+<script>
+    let subtitle = "This is the subtitle"
+    let date = "20 July 2024"
+</script>
+
 <div class="w-full grow">
     <div id="textArea" class="w-full h-full">
+        <h2 class="scroll-m-20 text-2xl font-semibold tracking-tight transition-colors first:mt-0">{subtitle}</h2>
+        <p class=" text-sm">{date}</p>
+        <br>
+
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis, quas fugiat dolore consectetur, odit explicabo qui repudiandae ab ut nisi ratione. Eius accusamus facilis earum? Magni repellendus omnis quibusdam accusamus.
         Obcaecati reprehenderit et consequuntur nam quibusdam vitae dicta? Provident, quod incidunt molestiae dolor sapiente rem. Unde placeat repellat nostrum natus nesciunt expedita soluta autem, magnam doloremque, ad at repudiandae ipsa.</p>
         <br>

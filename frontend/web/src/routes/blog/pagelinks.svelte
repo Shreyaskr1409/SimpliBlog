@@ -30,7 +30,7 @@
   let value = "";
  
   $: selectedValue =
-    frameworks.find((f) => f.value === value)?.label ?? "Choose a link...";
+    frameworks.find((f) => f.value === value)?.label ?? "Author's links...";
  
   // We want to refocus the trigger button when the user selects
   // an item from the list so users can continue navigating the
