@@ -1,5 +1,8 @@
 <script>
-  import Topbar from "./topbar.svelte";
+  import Blogcontent from "./blogcontent.svelte";
+import Blogground from "./blogground.svelte";
+  import Blogtitle from "./blogtitle.svelte";
+import Topbar from "./topbar.svelte";
   import { ModeWatcher } from "mode-watcher";
 
 </script>
@@ -12,12 +15,21 @@
             Blogs:
         </h1>
         <div class="flex flex-row justify-start border-slate-500 border-2 grow" id="outer_box">
-            <div class="flex flex-row w-2/3" id="inner_box_left">
+            <div class="flex flex-col w-2/3" id="inner_box_left">
                 <Topbar></Topbar>
+                <div id="spacer_1"></div>
+                <Blogground></Blogground>
+                <div id="spacer_1"></div>
+                <Blogtitle></Blogtitle>
+                <div id="spacer_1"></div>
+                <Blogcontent></Blogcontent>
             </div>
-            <div id="spacer" class=""></div>
-            <div class="flex flex-row border-slate-500 border-2 grow" id="inner_box_right">
 
+
+            <div id="spacer_2" class=""></div>
+
+
+            <div class="flex flex-row border-slate-500 border-2 grow" id="inner_box_right">
             </div>
         </div>
     </div>
@@ -25,25 +37,20 @@
 
 
 <style>
-    *{
-        --pad: 10px;
+    body{
+        overflow-x: hidden;
     }
-    #outer_box {
-        padding: var(--pad);
+    #outer_box{
+        padding: 10px;
+        border-radius: 30px;
     }
-    #spacer {
-        width: var(--pad);
+    #inner_box_right{
+        border-radius: 20px;
     }
-
-    @media (min-width: 1536px) {
-        *{
-            --pad: 15px;
-        }
-        #outer_box {
-            padding: var(--pad);
-        }
-        #spacer {
-            width: var(--pad);
-        }
+    #spacer_2{
+        width: 10px;
+    }
+    #spacer_1{
+        height: 10px;
     }
 </style>
