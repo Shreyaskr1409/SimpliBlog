@@ -9,13 +9,13 @@
 </script>
 
 
-<body class="flex flex-col justify-center items-center w-screen h-screen bg-black">
+<body class="flex flex-col justify-center items-center w-screen h-screen">
     <ModeWatcher />
     <div id="bigcont"  class="flex flex-col h-screen my-8">
         <h1 class="scroll-m-20 self-start text-4xl font-extrabold tracking-tight lg:text-5xl pb-4 mt-8">
             Blogs:
         </h1>
-        <div class="flex flex-row justify-start border-2 grow" id="outer_box">
+        <div class=" bg-zinc-900 flex flex-row justify-start border-2 grow" id="outer_box">
             <div class="flex flex-col w-2/3" id="inner_box_left">
                 <Topbar></Topbar>
                 <div id="spacer_1"></div>
@@ -30,7 +30,7 @@
             <div id="spacer_2" class=""></div>
 
 
-            <div class="flex flex-row border-2 grow" id="inner_box_right">
+            <div class="flex flex-row border-2 grow bg-zinc-950" id="inner_box_right">
                 <Blogslist></Blogslist>
             </div>
         </div>

@@ -4,7 +4,7 @@
 </script>
 
 <div class="w-full grow">
-    <div id="textArea" class="w-full h-full">
+    <div id="textArea" class="w-full h-full bg-zinc-950">
         <h2 class="scroll-m-20 text-2xl font-semibold tracking-tight transition-colors first:mt-0">{subtitle}</h2>
         <p class=" text-sm">{date}</p>
         <br>

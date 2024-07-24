@@ -5,7 +5,7 @@
     let bgclr = ""
 
     if (isActive) {
-        bgclr = "bg-slate-900"
+        bgclr = "bg-zinc-900"
     }
 
     let usedtitle = title;
@@ -15,7 +15,7 @@
 </script>
 
 <div id="contnr" class=" w-full">
-    <div id="row1" class="px-4 py-1 w-full {bgclr} hover:bg-slate-800">
+    <div id="row1" class="px-4 py-1 w-full {bgclr} hover:bg-zinc-800">
         <div id="col1">
             <h2 class="scroll-m-20 text-2xl font-semibold tracking-tight first:mt-0 hover:underline hover:cursor-pointer whitespace-nowrap">{usedtitle}</h2>
             <p class=" text-sm">{date}</p>

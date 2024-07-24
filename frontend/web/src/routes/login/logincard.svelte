@@ -5,7 +5,7 @@
     import { Label } from "$lib/components/ui/label/index.js";
 </script>
 
-<Card.Root class="w-[500px]">
+<Card.Root class="w-[500px] bg-zinc-900">
     <Card.Header>
         <Card.Title>Welcome to Simpliblog!</Card.Title>
         <Card.Description>Login into your Simpliblog account</Card.Description>
