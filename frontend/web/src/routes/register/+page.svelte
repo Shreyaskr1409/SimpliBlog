@@ -1,11 +1,11 @@
 <script>
     import { ModeWatcher } from "mode-watcher";
-    import Logincard from "./logincard.svelte";
+  import Registercard from "./registercard.svelte";
 
 </script>
 
 <head>
-    <title>SimpliBlog-Login</title>
+    <title>SimpliBlog-Register</title>
 </head>
 
 <body class="flex flex-row justify-center items-center w-screen h-screen ">
@@ -16,9 +16,9 @@
     <div class="flex flex-col justify-center items-center w-1/2">
         <div class="flex flex-col my-8">
             <h1 class="scroll-m-20 self-start text-4xl font-extrabold tracking-tight lg:text-5xl pb-4 mt-8">
-                Login:
+                Register:
             </h1>
-            <Logincard></Logincard>
+            <Registercard></Registercard>
         </div>
     </div>
 </body>

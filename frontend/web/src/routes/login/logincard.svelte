@@ -7,7 +7,7 @@
 
 <Card.Root class="w-[500px] bg-zinc-900">
     <Card.Header>
-        <Card.Title>Welcome to Simpliblog!</Card.Title>
+        <Card.Title>Welcome back to Simpliblog!</Card.Title>
         <Card.Description>Login into your Simpliblog account</Card.Description>
     </Card.Header>
     <Card.Content>

@@ -8,6 +8,9 @@
 
 </script>
 
+<head>
+    <title>SimpliBlog</title>
+</head>
 
 <body class="flex flex-col justify-center items-center w-screen h-screen">
     <ModeWatcher />
