@@ -47,6 +47,45 @@ const uploadComment = asyncHandler( async (req,res) => {
         )
 } )
 
+const deleteComment = asyncHandler( async (req, res) => {
+    const { commentId } = req.body;
+    const comment = await Comment.findById(commentId)
+    if (!comment) {
+        throw new ApiError(401, "Invalid comment id for the comment")
+    }
+    try {
+        await Comment.findByIdAndDelete(commentId)
+    } catch (e) {
+        throw new ApiError(501, "Something went wrong while deleting comment. Please try again later")
+    }
+
+    res.status(201)
+        .json(
+            new ApiResponse(200, "Comment deleted successfully", {})
+        )
+} )
+
+const editComment = asyncHandler( async (req, res) => {
+    const { commentId, updatedComment } = req.body;
+    const comment = await Comment.findById(commentId)
+    if (!comment) {
+        throw new ApiError(401, "Invalid comment id for the comment")
+    }
+
+    comment.commentBody = updatedComment
+    try {
+        await comment.save({validateBeforeSave: false})
+    } catch (e) {
+        console.log(e)
+        throw new ApiError(500, "Could not save edited comment. Please try again later")
+    }
+
+    return res.status(200)
+        .json(
+            new ApiResponse(200, "Comment edited successfully", {})
+        )
+})
+
 const getBlogComments = asyncHandler( async (req, res) => {
     const {blogid} = req.params
     const blog = await Blog.findById(blogid)
@@ -74,5 +113,7 @@ const getBlogComments = asyncHandler( async (req, res) => {
 
 export {
     getBlogComments,
-    uploadComment
+    uploadComment,
+    deleteComment,
+    editComment
 }

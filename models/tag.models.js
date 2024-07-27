@@ -11,10 +11,10 @@ const tagSchema = new mongoose.Schema(
             maxlength: 50,
             index:     true
         },
-        taggedVideos: [
+        taggedBlogs: [
             {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'Video'
+                ref: 'Blog'
             }
         ]
     }, { timestamps: true }

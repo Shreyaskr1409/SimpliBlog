@@ -1,10 +1,7 @@
 <script>
-  import Blogcontent from "./blogcontent.svelte";
-  import Blogground from "./blogground.svelte";
-  import Blogslist from "./blogslist.svelte";
-  import Blogtitle from "./blogtitle.svelte";
-  import Topbar from "./topbar.svelte";
-  import { ModeWatcher } from "mode-watcher";
+    import { ModeWatcher } from "mode-watcher";
+    import Topbar from "./topbar.svelte";
+  import RightBoxContent from "./rightBoxContent.svelte";
 
 </script>
 
@@ -16,25 +13,17 @@
     <ModeWatcher />
     <div id="bigcont"  class="flex flex-col h-screen my-8">
         <h1 class="scroll-m-20 self-start text-4xl font-extrabold tracking-tight lg:text-5xl pb-4 mt-8">
-            Blogs:
+            User:
         </h1>
-        <div class=" bg-zinc-900 flex flex-row justify-start border-2 grow" id="outer_box">
+        <div class=" bg-zinc-900 flex flex-row gap-[10px] justify-start border-2 grow" id="outer_box">
             <div class="flex flex-col w-2/3" id="inner_box_left">
                 <Topbar></Topbar>
                 <div id="spacer_1"></div>
-                <Blogground></Blogground>
-                <div id="spacer_1"></div>
-                <Blogtitle></Blogtitle>
-                <div id="spacer_1"></div>
-                <Blogcontent></Blogcontent>
             </div>
 
 
-            <div id="spacer_2" class=""></div>
-
-
-            <div class="flex flex-row border-2 grow bg-zinc-950 p-[5px]" id="inner_box_right">
-                <Blogslist></Blogslist>
+            <div class="flex flex-col border-2 w-1/3 bg-zinc-950 p-[10px]" id="inner_box_right">
+                <RightBoxContent></RightBoxContent>
             </div>
         </div>
     </div>
