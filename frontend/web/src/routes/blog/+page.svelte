@@ -1,15 +1,58 @@
 <script>
-  import Blogcontent from "./blogcontent.svelte";
-  import Blogground from "./blogground.svelte";
-  import Blogslist from "./blogslist.svelte";
-  import Blogtitle from "./blogtitle.svelte";
-  import Topbar from "./topbar.svelte";
-  import { ModeWatcher } from "mode-watcher";
+    import Blogcontent from "./blogcontent.svelte";
+    import Blogground from "./blogground.svelte";
+    import Blogslist from "./blogslist.svelte";
+    import Blogtitle from "./blogtitle.svelte";
+    import Topbar from "./topbar.svelte";
+    import { ModeWatcher } from "mode-watcher";
 
+    import { onMount } from "svelte"
+    import { blog } from "../../stores/blog.js";
+    import { user } from "../../stores/user.js";
+
+    onMount(async () => {
+        try {
+            const res = await fetch("/api/v1/blogs/get-blog/66903cbaa9da550197206926");
+            const data = await res.json();
+            blog.set(data);
+            console.log($blog);
+        } catch (error) {
+            console.log("Error while fetching blog: ", error);
+        }
+    });
+    
+    onMount(async () => {
+        try {
+            const res = await fetch(`/api/v1/users/get-user/${blog.data.author}`);
+            const data = await res.json();
+            user.set(data);
+            console.log($user);
+        } catch (error) {
+            console.log("Error while fetching user: ", error);
+        }
+    });
+
+//    // This runs on the client-side
+//    let data;
+
+//    // Fetch the data when the component is mounted
+//    onMount(async () => {
+//         try {
+//             const response = await fetch('https://api.github.com/users/Shreyas1409');
+//             if (response.ok) {
+//                 data = await response.json();
+//                 console.log(data);
+//             } else {
+//                 console.error('Failed to fetch data:', response.statusText);
+//             }
+//         } catch (error) {
+//             console.error('Error fetching data:', error);
+//         }
+//     });
 </script>
 
 <head>
-    <title>SimpliBlog</title>
+    <title>Simpliblog</title>
 </head>
 
 <body class="flex flex-col justify-center items-center w-screen h-screen">
@@ -37,6 +80,7 @@
                 <Blogslist></Blogslist>
             </div>
         </div>
+        <div class=" min-h-8"></div>
     </div>
 </body>
 

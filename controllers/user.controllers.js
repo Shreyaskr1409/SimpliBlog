@@ -205,6 +205,23 @@ const getCurrentUser = asyncHandler( async(req, res) => {
         .json( new ApiResponse(200, "User fetched successfully", req.user) )
 } )
 
+const getUser = asyncHandler( async(req, res) => {
+    const { userIdOrName } = req.params
+    const user = await User.findOne({        
+        $or: [
+            {username: userIdOrName},
+            {_id: userIdOrName}
+        ]
+    }).select("-email -refreshToken -updatedAt -password")
+
+    if ( !user ) {
+        throw new ApiError(404, "User with given username doesnot exits")
+    }
+
+    return res.status(200)
+        .json( new ApiResponse(200, "User fetched successfully", user) )
+} )
+
 export {
     generateAccessAndRefreshTokens,
     registerUser,
@@ -212,5 +229,6 @@ export {
     logoutUser,
     refreshAccessToken,
     changeCurrentUserPassword,
-    getCurrentUser
+    getCurrentUser,
+    getUser
 }

@@ -1,10 +1,12 @@
 <script>
-  import Pagelinks from "./pagelinks.svelte";
-
+    import Pagelinks from "./pagelinks.svelte";
+    import { blog } from "../../stores/blog.js";
 </script>
 <div class="flex justify-between items-center">
-    <h2 class="scroll-m-20 text-3xl font-semibold tracking-tight transition-colors first:mt-0" >
-        The People of the Kingdom
-    </h2>
+    {#if $blog}
+        <h3 class="scroll-m-20 text-3xl font-semibold tracking-tight">{$blog.data.title}</h3>
+    {:else}
+        <h3 class="scroll-m-20 text-3xl font-semibold tracking-tight">Loading...</h3>
+    {/if}
     <Pagelinks></Pagelinks>
 </div>

@@ -46,9 +46,6 @@
     #inner_box_right{
         border-radius: 20px;
     }
-    #spacer_2{
-        width: 10px;
-    }
     #spacer_1{
         height: 10px;
     }

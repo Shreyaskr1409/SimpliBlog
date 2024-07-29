@@ -1,9 +1,9 @@
 <script lang="ts">
     import * as Avatar from "$lib/components/ui/avatar";
     import { Input } from "$lib/components/ui/input/index.js";
-  import Settings from "./settings.svelte";
-  import Username from "./username.svelte";
-  import Usertitle from "./usertitle.svelte";
+    import Settings from "./settings.svelte";
+    import Username from "./username.svelte";
+    import Usertitle from "./usertitle.svelte";
 </script>
 
 <div class="h-fit flex flex-row items-center justify-between">
