@@ -3,6 +3,18 @@
     import * as Card from "$lib/components/ui/card/index.js";
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
+    import { passwordLogin } from "../../stores/loginUser.js";
+    import { usernameLogin } from "../../stores/loginUser.js";
+
+    let loginUserName = ""
+    let loginUserPassword = ""
+
+    function logInfo() {
+        usernameLogin.set(loginUserName)
+        passwordLogin.set(loginUserPassword)
+        console.log($usernameLogin);
+        console.log($passwordLogin);
+    }
 </script>
 
 <Card.Root class="w-[500px] bg-zinc-900">
@@ -15,18 +27,18 @@
         <div class="grid w-full items-center gap-4">
             <div class="flex flex-col space-y-1.5">
             <Label for="name">Username or email</Label>
-            <Input id="name" placeholder="Enter your username or email" />
+            <Input bind:value={loginUserName} id="name" placeholder="Enter your username or email" />
             </div>
             <div class="flex flex-col space-y-1.5">
             <Label for="password">Password</Label>
-            <Input id="password" type="password" placeholder="Enter your password" />
+            <Input bind:value={loginUserPassword} id="password" type="password" placeholder="Enter your password" />
             </div>
         </div>
         </form>
     </Card.Content>
     <Card.Footer class="flex justify-between">
         <Button variant="outline">Cancel</Button>
-        <Button>Login</Button>
+        <Button on:click={logInfo}>Login</Button>
     </Card.Footer>
     <Card.Footer>
         <Card.Description class="grow">Do not have an account?</Card.Description>

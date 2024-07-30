@@ -66,7 +66,6 @@
                 <Topbar></Topbar>
                 <div id="spacer_1"></div>
                 <Blogground></Blogground>
-                <div id="spacer_1"></div>
                 <Blogtitle></Blogtitle>
                 <div id="spacer_1"></div>
                 <Blogcontent></Blogcontent>
