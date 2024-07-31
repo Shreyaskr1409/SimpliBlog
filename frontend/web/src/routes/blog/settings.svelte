@@ -63,8 +63,6 @@
         <DropdownMenu.Item>Email</DropdownMenu.Item>
         <DropdownMenu.Separator />
         <DropdownMenu.Item>More...</DropdownMenu.Item>
-        <DropdownMenu.Separator />
-        <DropdownMenu.Item>More...</DropdownMenu.Item>
     </DropdownMenu.SubContent>
     </DropdownMenu.Sub>
     <DropdownMenu.Item>GitHub</DropdownMenu.Item>

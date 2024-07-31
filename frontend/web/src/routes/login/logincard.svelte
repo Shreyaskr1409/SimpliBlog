@@ -3,17 +3,31 @@
     import * as Card from "$lib/components/ui/card/index.js";
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
-    import { passwordLogin } from "../../stores/loginUser.js";
-    import { usernameLogin } from "../../stores/loginUser.js";
 
-    let loginUserName = ""
+    let loginUserName =     ""
     let loginUserPassword = ""
 
     function logInfo() {
-        usernameLogin.set(loginUserName)
-        passwordLogin.set(loginUserPassword)
-        console.log($usernameLogin);
-        console.log($passwordLogin);
+        (async () => {
+            try {
+                const res = await fetch("/api/v1/users/login", {
+                    method:  "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body:    JSON.stringify({
+                        usernameOrEmail: loginUserName,
+                        password:        loginUserPassword
+                    })
+                })
+
+                if (res.ok) {
+                    console.log("logged in");
+                } else {
+                    throw new Error(`HTTP error! Status: ${res.status}`);
+                }
+            } catch (error) {
+                console.error("Error encountered: ", error);
+            }
+        })()
     }
 </script>
 

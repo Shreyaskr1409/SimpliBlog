@@ -21,7 +21,7 @@ const generateAccessAndRefreshTokens = async (userId) => {
 
 const registerUser = asyncHandler( async (req, res) => {
     const { username, fullname, email, password } = req.body
-    console.log( req.body );
+    // console.log( req.body );
     // not dealing with avatar in registering
     if(
         [fullname, username, email, password].some( (field) =>
@@ -62,7 +62,7 @@ const registerUser = asyncHandler( async (req, res) => {
 const loginUser = asyncHandler( async (req, res) => {
     const { usernameOrEmail, password } = req.body
 
-    if( !(username || email) ) {
+    if( !(usernameOrEmail) ) {
         throw new ApiError(401, "Username or email required for login")
     }
 
