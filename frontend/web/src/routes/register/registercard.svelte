@@ -9,29 +9,37 @@
     let registerFullname =        ""
     let registerPassword =        ""
     let registerConfirmPassword = ""
+    let passwordMatch =         true
+    let registeredSuccessfully =  false
 
     function registerInfo() {
         (async () => {
             try {
-                if (registerPassword === registerConfirmPassword) {
-                    const res = await fetch("/api/v1/users/register", {
-                        method:  "POST",
-                        headers: { 'Content-Type': 'application/json' },
-                        body:    JSON.stringify({
-                            email:    registerEmail,
-                            username: registerUsername,
-                            fullname: registerFullname,
-                            password: registerPassword
-                        })
-                    })
-                    if (res.ok) {
-                        console.log("registered");
-                    } else {
-                        throw new Error(`HTTP error! Status: ${res.status}`);
-                    }
-                } else {
+                passwordMatch = (registerPassword === registerConfirmPassword) ? true : false
+                if (!passwordMatch) {
                     throw new Error("Passwords don't match")
                 }
+
+
+                const res = await fetch("/api/v1/users/register", {
+                    method:  "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body:    JSON.stringify({
+                        email:    registerEmail,
+                        username: registerUsername,
+                        fullname: registerFullname,
+                        password: registerPassword
+                    })
+                })
+                if (res.ok) {
+                    registeredSuccessfully = true
+                    console.log("registered");
+                } else {
+                    registeredSuccessfully = false
+                    throw new Error(`HTTP error! Status: ${res.status}`);
+                }
+
+
             } catch (error) {
                 console.error("Error encountered: ", error);
             }
@@ -43,6 +51,13 @@
     <Card.Header>
         <Card.Title>Welcome to Simpliblog!</Card.Title>
         <Card.Description>Create a Simpliblog account</Card.Description>
+
+        {#if registeredSuccessfully}
+            <Card.Description class="text-green-500">Registered Successfully!!!</Card.Description>
+        {/if}
+        {#if passwordMatch}
+            <Card.Description class="text-red-500">Password and Confirm password do not match!</Card.Description>
+        {/if}
     </Card.Header>
     <Card.Content>
         <form>
@@ -58,7 +73,7 @@
                 </div>
                 <div class=" w-4"></div>
                 <div class="flex flex-col space-y-1.5">
-                    <Label for="fullname">Fullnname</Label>
+                    <Label for="fullname">Full Name</Label>
                     <Input bind:value={registerFullname} id="fullname" placeholder="Enter your fullname" />
                 </div>
             </div>

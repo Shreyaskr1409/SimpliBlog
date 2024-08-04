@@ -12,7 +12,7 @@
 
     onMount(async () => {
         try {
-            const res = await fetch("/api/v1/blogs/get-blog/66af3ee8c57c283e527d46b6");
+            const res = await fetch("/api/v1/blogs/get-blog/66af4716f66a29979e64c0c5");
             const data = await res.json();
             blog.set(data);
             console.log($blog);

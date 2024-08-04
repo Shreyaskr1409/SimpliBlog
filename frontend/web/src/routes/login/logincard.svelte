@@ -6,6 +6,8 @@
 
     let loginUserName =     ""
     let loginUserPassword = ""
+    let userdoesnotexist =  false
+    let loggedInSuccessfully =  false
 
     function logInfo() {
         (async () => {
@@ -20,8 +22,12 @@
                 })
 
                 if (res.ok) {
+                    loggedInSuccessfully = true
+                    userdoesnotexist = false
                     console.log("logged in");
                 } else {
+                    loggedInSuccessfully = false
+                    userdoesnotexist = true
                     throw new Error(`HTTP error! Status: ${res.status}`);
                 }
             } catch (error) {
@@ -35,6 +41,12 @@
     <Card.Header>
         <Card.Title>Welcome back to Simpliblog!</Card.Title>
         <Card.Description>Login into your Simpliblog account</Card.Description>
+        {#if loggedInSuccessfully}
+        <Card.Description class="text-green-500">Logged in Successfully!!!</Card.Description>
+        {/if}
+        {#if userdoesnotexist}
+            <Card.Description class="text-red-500">User with given username or email does not exist</Card.Description>
+        {/if}
     </Card.Header>
     <Card.Content>
         <form>
