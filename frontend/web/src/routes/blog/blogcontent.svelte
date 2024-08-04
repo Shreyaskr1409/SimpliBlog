@@ -1,5 +1,7 @@
 <script>
+    import { formatDate } from "$lib/util/dateFormat.js";
     import { blog } from "../../stores/blog.js";
+
     let subtitle = "This is the subtitle"
     let date = "20 July 2024"
 </script>
@@ -12,7 +14,7 @@
         <h2 class="scroll-m-20 text-2xl font-semibold tracking-tight transition-colors first:mt-0">{subtitle}</h2>
         {/if}
         {#if $blog}
-        <p>{$blog.data.createdAt}</p>
+        <p>{formatDate($blog.data.createdAt)}</p>
         {:else}
         <p class=" text-sm">{date}</p>
         {/if}

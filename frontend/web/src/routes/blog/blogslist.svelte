@@ -3,6 +3,7 @@
 
 	import { onMount } from "svelte"
     import { blogslist } from "../../stores/blogslist.js";
+    import { formatDate } from "$lib/util/dateFormat.js";
 
     onMount(async () => {
         const res = await fetch("/api/v1/blogs/get-userblog/lua");
@@ -12,10 +13,10 @@
     });
 </script>
 <div class="w-full flex flex-col gap-[5px]">
-    <Listcontent></Listcontent>
-    <Listcontent></Listcontent>
     <Listcontent isActive={true} title={"The People of the Kingdom"} date={"22 July 2024"}></Listcontent>
-    <Listcontent></Listcontent>
-    <Listcontent></Listcontent>
-    <Listcontent></Listcontent>
+    {#if $blogslist && $blogslist.data && $blogslist.data.userBlogList}
+        {#each $blogslist.data.userBlogList as listOfBlogs}
+        <Listcontent title={listOfBlogs.title} date={formatDate(listOfBlogs.createdAt)}></Listcontent>
+        {/each}
+    {/if}
 </div>

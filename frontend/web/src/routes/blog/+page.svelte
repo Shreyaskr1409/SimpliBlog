@@ -12,7 +12,7 @@
 
     onMount(async () => {
         try {
-            const res = await fetch("/api/v1/blogs/get-blog/66903cbaa9da550197206926");
+            const res = await fetch("/api/v1/blogs/get-blog/66af3ee8c57c283e527d46b6");
             const data = await res.json();
             blog.set(data);
             console.log($blog);
@@ -31,24 +31,6 @@
             console.log("Error while fetching user: ", error);
         }
     });
-
-//    // This runs on the client-side
-//    let data;
-
-//    // Fetch the data when the component is mounted
-//    onMount(async () => {
-//         try {
-//             const response = await fetch('https://api.github.com/users/Shreyas1409');
-//             if (response.ok) {
-//                 data = await response.json();
-//                 console.log(data);
-//             } else {
-//                 console.error('Failed to fetch data:', response.statusText);
-//             }
-//         } catch (error) {
-//             console.error('Error fetching data:', error);
-//         }
-//     });
 </script>
 
 <head>
@@ -66,6 +48,7 @@
                 <Topbar></Topbar>
                 <div id="spacer_1"></div>
                 <Blogground></Blogground>
+                <div id="spacer_1"></div>
                 <Blogtitle></Blogtitle>
                 <div id="spacer_1"></div>
                 <Blogcontent></Blogcontent>
