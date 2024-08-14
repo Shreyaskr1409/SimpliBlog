@@ -2,6 +2,7 @@
     export let title = "The Joke Tax"
     export let date = "20 July 2024"
     export let isActive = false
+    export let blogUrl = "https://github.com/Shreyaskr1409/SimpliBlog"
     let bgclr = ""
 
     if (isActive) {
@@ -9,19 +10,25 @@
     }
 
     let usedtitle = title;
-    if (title.length>25) {
-        usedtitle = title.substring(0, 25) + "..."
+    if (title.length>30) {
+        usedtitle = title.substring(0, 30) + "..."
     }
 </script>
 
 <!-- on:click={() => {window.open('https://github.com/Shreyaskr1409/SimpliBlog', '_blank')}} -->
-<div id="contnr" class="w-full mb-[5px]">
+<div id="contnr" class="mb-[5px]">
     <div id="row1" class="px-4 py-1 w-full {bgclr} hover:bg-zinc-800">
-        <div id="col1">
+        <div class="" id="col1">
             <a
             class="scroll-m-20 text-2xl font-semibold tracking-tight first:mt-0 hover:underline hover:cursor-pointer whitespace-nowrap"
-            href="https://github.com/Shreyaskr1409/SimpliBlog"
-            target="_blank">{usedtitle}</a>
+            href={blogUrl}
+            target="_self"
+            >{usedtitle}</a>
+            <!-- <a
+            class="scroll-m-20 text-2xl font-semibold tracking-tight first:mt-0 hover:underline hover:cursor-pointer whitespace-nowrap"
+            href={blogUrl}
+            target="_blank"
+            >{usedtitle}</a> -->
             <p class=" text-sm">{date}</p>
         </div>
     </div>
