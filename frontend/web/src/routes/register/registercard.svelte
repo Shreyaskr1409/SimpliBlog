@@ -34,6 +34,7 @@
                 if (res.ok) {
                     registeredSuccessfully = true
                     console.log("registered");
+                    window.location.href = '/user';
                 } else {
                     registeredSuccessfully = false
                     throw new Error(`HTTP error! Status: ${res.status}`);
@@ -55,7 +56,7 @@
         {#if registeredSuccessfully}
             <Card.Description class="text-green-500">Registered Successfully!!!</Card.Description>
         {/if}
-        {#if passwordMatch}
+        {#if !passwordMatch}
             <Card.Description class="text-red-500">Password and Confirm password do not match!</Card.Description>
         {/if}
     </Card.Header>

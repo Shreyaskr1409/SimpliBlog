@@ -25,6 +25,7 @@
                     loggedInSuccessfully = true
                     userdoesnotexist = false
                     console.log("logged in");
+                    window.location.href = '/user';
                 } else {
                     loggedInSuccessfully = false
                     userdoesnotexist = true

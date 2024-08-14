@@ -101,7 +101,24 @@ const loginUser = asyncHandler( async (req, res) => {
     )
 } )
 
+const isLoggedInUtil = asyncHandler( async(req, res) => {
+    const user = await User.findById(req.user._id)
+    if( !user ) {
+        throw new ApiError(400, "Invalid user")
+    }
+
+    return res.status(200)
+        .json(
+            new ApiResponse(200, "User is valid", [])
+        )
+})
+
 const logoutUser = asyncHandler( async (req, res) => {
+    const user = await User.findById(req.user._id)
+    if( !user ) {
+        throw new ApiError(400, "Invalid user")
+    }
+
     await User.findByIdAndUpdate(
         req.user._id,
         {
@@ -261,5 +278,6 @@ export {
     changeCurrentUserPassword,
     getCurrentUser,
     getUser,
-    updateUserAvatar
+    updateUserAvatar,
+    isLoggedInUtil
 }
