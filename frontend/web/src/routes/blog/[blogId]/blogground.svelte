@@ -1,5 +1,5 @@
 <script>
-    import { blog } from "../../stores/blog.js";
+    import { blog } from "../../../stores/blog.js";
 </script>
 
 <div class="relative flex flex-row">

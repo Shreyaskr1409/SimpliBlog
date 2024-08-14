@@ -1,6 +1,6 @@
 <script>
     import Pagelinks from "./pagelinks.svelte";
-    import { blog } from "../../stores/blog.js";
+    import { blog } from "../../../stores/blog.js";
 </script>
 <div class="flex justify-between items-center">
     {#if $blog}

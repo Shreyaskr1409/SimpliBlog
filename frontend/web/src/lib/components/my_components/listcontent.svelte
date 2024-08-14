@@ -14,10 +14,14 @@
     }
 </script>
 
+<!-- on:click={() => {window.open('https://github.com/Shreyaskr1409/SimpliBlog', '_blank')}} -->
 <div id="contnr" class="w-full mb-[5px]">
     <div id="row1" class="px-4 py-1 w-full {bgclr} hover:bg-zinc-800">
         <div id="col1">
-            <h2 class="scroll-m-20 text-2xl font-semibold tracking-tight first:mt-0 hover:underline hover:cursor-pointer whitespace-nowrap">{usedtitle}</h2>
+            <a
+            class="scroll-m-20 text-2xl font-semibold tracking-tight first:mt-0 hover:underline hover:cursor-pointer whitespace-nowrap"
+            href="https://github.com/Shreyaskr1409/SimpliBlog"
+            target="_blank">{usedtitle}</a>
             <p class=" text-sm">{date}</p>
         </div>
     </div>

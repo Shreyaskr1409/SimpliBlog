@@ -2,7 +2,7 @@
 	import Listcontent from "$lib/components/my_components/listcontent.svelte";
 
 	import { onMount } from "svelte"
-    import { blogslist } from "../../stores/blogslist.js";
+    import { blogslist } from "../../../stores/blogslist.js";
     import { formatDate } from "$lib/util/dateFormat.js";
     import ScrollArea from "$lib/components/ui/scroll-area/scroll-area.svelte";
 

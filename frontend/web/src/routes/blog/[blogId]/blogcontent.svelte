@@ -1,6 +1,6 @@
 <script>
     import { formatDate } from "$lib/util/dateFormat.js";
-    import { blog } from "../../stores/blog.js";
+    import { blog } from "../../../stores/blog.js";
 
     let subtitle = "This is the subtitle"
     let date = "20 July 2024"

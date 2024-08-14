@@ -7,14 +7,20 @@
     import { ModeWatcher } from "mode-watcher";
 
     import { onMount } from "svelte"
-    import { blog } from "../../stores/blog.js";
-    import { user } from "../../stores/user.js";
-  import CommentsOrBlog from "./commentsOrBlog.svelte";
-  import Separator from "$lib/components/ui/separator/separator.svelte";
+    import { blog } from "../../../stores/blog.js";
+    import { user } from "../../../stores/user.js";
+    import CommentsOrBlog from "./commentsOrBlog.svelte";
+    import Separator from "$lib/components/ui/separator/separator.svelte";
+
+    let blogId
 
     onMount(async () => {
+        // Extract blogId from URL
+        const url = new URL(window.location.href);
+        blogId = url.pathname.split('/').pop(); // Get the last part of the URL
+
         try {
-            const res = await fetch("/api/v1/blogs/get-blog/66af4716f66a29979e64c0c5");
+            const res = await fetch(`/api/v1/blogs/get-blog/${blogId}`);
             const data = await res.json();
             blog.set(data);
             console.log($blog);

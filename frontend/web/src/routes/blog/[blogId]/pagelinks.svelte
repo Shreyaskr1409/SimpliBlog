@@ -7,7 +7,7 @@
 	import { Button } from "$lib/components/ui/button/index.js";
 	import { cn } from "$lib/utils.js";
 	
-    import { blog } from "../../stores/blog";
+    import { blog } from "../../../stores/blog";
  
 	const platforms = [
 		{
