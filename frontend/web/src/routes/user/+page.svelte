@@ -2,6 +2,7 @@
     import { ModeWatcher } from "mode-watcher";
     import Topbar from "./topbar.svelte";
   import RightBoxContent from "./rightBoxContent.svelte";
+  import Banner from "./banner.svelte";
 
 </script>
 
@@ -18,6 +19,8 @@
         <div class=" bg-zinc-900 flex flex-row gap-[10px] justify-start border-2 grow" id="outer_box">
             <div class="flex flex-col w-2/3" id="inner_box_left">
                 <Topbar></Topbar>
+                <div id="spacer_1"></div>
+                <Banner></Banner>
                 <div id="spacer_1"></div>
             </div>
 

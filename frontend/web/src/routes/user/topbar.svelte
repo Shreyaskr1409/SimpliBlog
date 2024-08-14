@@ -1,5 +1,6 @@
 <script>
-  import AvatarDialogue from "./avatarDialogue.svelte";
+  import Button from "$lib/components/ui/button/button.svelte";
+import AvatarDialogue from "./avatarDialogue.svelte";
   import Settings from "./settings.svelte";
 
 </script>
@@ -34,7 +35,11 @@
             </div>
         </div> -->
         <div class="grow"></div>
-        <Settings></Settings>
+        <div class="flex flex-col justify-center items-center">
+            <Button variant="default" class="w-24">Follow</Button>
+            <div class="min-h-1"></div>
+            <Settings></Settings>
+        </div>
     </div>
 </div>
 

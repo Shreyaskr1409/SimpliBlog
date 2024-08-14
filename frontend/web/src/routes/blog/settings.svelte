@@ -49,7 +49,17 @@
             <DropdownMenu.Item>More...</DropdownMenu.Item>
         </DropdownMenu.SubContent>
         </DropdownMenu.Sub>
-        <DropdownMenu.Item>Save blog</DropdownMenu.Item>
+            {#if save}
+            <DropdownMenu.Item>
+            Save Blog
+            <!-- <DropdownMenu.Shortcut>⌘B</DropdownMenu.Shortcut> -->
+            </DropdownMenu.Item>
+            {:else}
+            <DropdownMenu.Item>
+            Unsave Blog
+            <!-- <DropdownMenu.Shortcut>⌘B</DropdownMenu.Shortcut> -->
+            </DropdownMenu.Item>
+            {/if}
         <DropdownMenu.Item>Report blog</DropdownMenu.Item>
     </DropdownMenu.Group>
     <DropdownMenu.Separator />

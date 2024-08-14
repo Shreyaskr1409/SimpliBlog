@@ -9,6 +9,8 @@
     import { onMount } from "svelte"
     import { blog } from "../../stores/blog.js";
     import { user } from "../../stores/user.js";
+  import CommentsOrBlog from "./commentsOrBlog.svelte";
+  import Separator from "$lib/components/ui/separator/separator.svelte";
 
     onMount(async () => {
         try {
@@ -58,7 +60,11 @@
             <div id="spacer_2" class=""></div>
 
 
-            <div class="flex flex-row border-2 grow bg-zinc-950 p-[5px]" id="inner_box_right">
+            <div class="flex flex-col border-2 grow bg-zinc-950 p-[5px] items-center" id="inner_box_right">
+                <CommentsOrBlog></CommentsOrBlog>
+                <div class="h-[5px]"></div>
+                <Separator></Separator>
+                <div class="h-[5px]"></div>
                 <Blogslist></Blogslist>
             </div>
         </div>
