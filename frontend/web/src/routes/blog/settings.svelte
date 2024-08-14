@@ -8,7 +8,7 @@
 
 <DropdownMenu.Root>
     <DropdownMenu.Trigger asChild let:builder>
-    <Button builders={[builder]} variant="secondary">Settings</Button>
+    <Button builders={[builder]} variant="outline">More...</Button>
     </DropdownMenu.Trigger>
     <DropdownMenu.Content class="w-56">
     <DropdownMenu.Label>Current Blog</DropdownMenu.Label>

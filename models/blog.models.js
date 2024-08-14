@@ -27,7 +27,27 @@ const blogSchema = new mongoose.Schema(
         shareCount: {
             type:      Number,
             default:   0
-        }
+        },
+        blogLink: [
+            {
+                sitename: {
+                    type: String
+                },
+                siteurl: {
+                    type: String
+                }
+            }
+        ],
+        blogImage: [
+            {
+                imageTitle: {
+                    type: String
+                },
+                imageurl: {
+                    type: String
+                }
+            }
+        ]
     },
     {timestamps: true}
 )

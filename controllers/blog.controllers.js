@@ -65,6 +65,11 @@ const getBlog = asyncHandler( async (req, res) => {
 })
 
 const deleteBlog = asyncHandler( async (req, res) => {
+    const user = await User.findById(req.user._id)
+    if(!user) {
+        throw new ApiError(400, "Invalid access token")
+    }
+
     const { blogid } = req.params
     const blog = await Blog.findById(blogid)
 
@@ -166,10 +171,40 @@ const getUserBlogList = asyncHandler( async (req, res) => {
         )
 })
 
+const addBlogLinks = asyncHandler( async(req, res) => {
+    const user = await User.findById(req.user._id)
+    if(!user) {
+        throw new ApiError(400, "Invalid access token")
+    }
+
+    const {blogId, blogLinks} = req.body
+
+    if(!blogId || Array.isArray(blogLinks) || blogLinks.length === 0) {
+        throw new ApiError(400, "Blog ID and blogLinks (array) are required");
+    }
+
+    const blog = await Blog.findById(blogId);
+    if (!blog) {
+        throw new ApiError(404, "Invalid BlogId");
+    }
+
+    blog.blogLink.push(...blogLinks)
+    await blog.save()
+
+    return res.status(200)
+        .json(
+            new ApiResponse(200, "Blog links added successfully, blog")
+        )
+} )
+
+const addBlogImages = asyncHandler( async(req, res) => {})
+
 export {
     uploadBlog,
     getBlog,
     shareBlog,
     getUserBlogList,
-    deleteBlog
+    deleteBlog,
+    addBlogLinks,
+    addBlogImages
 }

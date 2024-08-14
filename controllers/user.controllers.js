@@ -2,6 +2,7 @@ import {User} from "../models/user.models.js";
 import {ApiError} from "../util/ApiError.util.js";
 import {asyncHandler} from "../util/asyncHandler.util.js";
 import {ApiResponse} from "../util/ApiResponse.util.js";
+import { uploadOnCloudinary } from "../util/cloudinary.utils.js";
 
 const generateAccessAndRefreshTokens = async (userId) => {
     try {
@@ -222,6 +223,35 @@ const getUser = asyncHandler( async(req, res) => {
         .json( new ApiResponse(200, "User fetched successfully", user) )
 } )
 
+const updateUserAvatar = asyncHandler( async(req, res) => {
+    const avatarLocalPath = req.file?.path
+
+    if(!avatarLocalPath) {
+        throw new ApiError(400, "Avatar file is missing")
+    }
+
+    const avatar = await uploadOnCloudinary(avatarLocalPath)
+
+    if(!avatar.url) {
+        throw new ApiError(500, "Error while uploading to avatar")
+    }
+
+    const user = await User.findByIdAndUpdate(
+        req.user._id,
+    {
+        $set: {
+            avatar: avatar.url
+        }
+    },
+    {new: true}
+    ).select("-password")
+
+    return res.status(200)
+        .json(
+            new ApiResponse(200, "Avatar updated successfully", user)
+        )
+} )
+
 export {
     generateAccessAndRefreshTokens,
     registerUser,
@@ -230,5 +260,6 @@ export {
     refreshAccessToken,
     changeCurrentUserPassword,
     getCurrentUser,
-    getUser
+    getUser,
+    updateUserAvatar
 }
