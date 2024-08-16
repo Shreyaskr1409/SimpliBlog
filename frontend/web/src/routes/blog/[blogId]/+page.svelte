@@ -13,6 +13,23 @@
     import Separator from "$lib/components/ui/separator/separator.svelte";
 
     let blogId
+    let loggedinFlag = false
+
+    onMount( async() => {
+        loggedinFlag = false
+        try {
+            const res = await fetch(`/api/v1/users/loggedin-confirm`, {
+                    method:  "GET",
+                    headers: { 'Content-Type': 'application/json' }
+                });
+            const data = await res.json();
+            console.log(data)
+            loggedinFlag = true
+        } catch (error) {
+            window.location.href = '/login';
+            loggedinFlag = false
+        }
+    })
 
     onMount(async () => {
         // Extract blogId from URL

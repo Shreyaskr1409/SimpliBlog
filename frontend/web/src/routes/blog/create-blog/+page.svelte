@@ -1,7 +1,7 @@
 <script>
     import { ModeWatcher } from "mode-watcher";
     import { onMount } from "svelte";
-  import CreateBlogForm from "./createBlogForm.svelte";
+    import CreateBlogForm from "./createBlogForm.svelte";
 
     let loggedinFlag = false
 

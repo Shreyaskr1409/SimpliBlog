@@ -4,6 +4,9 @@
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
 
+    // import { goto } from '$app/navigation';
+    // import { writable } from 'svelte/store';
+
     let registerEmail =           ""
     let registerUsername =        ""
     let registerFullname =        ""
@@ -11,6 +14,7 @@
     let registerConfirmPassword = ""
     let passwordMatch =         true
     let registeredSuccessfully =  false
+    // let registeredSuccessfully = writable(false);
 
     function registerInfo() {
         (async () => {
@@ -32,10 +36,12 @@
                     })
                 })
                 if (res.ok) {
+                    // registeredSuccessfully.set(true);
                     registeredSuccessfully = true
                     console.log("registered");
                     window.location.href = '/user';
                 } else {
+                    // registeredSuccessfully.set(false);
                     registeredSuccessfully = false
                     throw new Error(`HTTP error! Status: ${res.status}`);
                 }
@@ -54,6 +60,7 @@
         <Card.Description>Create a Simpliblog account</Card.Description>
 
         {#if registeredSuccessfully}
+        <!-- {#if $registeredSuccessfully} -->
             <Card.Description class="text-green-500">Registered Successfully!!!</Card.Description>
         {/if}
         {#if !passwordMatch}

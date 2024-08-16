@@ -4,6 +4,28 @@
 
     let follow = true
     let save = true
+    let loggedIn = false
+    
+    function logoutReq() {(
+        async() => {
+            try {
+                const res = await fetch(`/api/v1/users/logout`, {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                if (res.ok) {
+                    console.log("Logged Out");
+                    loggedIn = false
+                } else {
+                    loggedIn = true
+                    console.log("Could not logout, retry");
+                    throw new Error(`HTTP error! Status: ${res.status}`);
+                }
+            } catch (error) {
+                console.error("Error encountered: ", error);
+            }
+        }
+    )()}
 </script>
 
 <DropdownMenu.Root>
@@ -79,9 +101,14 @@
     <DropdownMenu.Item>Support Me</DropdownMenu.Item>
     <DropdownMenu.Item>Feedback</DropdownMenu.Item>
     <DropdownMenu.Separator />
-    <DropdownMenu.Item>
+    {#if loggedIn}
+    <DropdownMenu.Item on:click={logoutReq}>
         Log out
-        <!-- <DropdownMenu.Shortcut>⇧⌘Q</DropdownMenu.Shortcut> -->
     </DropdownMenu.Item>
+    {:else}
+    <DropdownMenu.Item on:click={() => (window.location.href = "/login")}>
+        Log in
+    </DropdownMenu.Item>
+    {/if}
     </DropdownMenu.Content>
 </DropdownMenu.Root>

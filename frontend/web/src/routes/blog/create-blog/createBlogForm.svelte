@@ -10,8 +10,35 @@
     let blogTitle = ""
     let blogSubtitle = ""
     let blogContent = ""
+    let blogCreatedSuccessfully = false
 
-    function createBlog() {
+    function createBlog() {( async() => {
+        try {
+            console.log(blogTitle);
+            
+            const res = await fetch(`/api/v1/blogs/upload-blog`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: blogTitle,
+                    subtitle: blogSubtitle,
+                    body: blogContent
+                })
+            })
+            if (res.ok) {
+                console.log("Blog Created");
+                blogCreatedSuccessfully = true
+            } else {
+                blogCreatedSuccessfully = false
+                console.log("Blog not created");
+                throw new Error(`HTTP error! Status: ${res.status}`);
+            }
+        } catch (error) {
+            console.error("Error encountered: ", error);
+        }
+    })()}
+
+    function clearAll() {
         blogTitle = ""
         blogSubtitle = ""
         blogContent = ""
@@ -22,6 +49,9 @@
     <Card.Header>
         <Card.Title>Enter following fields to create a blog</Card.Title>
         <Card.Description>All fields marked with * are compulsory</Card.Description>
+        {#if blogCreatedSuccessfully}
+            <Card.Description class="text-green-500">Blog created Successfully!!!</Card.Description>
+        {/if}
     </Card.Header>
     <Card.Content>
         <form>
@@ -46,11 +76,7 @@
         </form>
     </Card.Content>
     <Card.Footer class="flex justify-between">
-        <Button variant="outline">Cancel</Button>
+        <Button on:click={clearAll} variant="outline">Clear All</Button>
         <Button on:click={createBlog}>Create Blog</Button>
-    </Card.Footer>
-    <Card.Footer>
-        <!-- <Card.Description class="grow">Do not have an account?</Card.Description>
-        <Button variant="outline">Register</Button> -->
     </Card.Footer>
 </Card.Root>
