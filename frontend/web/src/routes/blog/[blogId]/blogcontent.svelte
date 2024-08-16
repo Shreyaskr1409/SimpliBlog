@@ -7,17 +7,24 @@
 </script>
 
 <div class="w-full grow">
+
+
     <div id="textArea" class="w-full h-full bg-zinc-950">
+
+
         {#if $blog}
         <h2 class="scroll-m-20 text-2xl font-semibold tracking-tight transition-colors first:mt-0">{$blog.data.subtitle}</h2>
         {:else}
         <h2 class="scroll-m-20 text-2xl font-semibold tracking-tight transition-colors first:mt-0">{subtitle}</h2>
         {/if}
+
+
         {#if $blog}
         <p>{formatDate($blog.data.createdAt)}</p>
         {:else}
         <p class=" text-sm">{date}</p>
         {/if}
+
         <br>
 
         {#if $blog}
@@ -25,7 +32,11 @@
         {:else}
             <p>Loading...</p>
         {/if}
+
+        
     </div>
+
+
 </div>
 
 <style>

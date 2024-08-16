@@ -6,9 +6,10 @@
 	import * as Popover from "$lib/components/ui/popover/index.js";
 	import { Button } from "$lib/components/ui/button/index.js";
 	import { cn } from "$lib/utils.js";
-	
-    import { blog } from "../../../stores/blog";
- 
+	import { blog } from "../../../stores/blog";
+
+
+	// Platforms which will contain links for the websites
 	const platforms = [
 		{
 			value: "discord",
@@ -28,14 +29,21 @@
 		},
 	];
 
+	// a weird typechecking i had to do as i was using ts,
+	// because i was facing trouble importing a ts file
 	const platforms1 = ($blog as any)?.data?.blogLink || []
- 
+
 	let open = false;
 	let value = "";
+
+
  
+	// i do not know what this does honestly, i copied this from shadcn website
 	$: selectedValue =
 		platforms.find((f) => f.value === value)?.label ?? "Author's links...";
  
+
+
 	// We want to refocus the trigger button when the user selects
 	// an item from the list so users can continue navigating the
 	// rest of the form with the keyboard.
@@ -46,9 +54,13 @@
 		});
 	}
 </script>
+
+
  
 <div class="flex flex-nowrap items-center">
 	<Popover.Root bind:open let:ids>
+
+
 		<Popover.Trigger asChild let:builder>
 			<Button
 				builders={[builder]}
@@ -61,12 +73,18 @@
 				<CaretSort class="ml-2 h-4 w-4 shrink-0 opacity-50" />
 			</Button>
 		</Popover.Trigger>
+
+
 		<Popover.Content class="w-[200px] p-0 mt-[10px]">
 			<Command.Root>
+
 				<Command.Input placeholder="Search platforms..." class="h-9" />
 				<Command.Empty>No platform found.</Command.Empty>
+
 				<Command.Group>
 					{#if platforms1.length != 0}
+
+
 						{#each platforms1 as platform}
 							<Command.Item
 								value={platform.value}
@@ -84,7 +102,11 @@
 								{platform.label}
 							</Command.Item>
 						{/each}
+
+
 					{:else}
+
+
 						{#each platforms as platform}
 							<Command.Item
 								value={platform.value}
@@ -102,8 +124,11 @@
 								{platform.label}
 							</Command.Item>
 						{/each}
+
+
 					{/if}
 				</Command.Group>
+
 			</Command.Root>
 		</Popover.Content>
 	</Popover.Root>

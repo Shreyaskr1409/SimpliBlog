@@ -9,6 +9,7 @@
     let userdoesnotexist =  false
     let loggedInSuccessfully =  false
 
+    // Request to log in to the server
     function logInfo() {
         (async () => {
             try {

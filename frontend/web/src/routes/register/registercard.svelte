@@ -4,9 +4,6 @@
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
 
-    // import { goto } from '$app/navigation';
-    // import { writable } from 'svelte/store';
-
     let registerEmail =           ""
     let registerUsername =        ""
     let registerFullname =        ""
@@ -14,8 +11,9 @@
     let registerConfirmPassword = ""
     let passwordMatch =         true
     let registeredSuccessfully =  false
-    // let registeredSuccessfully = writable(false);
 
+
+    // request to register to the server
     function registerInfo() {
         (async () => {
             try {

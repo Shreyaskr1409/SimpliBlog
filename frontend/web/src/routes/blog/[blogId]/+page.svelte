@@ -15,6 +15,23 @@
     let blogId
     let loggedinFlag = false
 
+    // retrieving blog content
+    onMount(async () => {
+        // Extract blogId from URL
+        const url = new URL(window.location.href);
+        blogId = url.pathname.split('/').pop(); // Get the last part of the URL
+
+        try {
+            const res = await fetch(`/api/v1/blogs/get-blog/${blogId}`);
+            const data = await res.json();
+            blog.set(data);
+            console.log($blog);
+        } catch (error) {
+            console.log("Error while fetching blog: ", error);
+        }
+    });
+
+    // to check if user is logged in
     onMount( async() => {
         loggedinFlag = false
         try {
@@ -30,22 +47,8 @@
             loggedinFlag = false
         }
     })
-
-    onMount(async () => {
-        // Extract blogId from URL
-        const url = new URL(window.location.href);
-        blogId = url.pathname.split('/').pop(); // Get the last part of the URL
-
-        try {
-            const res = await fetch(`/api/v1/blogs/get-blog/${blogId}`);
-            const data = await res.json();
-            blog.set(data);
-            console.log($blog);
-        } catch (error) {
-            console.log("Error while fetching blog: ", error);
-        }
-    });
     
+    // retrieving user data
     onMount(async () => {
         try {
             const res = await fetch(`/api/v1/users/get-user/${blog.data.author}`);
@@ -65,10 +68,16 @@
 <body class="flex flex-col justify-center items-center w-screen h-screen">
     <ModeWatcher />
     <div id="bigcont"  class="flex flex-col h-screen my-8">
+
+
         <h1 class="scroll-m-20 self-start text-4xl font-extrabold tracking-tight lg:text-5xl pb-4 mt-8">
             Blogs:
         </h1>
+
+
         <div class=" bg-zinc-900 flex flex-row justify-start border-2 grow" id="outer_box">
+
+
             <div class="flex flex-col w-2/3" id="inner_box_left">
                 <Topbar></Topbar>
                 <div id="spacer_1"></div>
@@ -79,9 +88,7 @@
                 <Blogcontent></Blogcontent>
             </div>
 
-
             <div id="spacer_2" class=""></div>
-
 
             <div class="flex flex-col border-2 grow bg-zinc-950 p-[5px] items-center" id="inner_box_right">
                 <CommentsOrBlog></CommentsOrBlog>
@@ -90,7 +97,10 @@
                 <div class="h-[5px]"></div>
                 <Blogslist></Blogslist>
             </div>
+
+
         </div>
+        
         <div class=" min-h-8"></div>
     </div>
 </body>
