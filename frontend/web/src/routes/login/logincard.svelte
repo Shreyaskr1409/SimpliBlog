@@ -8,6 +8,7 @@
     let loginUserPassword = ""
     let userdoesnotexist =  false
     let loggedInSuccessfully =  false
+    let serverDown = false
 
     // Request to log in to the server
     function logInfo() {
@@ -27,6 +28,9 @@
                     userdoesnotexist = false
                     console.log("logged in");
                     window.location.href = '/user';
+                } else if (res.status >= 500) {
+                    serverDown = true
+                    userdoesnotexist = false
                 } else {
                     loggedInSuccessfully = false
                     userdoesnotexist = true
@@ -48,6 +52,9 @@
         {/if}
         {#if userdoesnotexist}
             <Card.Description class="text-red-500">User with given username or email does not exist</Card.Description>
+        {/if}
+        {#if serverDown}
+            <Card.Description class="text-pink-500">Sorry for the inconvenience, the server is down</Card.Description>
         {/if}
     </Card.Header>
     <Card.Content>

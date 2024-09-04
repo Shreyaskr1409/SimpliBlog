@@ -16,7 +16,7 @@
         <h1 class="scroll-m-20 self-start text-4xl font-extrabold tracking-tight lg:text-5xl pb-4 mt-8">
             User:
         </h1>
-        <div class=" bg-zinc-900 flex flex-row gap-[10px] justify-start border-2 grow" id="outer_box">
+        <div class=" bg-zinc-900 flex flex-row gap-[10px] justify-start border-2" id="outer_box">
             <div class="flex flex-col w-2/3" id="inner_box_left">
                 <Topbar></Topbar>
                 <div id="spacer_1"></div>

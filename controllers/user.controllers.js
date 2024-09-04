@@ -3,6 +3,7 @@ import {ApiError} from "../util/ApiError.util.js";
 import {asyncHandler} from "../util/asyncHandler.util.js";
 import {ApiResponse} from "../util/ApiResponse.util.js";
 import { uploadOnCloudinary } from "../util/cloudinary.utils.js";
+import { UserInfo } from "../models/userInfo.models.js";
 
 const generateAccessAndRefreshTokens = async (userId) => {
     try {
@@ -269,6 +270,121 @@ const updateUserAvatar = asyncHandler( async(req, res) => {
         )
 } )
 
+const addUserInfo = asyncHandler( async(req, res) => {
+    const user = await User.findById(req.user._id)
+    if (!user) {
+        throw new ApiError(400, "Invalid Access Token")
+    }
+    if (user.userInfo) {
+        throw new ApiError(500, "User's Info already exists, use different route instead")
+    }
+
+    const { aboutme, instagram, linkedInURL, facebook, personalWebsite } = req.body
+    const socialsArray = []
+
+    if (instagram) {
+        socialsArray.push({
+            platform: "instagram",
+            username: instagram
+        })
+    }
+    if (linkedInURL) {
+        socialsArray.push({
+            platform: "linkedIn",
+            url: linkedInURL
+        })
+    }
+    if (facebook) {
+        socialsArray.push({
+            platform: "facebook",
+            username: facebook
+        })
+    }
+
+    const userInfo = await UserInfo.create({
+        aboutme: aboutme,
+        socials: socialsArray,
+        personalWebsiteUrl: personalWebsite
+    })
+
+    const userInfoCreated = await UserInfo.findById(userInfo._id)
+    if (!userInfoCreated) {
+        throw new ApiError(500, "Something went wrong while creating data in the database")
+    }
+    user.userInfo = userInfoCreated._id
+    await user.save({validateBeforeSave: false})
+
+    return res.status(200).json(
+        new ApiResponse(200, "User info added to the database", userInfoCreated)
+    )
+} )
+
+const updateInfo = asyncHandler( async(req, res) => {
+    const user = await User.findById(req.user._id)
+    if (!user) {
+        throw new ApiError(400, "Invalid Access Token")
+    }
+    const userInfo = await UserInfo.findById(user.userInfo)
+    if (!userInfo) {
+        throw new ApiError(500, "User's Info does not exist, use different route instead")
+    }
+
+
+    const { aboutme, instagram, linkedInURL, facebook, personalWebsite } = req.body
+    const socialsArray = userInfo.socials
+
+
+
+    
+    if (aboutme) {
+        userInfo.aboutme = aboutme
+    }
+    if (instagram) {
+        const exists = socialsArray.find(it => it.platform === "instagram")
+        if (exists) {
+            exists.username = instagram
+            userInfo.socials = socialsArray
+        } else {
+            socialsArray.push({
+                platform: "instagram",
+                username: instagram
+            })
+        }
+    }
+    if (linkedInURL) {
+        const exists = socialsArray.find(it => it.platform === "linkedIn")
+        if (exists) {
+            exists.url = linkedInURL
+            userInfo.socials = socialsArray
+        } else {
+            socialsArray.push({
+                platform: "linkedIn",
+                url: linkedInURL
+            })
+        }
+    }
+    if (facebook) {
+        const exists = socialsArray.find(it => it.platform === "facebook")
+        if (exists) {
+            exists.username = facebook
+            userInfo.socials = socialsArray
+        } else {
+            socialsArray.push({
+                platform: "facebook",
+                username: facebook
+            })
+        }
+    }
+    if (personalWebsite) {
+        userInfo.personalWebsiteUrl = personalWebsite
+    }
+    await userInfo.save({validateBeforeSave: false})
+
+    res.status(200).json(
+        new ApiResponse(200, "User information updated", userInfo)
+    )
+})
+
 export {
     generateAccessAndRefreshTokens,
     registerUser,
@@ -279,5 +395,7 @@ export {
     getCurrentUser,
     getUser,
     updateUserAvatar,
-    isLoggedInUtil
+    isLoggedInUtil,
+    addUserInfo,
+    updateInfo
 }

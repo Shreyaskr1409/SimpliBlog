@@ -11,6 +11,7 @@
     let registerConfirmPassword = ""
     let passwordMatch =         true
     let registeredSuccessfully =  false
+    let serverDown = false
 
 
     // request to register to the server
@@ -38,6 +39,9 @@
                     registeredSuccessfully = true
                     console.log("registered");
                     window.location.href = '/user';
+                } else if (res.status >= 500) {
+                    serverDown = true
+                    registeredSuccessfully = false
                 } else {
                     // registeredSuccessfully.set(false);
                     registeredSuccessfully = false
@@ -63,6 +67,9 @@
         {/if}
         {#if !passwordMatch}
             <Card.Description class="text-red-500">Password and Confirm password do not match!</Card.Description>
+        {/if}
+        {#if serverDown}
+            <Card.Description class="text-pink-500">Sorry for the inconvenience, the server is down</Card.Description>
         {/if}
     </Card.Header>
     <Card.Content>

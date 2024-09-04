@@ -1,5 +1,6 @@
 <script>
   import Socialslist from "$lib/components/my_components/socialslist.svelte";
+  import Stats from "./stats.svelte";
 
 
 </script>
@@ -14,8 +15,10 @@
 <h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-4xl">
     Socials:
 </h1>
-<div class="flex gap-[8px] py-2 overflow-x-scroll">
+<div class="flex gap-[8px] py-2 overflow-x-scroll min-h-[90px]">
     <Socialslist title={"Instagram"} socialId={"shreyaskr.1409"} imagePath={"/src/routes/user/assets/instagram_logo.png"}></Socialslist>
     <Socialslist title={"LinkedIn"} socialId={"Shreyas Kumar"} imagePath={"/src/routes/user/assets/linkedin_logo.png"}></Socialslist>
     <Socialslist title={"Facebook"} socialId={"shreyaskr.1409"} imagePath={"/src/routes/user/assets/facebook_logo.png"}></Socialslist>
 </div>
+<br>
+<Stats></Stats>

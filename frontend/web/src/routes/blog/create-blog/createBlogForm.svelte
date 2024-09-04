@@ -45,7 +45,7 @@
     }
 </script>
 
-<Card.Root class="2xl:w-[750px] xl:w-[600px] lg:min-w-[500px] lg:w-[500px] min-w-[600px] bg-zinc-900">
+<Card.Root class="2xl:w-[750px] xl:w-[600px] lg:min-w-[500px] lg:w-[500px] md:w-[700px] sm:w-[630px] min-w-[400px] bg-zinc-900">
     <Card.Header>
         <Card.Title>Enter following fields to create a blog</Card.Title>
         <Card.Description>All fields marked with * are compulsory</Card.Description>
