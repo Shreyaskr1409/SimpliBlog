@@ -385,6 +385,44 @@ const updateInfo = asyncHandler( async(req, res) => {
     )
 })
 
+const getUserInfo = asyncHandler( async(req, res) => {
+    const { userId } = req.body
+    const user = await User.findById(userId)
+    if (!user) {
+        throw new ApiError(404, "User does not exist for given userId")
+    }
+    const userInfo = await UserInfo.findById(user.userInfo)
+    if (!userInfo) {
+        throw new ApiError(404, "UserInfo does not exist for given userId")
+    }
+
+    res.status(200).json(
+        new ApiResponse(200, "User info fetched", userInfo)
+    )
+} )
+
+const updateUserInterests = asyncHandler( async(req, res) => {
+    const user = await User.findById(req.user._id)
+    if (!user) {
+        throw new ApiError(400, "Invalid Access Token")
+    }
+    const userInfo = await UserInfo.findById(user.userInfo)
+    if (!userInfo) {
+        throw new ApiError(500, "User's Info does not exist, use different route instead")
+    }
+
+    const { interests } = req.body
+    
+    if (interests) {
+        userInfo.interests = interests
+    }
+    await userInfo.save({validateBeforeSave: false})
+
+    res.status(200).json(
+        new ApiResponse(200, "User interests updated", userInfo)
+    )
+})
+
 export {
     generateAccessAndRefreshTokens,
     registerUser,
@@ -397,5 +435,7 @@ export {
     updateUserAvatar,
     isLoggedInUtil,
     addUserInfo,
-    updateInfo
+    updateInfo, 
+    getUserInfo,
+    updateUserInterests
 }

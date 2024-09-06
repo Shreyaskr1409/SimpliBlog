@@ -37,4 +37,4 @@ const userInfoSchema = new mongoose.Schema(
     }
 )
 
-export const UserInfo = new mongoose.model("UserInfo", userInfoSchema)
+export const UserInfo = mongoose.model("UserInfo", userInfoSchema)
