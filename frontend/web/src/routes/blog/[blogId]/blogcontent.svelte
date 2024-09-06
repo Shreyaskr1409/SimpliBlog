@@ -9,7 +9,6 @@
     let date = "20 July 2024";
 
 
-    // Function to sanitize and render the markdown content
     function renderMarkdown(content) {
         return DOMPurify.sanitize(marked(content));
     }
@@ -18,7 +17,6 @@
 <div class="w-full grow">
     <div id="textArea" class="w-full h-full bg-zinc-950">
         
-        <!-- Safely checking for $blog.data.subtitle -->
         <h2 class="scroll-m-20 text-2xl font-semibold tracking-tight transition-colors first:mt-0">
             {#if $blog && $blog.data && $blog.data.subtitle}
                 {$blog.data.subtitle}
@@ -27,7 +25,6 @@
             {/if}
         </h2>
 
-        <!-- Safely checking for $blog.data.createdAt -->
         <p class="text-sm">
             {#if $blog && $blog.data && $blog.data.createdAt}
                 {formatDate($blog.data.createdAt)}
@@ -40,10 +37,8 @@
         <hr>
         <br>
 
-        <!-- Render markdown content safely -->
         <div class="prose prose-zinc max-w-none blog-content">
             {#if $blog && $blog.data && $blog.data.body}
-                <!-- <div class="blog-content" >{@html renderMarkdown($blog.data.body)}</div> -->
                 <RenderedMarkdown markdownHTML={renderMarkdown($blog.data.body)}></RenderedMarkdown>
             {:else}
                 <p>Loading...</p>
@@ -61,7 +56,6 @@
         border-width: 2px;
     }
     .blog-content {
-        /* Add any necessary styles for markdown content */
         line-height: 1.6;
     }
 </style>

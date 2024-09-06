@@ -28,15 +28,10 @@
 <div class="w-full box-border flex flex-col gap-[5px]">
 
     <ScrollArea class="flex flex-col">
-
-        <Listcontent isActive={true} title={"This must be the place"} date={"22 July 2024"} blogUrl={`${baseUrl}/66af4716f66a29979e64c0c5`}></Listcontent>
-
-
-
         {#if $blogslist && $blogslist.data && $blogslist.data.userBlogList}
 
             {#each $blogslist.data.userBlogList as listOfBlogs}
-                <Listcontent title={listOfBlogs.title} date={formatDate(listOfBlogs.createdAt)}  blogUrl={`${baseUrl}/${listOfBlogs._id}`}></Listcontent>
+                <Listcontent title={listOfBlogs.title} date={formatDate(listOfBlogs.createdAt)} blogid={`${listOfBlogs._id}`}  blogUrl={`${baseUrl}/${listOfBlogs._id}`}></Listcontent>
             {/each}
 
         {/if}

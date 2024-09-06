@@ -1,12 +1,27 @@
 <script>
+  import { blog } from "../../../stores/blog";
+
     export let title = "The Joke Tax"
     export let date = "20 July 2024"
     export let isActive = false
     export let blogUrl = "https://github.com/Shreyaskr1409/SimpliBlog"
+    export let blogid = ""
     let bgclr = ""
+    
+    // $: isActive = blogid === $blog?.data?._id;
+    // if (blogid === $blog.data._id) {
+    //     isActive = true
+    // }
 
-    if (isActive) {
-        bgclr = "bg-zinc-900"
+    $: if ($blog?.data?._id && blogid === $blog.data._id) {
+        isActive = true;
+    } else {
+        isActive = false;
+    }
+
+    console.log(blogid)
+    $: if (isActive) {
+        bgclr = "bg-zinc-800"
     }
 
     let usedtitle = title;
