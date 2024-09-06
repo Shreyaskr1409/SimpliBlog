@@ -37,6 +37,8 @@
         </p>
 
         <br>
+        <hr>
+        <br>
 
         <!-- Render markdown content safely -->
         <div class="prose prose-zinc max-w-none blog-content">
