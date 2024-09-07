@@ -3,25 +3,32 @@
 	import { onMount } from "svelte"
     import { blogslist } from "../../../stores/blogslist.js";
     import { formatDate } from "$lib/util/dateFormat.js";
-    import ScrollArea from "$lib/components/ui/scroll-area/scroll-area.svelte";
+    import Skeleton from '$lib/components/ui/skeleton/skeleton.svelte';
 
     let baseUrl
+    let loading = true
 
     // retrieving blogs of the active user
     onMount(async () => {
-        const res = await fetch("/api/v1/blogs/get-userblog/lua");
-        const data = await res.json();
-        blogslist.set(data);
-        console.log($blogslist);
-
-
-        // Getting url of the site and popping out the last segment so that it can be replaced with the blogid for routing
-        let currentUrl = new URL(window.location.href);
-        let segments = currentUrl.pathname.split('/').filter(Boolean);
-        segments.pop();
-        // Reconstruct the URL without the last segment
-        baseUrl = `${currentUrl.protocol}//${currentUrl.host}/${segments.join('/')}`;
-        });
+        try {
+                const res = await fetch("/api/v1/blogs/get-userblog/lua");
+                const data = await res.json();
+                blogslist.set(data);
+                console.log($blogslist);
+        
+        
+                // Getting url of the site and popping out the last segment so that it can be replaced with the blogid for routing
+                let currentUrl = new URL(window.location.href);
+                let segments = currentUrl.pathname.split('/').filter(Boolean);
+                segments.pop();
+                // Reconstruct the URL without the last segment
+                baseUrl = `${currentUrl.protocol}//${currentUrl.host}/${segments.join('/')}`;
+        } catch (error) {
+            
+        } finally {
+            loading = false
+        }
+    });
 </script>
 
 
@@ -36,5 +43,13 @@
 
         {/if}
     <!-- </ScrollArea> -->
+    {#if loading}
+        <Skeleton class=" w-full h-[3.75rem] rounded-[15px]"></Skeleton>
+        <Skeleton class=" w-full h-[3.75rem] rounded-[15px]"></Skeleton>
+        <Skeleton class=" w-full h-[3.75rem] rounded-[15px]"></Skeleton>
+        <Skeleton class=" w-full h-[3.75rem] rounded-[15px]"></Skeleton>
+        <Skeleton class=" w-full h-[3.75rem] rounded-[15px]"></Skeleton>
+        <Skeleton class=" w-full h-[3.75rem] rounded-[15px]"></Skeleton>
+    {/if}
 
 </div>

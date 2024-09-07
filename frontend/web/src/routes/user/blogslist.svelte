@@ -3,10 +3,10 @@
 	import { onMount } from "svelte"
     import { blogslist } from "../../stores/blogslist.js";
     import { formatDate } from "$lib/util/dateFormat.js";
-    import ScrollArea from "$lib/components/ui/scroll-area/scroll-area.svelte";
-    import Button from "$lib/components/ui/button/button.svelte";
+    import Skeleton from '$lib/components/ui/skeleton/skeleton.svelte';
 
     let baseUrl
+    let loading = true
 
     onMount(async () => {
         try {
@@ -24,6 +24,8 @@
             baseUrl = `${currentUrl.protocol}//${currentUrl.host}/${segments.join('/')}`;
         } catch (error) {
             
+        } finally {
+            loading = false
         }
     });
 </script>
@@ -40,4 +42,12 @@
             
         {/if}
     <!-- </ScrollArea> -->
+    {#if loading}
+    <Skeleton class=" w-full h-[3.75rem] rounded-[15px]"></Skeleton>
+    <Skeleton class=" w-full h-[3.75rem] rounded-[15px]"></Skeleton>
+    <Skeleton class=" w-full h-[3.75rem] rounded-[15px]"></Skeleton>
+    <Skeleton class=" w-full h-[3.75rem] rounded-[15px]"></Skeleton>
+    <Skeleton class=" w-full h-[3.75rem] rounded-[15px]"></Skeleton>
+    <Skeleton class=" w-full h-[3.75rem] rounded-[15px]"></Skeleton>
+    {/if}
 </div>

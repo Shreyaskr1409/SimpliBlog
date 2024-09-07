@@ -4,8 +4,8 @@
     import { marked } from 'marked';
     import DOMPurify from 'dompurify';
     import RenderedMarkdown from "./renderedMarkdown.svelte";
+  import Skeleton from "$lib/components/ui/skeleton/skeleton.svelte";
 
-    let subtitle = "This is the subtitle";
     let date = "20 July 2024";
 
 
@@ -21,7 +21,7 @@
             {#if $blog && $blog.data && $blog.data.subtitle}
                 {$blog.data.subtitle}
             {:else}
-                {subtitle}
+                <Skeleton class="h-8 w-80"></Skeleton>
             {/if}
         </h2>
 
@@ -29,7 +29,7 @@
             {#if $blog && $blog.data && $blog.data.createdAt}
                 {formatDate($blog.data.createdAt)}
             {:else}
-                {date}
+                <Skeleton class="h-3 my-1 w-40"></Skeleton>
             {/if}
         </p>
 
@@ -41,7 +41,7 @@
             {#if $blog && $blog.data && $blog.data.body}
                 <RenderedMarkdown markdownHTML={renderMarkdown($blog.data.body)}></RenderedMarkdown>
             {:else}
-                <p>Loading...</p>
+                <Skeleton class="w-full h-[600px]"></Skeleton>
             {/if}
         </div>
 
