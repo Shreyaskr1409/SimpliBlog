@@ -41,7 +41,7 @@
         @apply bg-zinc-800 text-white p-4 rounded mb-6;
     }
     :global(.blog-content code) {
-        @apply text-white p-1 rounded;
+        @apply text-white p-1 rounded text-wrap;
     }
     :global(.blog-content hr) {
         @apply mb-3;

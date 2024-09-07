@@ -1,9 +1,53 @@
 <script>
     import { ModeWatcher } from "mode-watcher";
     import Topbar from "./topbar.svelte";
-  import RightBoxContent from "./rightBoxContent.svelte";
-  import Banner from "./banner.svelte";
+    import RightBoxContent from "./rightBoxContent.svelte";
+    import Banner from "./banner.svelte";
+    import Blogslist from "./blogslist.svelte";
+    import { onMount } from "svelte";
+    import { userInfo } from "../../stores/userInfo";
 
+    onMount(async () => {
+        try {
+            const res = await fetch("/api/v1/users/get-user-info/lua");
+            const data = await res.json()
+            userInfo.set(data);
+            console.log($userInfo);
+        } catch (error) {
+            
+        }
+    });
+
+    let aboutMe
+    let instagram
+    let linkedin
+    let facebook
+    let github
+    $: if ($userInfo && $userInfo.data && $userInfo.data.aboutme) {
+        aboutMe = $userInfo.data.aboutme
+    }
+
+    $: console.log(instagram)
+
+    $: if ($userInfo && $userInfo.data && $userInfo.data.socials) {
+        const instagramSocial = $userInfo.data.socials.find(social => social.platform === "instagram");
+        instagram = instagramSocial ? instagramSocial.username : undefined;
+    }
+
+    $: if ($userInfo && $userInfo.data && $userInfo.data.socials) {
+        const linkedinSocial = $userInfo.data.socials.find(social => social.platform === "linkedIn");
+        linkedin = linkedinSocial ? linkedinSocial.url : undefined;
+    }
+
+    $: if ($userInfo && $userInfo.data && $userInfo.data.socials) {
+        const facebookSocial = $userInfo.data.socials.find(social => social.platform === "facebook");
+        facebook = facebookSocial ? facebookSocial.username : undefined;
+    }
+
+    $: if ($userInfo && $userInfo.data && $userInfo.data.socials) {
+        const githubSocial = $userInfo.data.socials.find(social => social.platform === "github");
+        github = githubSocial ? githubSocial.username : undefined;
+    }
 </script>
 
 <head>
@@ -22,11 +66,19 @@
                 <div id="spacer_1"></div>
                 <Banner></Banner>
                 <div id="spacer_1"></div>
+
+                
+                <h3 class="scroll-m-20 self-start text-3xl font-bold tracking-tight lg:text-4xl mt-4 ml-4">
+                    User's Blogs:
+                </h3>
+                <div class="flex flex-col border-2 bg-zinc-950 p-[5px] items-center" id="inner_box_right">
+                    <Blogslist></Blogslist>
+                </div>
             </div>
 
 
             <div class="flex flex-col border-2 w-1/3 bg-zinc-950 p-[10px]" id="inner_box_right">
-                <RightBoxContent></RightBoxContent>
+                <RightBoxContent aboutMe={aboutMe} linkedin={linkedin} instagram={instagram} facebook={facebook} github={github}></RightBoxContent>
             </div>
         </div>
     </div>

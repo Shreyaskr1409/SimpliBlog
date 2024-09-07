@@ -9,7 +9,7 @@ const userInfoSchema = new mongoose.Schema(
             {
                 platform: {
                     type: String,
-                    enum: ["instagram", "linkedIn", "facebook"],
+                    enum: ["instagram", "linkedIn", "facebook", "github"],
                     required: true
                 },
                 username: {

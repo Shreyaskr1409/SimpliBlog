@@ -27,7 +27,7 @@
 
 <div class="w-full box-border flex flex-col gap-[5px]">
 
-    <ScrollArea class="flex flex-col">
+    <!-- <ScrollArea class="flex flex-col"> -->
         {#if $blogslist && $blogslist.data && $blogslist.data.userBlogList}
 
             {#each $blogslist.data.userBlogList as listOfBlogs}
@@ -35,6 +35,6 @@
             {/each}
 
         {/if}
-    </ScrollArea>
+    <!-- </ScrollArea> -->
 
 </div>

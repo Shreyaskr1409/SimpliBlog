@@ -4,6 +4,7 @@ import {asyncHandler} from "../util/asyncHandler.util.js";
 import {ApiResponse} from "../util/ApiResponse.util.js";
 import { uploadOnCloudinary } from "../util/cloudinary.utils.js";
 import { UserInfo } from "../models/userInfo.models.js";
+import { isValidObjectId } from "mongoose";
 
 const generateAccessAndRefreshTokens = async (userId) => {
     try {
@@ -226,12 +227,16 @@ const getCurrentUser = asyncHandler( async(req, res) => {
 
 const getUser = asyncHandler( async(req, res) => {
     const { userIdOrName } = req.params
-    const user = await User.findOne({        
-        $or: [
-            {username: userIdOrName},
-            {_id: userIdOrName}
-        ]
-    }).select("-email -refreshToken -updatedAt -password")
+
+    let query = {};
+    if (isValidObjectId(userIdOrName)) {
+        query = { _id: userIdOrName };
+    } else {
+        query = { username: userIdOrName };
+    }
+
+
+    const user = await User.findOne(query).select("-email -refreshToken -updatedAt -password")
 
     if ( !user ) {
         throw new ApiError(404, "User with given username doesnot exits")
@@ -279,13 +284,19 @@ const addUserInfo = asyncHandler( async(req, res) => {
         throw new ApiError(500, "User's Info already exists, use different route instead")
     }
 
-    const { aboutme, instagram, linkedInURL, facebook, personalWebsite } = req.body
+    const { aboutme, instagram, linkedInURL, facebook, personalWebsite, github } = req.body
     const socialsArray = []
 
     if (instagram) {
         socialsArray.push({
             platform: "instagram",
             username: instagram
+        })
+    }
+    if (github) {
+        socialsArray.push({
+            platform: "github",
+            username: github
         })
     }
     if (linkedInURL) {
@@ -386,8 +397,16 @@ const updateInfo = asyncHandler( async(req, res) => {
 })
 
 const getUserInfo = asyncHandler( async(req, res) => {
-    const { userId } = req.body
-    const user = await User.findById(userId)
+    const { userIdOrName } = req.params
+
+    let query = {};
+    if (isValidObjectId(userIdOrName)) {
+        query = { _id: userIdOrName };
+    } else {
+        query = { username: userIdOrName };
+    }
+
+    const user = await User.findOne(query).select("-email -refreshToken -updatedAt -password")
     if (!user) {
         throw new ApiError(404, "User does not exist for given userId")
     }
