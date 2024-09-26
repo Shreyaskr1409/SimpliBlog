@@ -1,7 +1,7 @@
 <script>
   import Socialslist from "$lib/components/my_components/socialslist.svelte";
-  import Stats from "./stats.svelte";
   import Skeleton from '$lib/components/ui/skeleton/skeleton.svelte';
+  import Interests from "./interests.svelte";
 
     // export let aboutMe = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure, esse cupiditate? Nobis quae voluptatum ab facere ratione. Est, reprehenderit similique aliquid, recusandae et veritatis harum quod quidem eaque maiores error.
     // Autem vero pariatur quidem ipsa expedita laboriosam illum debitis nobis animi! Modi ea, itaque corrupti vero corporis nisi. Amet soluta possimus facere minus eum error sed quasi nisi beatae aspernatur!`
@@ -15,7 +15,7 @@
     About me:
 </h1>
 {#if aboutMe}
-    <p>{aboutMe}</p>
+    <p class="mt-1">{aboutMe}</p>
 {:else}
     <div class="flex flex-col gap-1">
         <Skeleton class="w-full h-5 rounded-md"></Skeleton>
@@ -26,7 +26,7 @@
         <Skeleton class="w-full h-5 rounded-md"></Skeleton>
     </div>
 {/if}
-<br>
+<hr class="my-4">
 <h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-4xl">
     Socials:
 </h1>
@@ -43,6 +43,11 @@
     {#if linkedin}
     <Socialslist title={"LinkedIn"} socialId={linkedin} imagePath={"/src/routes/user/assets/linkedin_logo.png"}></Socialslist>
     {/if}
+    {#if !linkedin && !facebook && !github && !instagram}
+    <Skeleton class=" min-w-60 h-[3.75rem] rounded-[15px]"></Skeleton>
+    <Skeleton class=" min-w-60 h-[3.75rem] rounded-[15px]"></Skeleton>
+    <Skeleton class=" min-w-60 h-[3.75rem] rounded-[15px]"></Skeleton>
+    {/if}
 </div>
 <br>
-<Stats></Stats>
+<Interests></Interests>

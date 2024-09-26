@@ -6,7 +6,7 @@
     export let isActive = false
     export let blogUrl = "https://github.com/Shreyaskr1409/SimpliBlog"
     export let blogid = ""
-    let bgclr = ""
+    let bgclr = "bg-zinc-900"
 
     $: if ($blog?.data?._id && blogid === $blog.data._id) {
         isActive = true;

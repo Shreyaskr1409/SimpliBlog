@@ -24,9 +24,9 @@
                 // Reconstruct the URL without the last segment
                 baseUrl = `${currentUrl.protocol}//${currentUrl.host}/${segments.join('/')}`;
         } catch (error) {
-            
-        } finally {
             loading = false
+        } finally {
+            loading = !loading
         }
     });
 </script>
