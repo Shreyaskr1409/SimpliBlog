@@ -2,7 +2,7 @@
     import Button from "$lib/components/ui/button/button.svelte";
     import AvatarDialogue from "./avatarDialogue.svelte";
     import Settings from "./settings.svelte";
-    import { blogslist } from "../../stores/blogslist";
+    import { blogslist } from "../../../stores/blogslist";
 
 </script>
 <div id="big_container" class="flex items-center">

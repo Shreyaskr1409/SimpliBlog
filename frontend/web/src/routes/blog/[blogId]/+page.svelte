@@ -13,6 +13,7 @@
     import Separator from "$lib/components/ui/separator/separator.svelte";
 
     let blogId
+    let erroroccured = false
     // let loggedinFlag = false
 
     // retrieving blog content
@@ -27,26 +28,10 @@
             blog.set(data);
             console.log($blog);
         } catch (error) {
+            erroroccured = true
             console.log("Error while fetching blog: ", error);
         }
     });
-
-    // to check if user is logged in
-    // onMount( async() => {
-    //     loggedinFlag = false
-    //     try {
-    //         const res = await fetch(`/api/v1/users/loggedin-confirm`, {
-    //                 method:  "GET",
-    //                 headers: { 'Content-Type': 'application/json' }
-    //             });
-    //         const data = await res.json();
-    //         console.log(data)
-    //         loggedinFlag = true
-    //     } catch (error) {
-    //         window.location.href = '/login';
-    //         loggedinFlag = false
-    //     }
-    // })
     
     // retrieving user data
     onMount(async () => {
@@ -83,7 +68,7 @@
                 <div id="spacer_1"></div>
                 <Blogground></Blogground>
                 <div id="spacer_1"></div>
-                <Blogtitle></Blogtitle>
+                <Blogtitle errormessage={erroroccured}></Blogtitle>
                 <div id="spacer_1"></div>
                 <Blogcontent></Blogcontent>
             </div>

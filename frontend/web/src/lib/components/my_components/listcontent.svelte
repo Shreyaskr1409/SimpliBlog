@@ -7,6 +7,7 @@
     export let blogUrl = "https://github.com/Shreyaskr1409/SimpliBlog"
     export let blogid = ""
     let bgclr = "bg-zinc-900"
+    export let customstyle1 = ""
 
     $: if ($blog?.data?._id && blogid === $blog.data._id) {
         isActive = true;
@@ -20,13 +21,13 @@
     }
 
     let usedtitle = title;
-    if (title.length>30) {
-        usedtitle = title.substring(0, 30) + "..."
-    }
+    // if (title.length>30) {
+    //     usedtitle = title.substring(0, 30) + "..."
+    // }
 </script>
 
 <!--on:click={() => {window.open('https://github.com/Shreyaskr1409/SimpliBlog', '_blank')}}-->
-<div id="contnr">
+<div id="contnr" class="{customstyle1}">
   <div id="row1" class="px-4 py-1 w-full {bgclr} hover:bg-zinc-800 rounded-[15px] border-[2px]">
     <div id="col1">
       <a
@@ -34,7 +35,9 @@
         href={blogUrl}
         target="_self"
         >{usedtitle}</a>
-      <p class="text-sm">{date}</p>
+        {#if date != ""}
+          <p class="text-sm">{date}</p>
+        {/if}
     </div>
   </div>
 </div>
