@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon run dotenv/config --experimental-json-modules ./index.js --ignore ./frontend"
+    "dev": "nodemon run dotenv/config --experimental-json-modules ./index.js --ignore ./frontend",
+    "startmemurai": "powershell -ExecutionPolicy Bypass -File ./misc/scripts/startMemurai.ps1"
   },
   "keywords": [
     "javascript",
@@ -23,6 +24,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.4.4",
     "multer": "^1.4.5-lts.1",
+    "redis": "^4.7.0",
     "simpliblog": "file:"
   },
   "devDependencies": {

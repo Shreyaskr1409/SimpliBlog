@@ -3,6 +3,7 @@ import {asyncHandler} from "../util/asyncHandler.util.js";
 import {User} from "../models/user.models.js";
 import {ApiResponse} from "../util/ApiResponse.util.js";
 import {ApiError} from "../util/ApiError.util.js";
+import redisClient from "../index.js";
 
 const uploadBlog = asyncHandler( async (req, res) => {
     const user = await User.findById(req.user._id)
@@ -48,20 +49,34 @@ const uploadBlog = asyncHandler( async (req, res) => {
 const getBlog = asyncHandler( async (req, res) => {
     const { blogid } = req.params
     const blog = await Blog.findById(blogid)
-    // console.log(blog)
 
     if (!blog) {
         throw new ApiError(404, "Blog does not exist or Incorrect Blog id")
     }
-    // console.log(blog)
-    //
+
+    // let readerCount = await redisClient.get(`blog:${blogid}:readerCount`)
+    // if (!readerCount) {
+    //     readerCount = blog.readerCount;
+    //     await redisClient.set(`blog:${blogid}:readerCount`, readerCount, {
+    //         EX: 2000
+    //     });
+    // }
+    // readerCount = await redisClient.incr(`blog:${blogid}:readerCount`);
+
     blog.readerCount++
     await blog.save({validateBeforeSave: false})
 
+    // return res.status(200)
+    //     .json(
+    //         new ApiResponse(200, "Blog fetched successfully", {
+    //             ...blog.toObject(),
+    //             readerCount: Number(readerCount)
+    //         })
+    //     )
     return res.status(200)
-        .json(
-            new ApiResponse(200, "Blog fetched successfully", blog)
-        )
+    .json(
+        new ApiResponse(200, "Blog fetched successfully", blog)
+    )
 })
 
 const deleteBlog = asyncHandler( async (req, res) => {

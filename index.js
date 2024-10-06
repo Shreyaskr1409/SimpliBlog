@@ -1,6 +1,7 @@
 import connectDB from "./database/connection.js";
 import {app} from "./app.js";
 import dotenv from "dotenv";
+import connectToRedis from "./database/redisConnection.js";
 
 dotenv.config('./env')
 
@@ -12,3 +13,6 @@ connectDB().then(() => {
 }).catch((error) => {
     console.log("Connection to mongoDB failed", error)
 })
+
+// const redisClient = await connectToRedis()
+// export default redisClient
