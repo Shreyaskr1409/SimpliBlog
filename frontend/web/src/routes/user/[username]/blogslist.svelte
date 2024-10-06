@@ -44,11 +44,11 @@
 <div class="w-full box-border grid grid-cols-2 gap-x-[5px] gap-y-[5px]">
     
     {#if errorWhileFetching == true}
-    <Listcontent title={"Error occured while fetching blogs"} date={"Content not available"} customstyle1={"col-span-2"}></Listcontent>
+    <Listcontent title={"Error occured while fetching blogs"} date={"Content not available"} customstyle1={"col-span-2"} alertmsg={true}></Listcontent>
     {/if}
 
     {#if noblogs == true}
-    <Listcontent title={"User does not have any blogs"} date={"No blogs available"} customstyle1={"col-span-2"}></Listcontent>
+    <Listcontent title={"User does not have any blogs"} date={"No blogs available"} customstyle1={"col-span-2"} alertmsg={true}></Listcontent>
     {/if}
 
     <!-- <ScrollArea class="grid"> -->

@@ -6,6 +6,7 @@
     export let isActive = false
     export let blogUrl = "https://github.com/Shreyaskr1409/SimpliBlog"
     export let blogid = ""
+    export let alertmsg = false
     let bgclr = "bg-zinc-900"
     export let customstyle1 = ""
 
@@ -21,9 +22,11 @@
     }
 
     let usedtitle = title;
-    // if (title.length>30) {
-    //     usedtitle = title.substring(0, 30) + "..."
-    // }
+    if (!alertmsg) {
+      if (title.length>30) {
+          usedtitle = title.substring(0, 30) + "..."
+      }
+    }
 </script>
 
 <!--on:click={() => {window.open('https://github.com/Shreyaskr1409/SimpliBlog', '_blank')}}-->

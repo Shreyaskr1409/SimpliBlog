@@ -110,7 +110,61 @@ const getUserSubscriptionsList = asyncHandler( async (req, res) => {
             new ApiResponse(
                 200,
                 "User subscriptions list fetched successfully",
-                userSubscriptionsList
+                userSubscriptionsList[0]
+            )
+        )
+} )
+
+const getUserSubscribersList = asyncHandler( async (req, res) => {
+    const { username } = req.params
+    
+    const user = await User.findOne(
+        {username: username}
+    )
+    if (!user) {
+        throw new ApiError(404, "User with this username does not exist")
+    }
+
+    const userSubscribersList = await User.aggregate([
+        {
+            $match: {
+                username: username
+            }
+        },
+        {
+            $lookup: {
+                from: "subscriptions",
+                localField: "_id",
+                foreignField: "blogger",
+                as: "userSubscribersList"
+            }
+        },
+        {
+            $addFields: {
+                userSubscribersCount: {
+                    $size: "$userSubscribersList"
+                }
+            }
+        },
+        {
+            $project: {
+                _id: 1,
+                userSubscribersList: {
+                    _id: 1,
+                    subscriber: 1,
+                    createdAt: 1
+                },
+                userSubscribersCount: 1
+            }
+        }
+    ])
+
+    return res.status(200)
+        .json(
+            new ApiResponse(
+                200,
+                "User subscribers list fetched successfully",
+                userSubscribersList[0]
             )
         )
 } )
@@ -118,5 +172,6 @@ const getUserSubscriptionsList = asyncHandler( async (req, res) => {
 export {
     subscribe,
     unsubscribe,
-    getUserSubscriptionsList
+    getUserSubscriptionsList,
+    getUserSubscribersList
 }

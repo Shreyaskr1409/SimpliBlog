@@ -111,7 +111,9 @@ const isLoggedInUtil = asyncHandler( async(req, res) => {
 
     return res.status(200)
         .json(
-            new ApiResponse(200, "User is valid", [])
+            new ApiResponse(200, "User is loggedin", {
+                _id: user._id
+            })
         )
 })
 

@@ -3,7 +3,30 @@
     import AvatarDialogue from "./avatarDialogue.svelte";
     import Settings from "./settings.svelte";
     import { blogslist } from "../../../stores/blogslist";
+    import { user } from "../../../stores/user";
+    import { subscribers, subscriptions } from "../../../stores/subscription";
+    import { onMount } from "svelte";
 
+    let loggedinFlag = true
+
+    onMount(async () => {
+        loggedinFlag = true
+        try {
+            const res = await fetch(`/api/v1/users/loggedin-confirm`, {
+                    method:  "GET",
+                    headers: { 'Content-Type': 'application/json' }
+                });
+            const data = await res.json();
+            console.log(data)
+            console.log("Hi " ,$user.data._id)
+            console.log("Bye " ,data.data._id)
+            if (data.data._id == $user.data._id) {
+                loggedinFlag = false
+            }
+        } catch (error) {
+            loggedinFlag = true
+        }
+    });
 </script>
 <div id="big_container" class="flex items-center">
     <div id="left_container" class="flex items-center">
@@ -13,21 +36,48 @@
 
     <div id="right_container" class="flex items-center grow">
         <div id="names_container">
-            <h2 class="scroll-m-20 text-3xl font-semibold tracking-tight">Shreyas Kumar</h2>
-            <p>
-                @shreyaskr.1409
-            </p>
+            {#if $user && $user.data}
+                <h2 class="scroll-m-20 text-3xl font-semibold tracking-tight">{$user.data.fullname}</h2>
+                <p>
+                    @{$user.data.username}
+                </p>
+            {/if}
             <div class="h-4"></div>
-            <p class="underline underline-offset-2"><span class="cursor-pointer"><span class=" text-2xl">122</span> Subscribers</span></p>
+
+
+
+            <!-- {#if $subscribers && $subscribers.data && $subscribers.data && $subscribers.data.userSubscribersCount}
+                <p class="underline underline-offset-2"><span class="cursor-pointer"><span class=" text-2xl">{$subscribers.data.userSubscribersCount}</span> Subscribers</span></p>
+            {/if}
+            {#if $subscriptions && $subscriptions.data && $subscriptions.data && $subscriptions.data.userSubscriptionsCount}
+                <p class="underline underline-offset-2"><span class="cursor-pointer"><span class=" text-2xl">{$subscribers.data.userSubscriptionsCount}</span> Subscriptions</span></p>
+            {/if} -->
+
+            <p>
+                {#if $subscribers && $subscribers.data && $subscribers.data && $subscribers.data.userSubscribersCount}
+                <span class="cursor-pointer underline underline-offset-2"><span class=" text-2xl">{$subscribers.data.userSubscribersCount}</span> Subscribers,</span>
+                {/if}
+                {#if $subscriptions && $subscriptions.data && $subscriptions.data && $subscriptions.data.userSubscriptionsCount}
+                <span class="cursor-pointer underline underline-offset-2"><span class=" text-2xl">{$subscriptions.data.userSubscriptionsCount}</span> Subscriptions</span>
+                {/if}
+            </p>
+
+
             {#if $blogslist && $blogslist.data && $blogslist.data.userBlogList}
-                <p class="underline underline-offset-2"><span class="cursor-pointer"><span class=" text-2xl">{$blogslist.data.userBlogList.length}</span> Blogs</span></p>
+                <p><span class="cursor-pointer underline underline-offset-2"><span class=" text-2xl">{$blogslist.data.userBlogList.length}</span> Blogs</span></p>
             {/if}
         </div>
         <div class="grow"></div>
         <div class="flex flex-col justify-center items-center">
-            <Button variant="default" class="w-24">Follow</Button>
+            {#if loggedinFlag}
+                <Button variant="default" class="w-24">Subscribe</Button>
+            {/if}
             <div class="min-h-1"></div>
             <Settings></Settings>
+            <div class="min-h-1"></div>
+            {#if !loggedinFlag}
+                <Button variant="secondary" class="w-24" on:click={() => {window.location.href = '/blog/create-blog';}}>Create Blog</Button>
+            {/if}
         </div>
     </div>
 </div>

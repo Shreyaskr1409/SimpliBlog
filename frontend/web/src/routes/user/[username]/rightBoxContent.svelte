@@ -40,16 +40,16 @@ import Socialslist from "$lib/components/my_components/socialslist.svelte";
         <Listcontent title={"No socials added"} date={": ("}></Listcontent>
     {:else}
         {#if instagram}
-        <Socialslist title={"Instagram"} socialId={instagram} imagePath={"/src/routes/user/assets/instagram_logo.png"}></Socialslist>
+        <Socialslist title={"Instagram"} socialId={instagram} imagePath={"/src/routes/user/[username]/assets/instagram_logo.png"}></Socialslist>
         {/if}
         {#if facebook}
-        <Socialslist title={"Facebook"} socialId={facebook} imagePath={"/src/routes/user/assets/facebook_logo.png"}></Socialslist>
+        <Socialslist title={"Facebook"} socialId={facebook} imagePath={"/src/routes/user/[username]/assets/facebook_logo.png"}></Socialslist>
         {/if}
         {#if github}
-        <Socialslist title={"Github"} socialId={github} imagePath={"/src/routes/user/assets/github_logo.png"}></Socialslist>
+        <Socialslist title={"Github"} socialId={github} imagePath={"/src/routes/user/[username]/assets/github_logo.png"}></Socialslist>
         {/if}
         {#if linkedin}
-        <Socialslist title={"LinkedIn"} socialId={linkedin} imagePath={"/src/routes/user/assets/linkedin_logo.png"}></Socialslist>
+        <Socialslist title={"LinkedIn"} socialId={linkedin} imagePath={"/src/routes/user/[username]/assets/linkedin_logo.png"}></Socialslist>
         {/if}
         {#if !linkedin && !facebook && !github && !instagram}
         <Skeleton class=" min-w-60 h-[3.75rem] rounded-[15px]"></Skeleton>

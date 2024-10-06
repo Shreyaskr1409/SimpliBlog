@@ -6,10 +6,13 @@
     import Blogslist from "./blogslist.svelte";
     import { onMount } from "svelte";
     import { userInfo } from "../../../stores/userInfo";
+    import { user } from "../../../stores/user";
+    import { subscribers, subscriptions } from "../../../stores/subscription";
 
     let username
     let nouserinfoflag = false
     onMount(async () => {
+        userInfo.set({})
         try {
             const url = new URL(window.location.href);
             username = url.pathname.split('/').pop(); // Get the last part of the URL
@@ -20,6 +23,48 @@
             console.log($userInfo);
         } catch (error) {
             nouserinfoflag = true
+        }
+    });
+    onMount(async () => {
+        user.set({})
+        try {
+            const url = new URL(window.location.href);
+            username = url.pathname.split('/').pop(); // Get the last part of the URL
+
+            const res = await fetch(`/api/v1/users/get-user/${username}`);
+            const data = await res.json()
+            user.set(data);
+            console.log($user);
+        } catch (error) {
+
+        }
+    });
+    onMount(async () => {
+        subscribers.set({})
+        try {
+            const url = new URL(window.location.href);
+            username = url.pathname.split('/').pop(); // Get the last part of the URL
+
+            const res = await fetch(`/api/v1/subscription/${username}/get-user-subscribers`);
+            const data = await res.json()
+            subscribers.set(data);
+            console.log($subscribers);
+        } catch (error) {
+
+        }
+    });
+    onMount(async () => {
+        subscriptions.set({})
+        try {
+            const url = new URL(window.location.href);
+            username = url.pathname.split('/').pop(); // Get the last part of the URL
+
+            const res = await fetch(`/api/v1/subscription/${username}/get-user-subscriptions`);
+            const data = await res.json()
+            subscriptions.set(data);
+            console.log($subscriptions);
+        } catch (error) {
+
         }
     });
 
