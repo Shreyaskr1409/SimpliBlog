@@ -48,6 +48,12 @@ const userSchema = new Schema(
     }
 )
 
+// userSchema.index(
+//     { username: 'text', fullname: 'text' },
+//     // { weights: { fullname: 1, username: 1 } }
+// );
+// I created the index manually from mongoDB shell
+
 userSchema.pre("save", async function (next) {
     if(this.isModified("password")){
         this.password = await bcrypt.hash(this.password, 10)

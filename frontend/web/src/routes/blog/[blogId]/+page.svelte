@@ -31,12 +31,10 @@
             erroroccured = true
             console.log("Error while fetching blog: ", error);
         }
-    });
-    
-    // retrieving user data
-    onMount(async () => {
+
+        
         try {
-            const res = await fetch(`/api/v1/users/get-user/${blog.data.author}`);
+            const res = await fetch(`/api/v1/users/get-user/${$blog.data.author}`);
             const data = await res.json();
             user.set(data);
             console.log($user);

@@ -73,11 +73,11 @@
                 <Button variant="default" class="w-24">Subscribe</Button>
             {/if}
             <div class="min-h-1"></div>
-            <Settings></Settings>
-            <div class="min-h-1"></div>
             {#if !loggedinFlag}
                 <Button variant="secondary" class="w-24" on:click={() => {window.location.href = '/blog/create-blog';}}>Create Blog</Button>
             {/if}
+            <div class="min-h-1"></div>
+            <Settings sameUser={!loggedinFlag}></Settings>
         </div>
     </div>
 </div>
