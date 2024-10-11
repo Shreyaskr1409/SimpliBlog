@@ -1,6 +1,6 @@
 <script lang="ts">
     import * as Avatar from "$lib/components/ui/avatar";
-    import { Input } from "$lib/components/ui/input/index.js";
+  import Searchbox from "./searchbox.svelte";
     import Settings from "./settings.svelte";
     import Username from "./username.svelte";
     import Usertitle from "./usertitle.svelte";
@@ -26,7 +26,8 @@
     </div>
 
     <div class="flex flex-row justify-center items-center">
-        <Input type="Search" placeholder="Search" class=" max-w-60" />
+        <!-- <Input type="Search" placeholder="Search" class=" max-w-60" /> -->
+        <Searchbox></Searchbox>
 
         <div id="spacer2"></div>
 

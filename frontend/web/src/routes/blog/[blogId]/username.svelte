@@ -5,10 +5,12 @@
 
     import { user } from "../../../stores/user.js";
   import { formatDate } from "$lib/util/dateFormat.js";
+  import Skeleton from "$lib/components/ui/skeleton/skeleton.svelte";
 
     $: url = `/user/${$user.data.username}`
 </script>
 
+{#if $user.data.username}
 <HoverCard.Root>
     <HoverCard.Trigger
     href={url}
@@ -37,3 +39,6 @@
     </div>
     </HoverCard.Content>
 </HoverCard.Root>
+{:else}
+<Skeleton class="h-4 w-32 my-1"></Skeleton>
+{/if}

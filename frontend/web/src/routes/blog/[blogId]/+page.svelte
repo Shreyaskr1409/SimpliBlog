@@ -11,37 +11,59 @@
     import { user } from "../../../stores/user.js";
     import CommentsOrBlog from "./commentsOrBlog.svelte";
     import Separator from "$lib/components/ui/separator/separator.svelte";
+    import { blogslist } from "../../../stores/blogslist";
 
     let blogId
-    let erroroccured = false
-    // let loggedinFlag = false
+    let blog_loading = true
+    let user_loading = true
+    let bloglist_loading = true
+    let serverDown = false
+    let errormessage
 
-    // retrieving blog content
-    onMount(async () => {
-        // Extract blogId from URL
-        const url = new URL(window.location.href);
-        blogId = url.pathname.split('/').pop(); // Get the last part of the URL
+    onMount( async() => {
+        const url = new URL(window.location.href)
+        blogId = url.pathname.split('/').pop()
 
         try {
-            const res = await fetch(`/api/v1/blogs/get-blog/${blogId}`);
-            const data = await res.json();
-            blog.set(data);
-            console.log($blog);
-        } catch (error) {
-            erroroccured = true
-            console.log("Error while fetching blog: ", error);
-        }
+            const blog_res = await fetch(`/api/v1/blogs/get-blog/${blogId}`)
+            const blog_data = await blog_res.json()
+            if (!blog_res.ok) {
+                errormessage = blog_data.message
+                return
+            }
+            blog.set(blog_data)
+            console.log(blog_data);
+            blog_loading = false
 
-        
-        try {
-            const res = await fetch(`/api/v1/users/get-user/${$blog.data.author}`);
-            const data = await res.json();
-            user.set(data);
+            const user_res = await fetch(`/api/v1/users/get-user/${$blog.data.author}`)
+            const user_data = await user_res.json()
+            user.set(user_data)
             console.log($user);
+            user_loading = false
+            if (!user_res.ok) {
+                errormessage = user_data.message
+                return
+            }
+
+            const list_res = await fetch(`/api/v1/blogs/get-userblog/${$user.data.username}`)
+            const list_data = await list_res.json()
+            blogslist.set(list_data)
+            console.log($blogslist);
+            bloglist_loading = false
+            if (!list_res.ok) {
+                errormessage = list_data.message
+                return
+            }
+            
         } catch (error) {
+            serverDown = true
+            blog_loading = true
+            user_loading = true
+            bloglist_loading = true
             console.log("Error while fetching user: ", error);
         }
-    });
+    } )
+    
 </script>
 
 <head>
@@ -66,7 +88,7 @@
                 <div id="spacer_1"></div>
                 <Blogground></Blogground>
                 <div id="spacer_1"></div>
-                <Blogtitle errormessage={erroroccured}></Blogtitle>
+                <Blogtitle serverDown={serverDown} errormessage={errormessage}></Blogtitle>
                 <div id="spacer_1"></div>
                 <Blogcontent></Blogcontent>
             </div>
@@ -78,7 +100,7 @@
                 <div class="h-[5px]"></div>
                 <Separator></Separator>
                 <div class="h-[5px]"></div>
-                <Blogslist></Blogslist>
+                <Blogslist loading={bloglist_loading}></Blogslist>
             </div>
 
 

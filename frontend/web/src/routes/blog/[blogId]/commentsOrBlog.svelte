@@ -5,6 +5,7 @@
 
 	// filter options for blogs and comments
 	const blogOptions = [
+			{ value: "userBlogs", label: "User Blogs" },
 			{ value: "similarBlogs", label: "Similar Blogs" },
 			{ value: "topBlogs", label: "Top Blogs" },
 			{ value: "latestBlogs", label: "Latest Blogs" }
@@ -18,11 +19,20 @@
 <Select.Root>
 
 	<Select.Trigger class="w-[240px]">
-		<Select.Value placeholder="Similar Blogs" />
+		<Select.Value placeholder="User Blogs" />
 	</Select.Trigger>
 
 
 	<Select.Content>
+
+		<Select.Group>
+
+
+			<Select.Label>This feature will be functional soon</Select.Label>
+
+		</Select.Group>
+		
+		<Separator></Separator>
 
 		<Select.Group>
 
