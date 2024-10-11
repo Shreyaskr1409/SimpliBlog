@@ -25,6 +25,7 @@ const search = asyncHandler( async (req, res) => {
     let noUserFound = false
     if (!userResult.length) {
         noUserFound = true
+        throw new ApiError(405, "No user found")
     }
     
 

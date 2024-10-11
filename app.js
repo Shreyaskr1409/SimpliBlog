@@ -35,9 +35,9 @@ app.use((err, req, res, next) => {
     const message = err.message || "Internal Server Error";
 
     // Log error in development mode for debugging
-    if (process.env.NODE_ENV === 'development') {
-        console.error(err.stack);
-    }
+    // if (process.env.NODE_ENV === 'development') {
+    //     console.error(err.stack);
+    // }
 
     // Send JSON error response
     res.status(statusCode).json({

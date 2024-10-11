@@ -8,7 +8,7 @@ import {ApiError} from "../util/ApiError.util.js";
 const uploadBlog = asyncHandler( async (req, res) => {
     const user = await User.findById(req.user._id)
     if(!user) {
-        throw new ApiError(400, "Invalid access token")
+        throw new ApiError(401, "Invalid access token")
     }
 
     const { title, subtitle, body } = req.body
@@ -20,7 +20,7 @@ const uploadBlog = asyncHandler( async (req, res) => {
     )
     // console.log(existingBlog)
     if (existingBlog) {
-        throw new ApiError(401, "A duplicate with same blog title or body exists")
+        throw new ApiError(406, "A duplicate with same blog title or body exists")
     }
 
     // const author = user.username
@@ -36,7 +36,7 @@ const uploadBlog = asyncHandler( async (req, res) => {
     const createdBlog = await Blog.findById(blog._id)
     // console.log(createdBlog)
     if (!createdBlog) {
-        throw new ApiError(501, "Something went wrong while creating the blog")
+        throw new ApiError(504, "Something went wrong while creating the blog")
     }
 
     return res.status(201).json(
