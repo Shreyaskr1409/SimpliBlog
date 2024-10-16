@@ -54,25 +54,9 @@ const getBlog = asyncHandler( async (req, res) => {
         throw new ApiError(404, "Blog does not exist or Incorrect Blog id")
     }
 
-    // let readerCount = await redisClient.get(`blog:${blogid}:readerCount`)
-    // if (!readerCount) {
-    //     readerCount = blog.readerCount;
-    //     await redisClient.set(`blog:${blogid}:readerCount`, readerCount, {
-    //         EX: 2000
-    //     });
-    // }
-    // readerCount = await redisClient.incr(`blog:${blogid}:readerCount`);
-
     blog.readerCount++
     await blog.save({validateBeforeSave: false})
 
-    // return res.status(200)
-    //     .json(
-    //         new ApiResponse(200, "Blog fetched successfully", {
-    //             ...blog.toObject(),
-    //             readerCount: Number(readerCount)
-    //         })
-    //     )
     return res.status(200)
     .json(
         new ApiResponse(200, "Blog fetched successfully", blog)

@@ -198,6 +198,31 @@ const refreshAccessToken = asyncHandler( async (req, res) => {
 
 } )
 
+const updateAccountDetails = asyncHandler( async (req, res) => {
+    const {fullname, email} = req.body
+
+    if (!email || !fullname) {
+        throw new ApiError(400, "All fields are required")
+    }
+
+    const user = await User.findByIdAndUpdate(
+        req.user._id,
+        {
+            $set: {
+                fullname,
+                // same as fullName: fullName
+                email: email
+            }
+        },
+        { new: true }
+    ).select("-password")
+
+    return res.status(200)
+        .json(
+            new ApiResponse(200, "Account details updated successfully", user)
+        )
+})
+
 const changeCurrentUserPassword = asyncHandler(  async (req, res) => {
     const {oldPassword, newPassword} = req.body
     const user = await User.findById(req.user._id)
@@ -458,5 +483,6 @@ export {
     addUserInfo,
     updateInfo, 
     getUserInfo,
-    updateUserInterests
+    updateUserInterests,
+    updateAccountDetails
 }
