@@ -3,7 +3,6 @@ import {asyncHandler} from "../util/asyncHandler.util.js";
 import {User} from "../models/user.models.js";
 import {ApiResponse} from "../util/ApiResponse.util.js";
 import {ApiError} from "../util/ApiError.util.js";
-// import redisClient from "../index.js";
 
 const uploadBlog = asyncHandler( async (req, res) => {
     const user = await User.findById(req.user._id)

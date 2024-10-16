@@ -282,6 +282,8 @@ const updateUserAvatar = asyncHandler( async(req, res) => {
 
     const avatar = await uploadOnCloudinary(avatarLocalPath)
 
+    // console.log(avatar);
+
     if(!avatar.url) {
         throw new ApiError(500, "Error while uploading to avatar")
     }
