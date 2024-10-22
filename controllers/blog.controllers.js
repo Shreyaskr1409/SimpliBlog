@@ -3,6 +3,7 @@ import {asyncHandler} from "../util/asyncHandler.util.js";
 import {User} from "../models/user.models.js";
 import {ApiResponse} from "../util/ApiResponse.util.js";
 import {ApiError} from "../util/ApiError.util.js";
+import { uploadOnCloudinary } from "../util/cloudinary.utils.js";
 
 const uploadBlog = asyncHandler( async (req, res) => {
     const user = await User.findById(req.user._id)
@@ -195,7 +196,50 @@ const addBlogLinks = asyncHandler( async(req, res) => {
         )
 } )
 
-const addBlogImages = asyncHandler( async(req, res) => {})
+const updateBlogImages = asyncHandler( async(req, res) => {
+    const { blogid } = req.query
+    const files = req.files
+    const { titles } = req.body
+
+    const blogExists = await Blog.findById(blogid)
+    
+    if (!blogExists) {
+        throw new ApiError(404, "Invalid blog id")
+    }
+    
+    let imageTitles
+    try {
+        imageTitles = typeof titles === 'string' ? JSON.parse(titles) : titles;
+    } catch (error) {
+        return res.status(400).json({ message: 'Invalid titles format' });
+    }
+
+    if (!files || files.length !== imageTitles.length) {
+        return res.status(400).json({ message: 'Files and titles mismatch or missing' });
+    }
+
+    const uploadPromises = files.map(async (file, index) => {
+        const uploadResult = await uploadOnCloudinary(file.path)
+        return {
+          imageTitle: imageTitles[index],
+          imageurl: uploadResult.secure_url,
+        };
+    });
+
+    const uploadedImages = await Promise.all(uploadPromises);
+
+    console.log(uploadedImages, typeof uploadedImages)
+
+    const blog = await Blog.findByIdAndUpdate(
+      blogid,
+      { $set: { blogImage: uploadedImages } },
+      { new: true }
+    );
+
+    return res.status(200).json(
+        new ApiResponse(200, "Blog images uploaded successfully", blog)
+    )
+})
 
 export {
     uploadBlog,
@@ -204,5 +248,5 @@ export {
     getUserBlogList,
     deleteBlog,
     addBlogLinks,
-    addBlogImages
+    updateBlogImages
 }

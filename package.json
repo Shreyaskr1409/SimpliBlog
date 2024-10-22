@@ -5,8 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon run dotenv/config --experimental-json-modules ./index.js --ignore ./frontend",
-    "startmemurai": "powershell -ExecutionPolicy Bypass -File ./misc/scripts/startMemurai.ps1"
+    "dev": "nodemon run dotenv/config --experimental-json-modules ./index.js --ignore ./frontend"
   },
   "keywords": [
     "javascript",

@@ -1,7 +1,8 @@
 import {Router} from "express";
 import {verifyJWT} from "../middlewares/auth.middlewares.js";
-import {addBlogImages, addBlogLinks, deleteBlog, getBlog, getUserBlogList, shareBlog, uploadBlog} from "../controllers/blog.controllers.js";
+import {addBlogLinks, deleteBlog, getBlog, getUserBlogList, shareBlog, updateBlogImages, uploadBlog} from "../controllers/blog.controllers.js";
 import {deleteComment, editComment, getBlogComments, uploadComment} from "../controllers/comment.controllers.js";
+import { upload } from "../middlewares/multer.middlewares.js";
 
 const router = Router()
 
@@ -17,6 +18,6 @@ router.route("/delete-comment").post(verifyJWT, deleteComment)
 router.route("/edit-comment").post(verifyJWT, editComment)
 
 router.route("/addlinks").post(verifyJWT, addBlogLinks)
-router.route("/add-blog-images").post(verifyJWT, addBlogImages)
+router.route("/update-blog-images").post(verifyJWT, upload.array("images", 10), updateBlogImages)
 
 export default router
