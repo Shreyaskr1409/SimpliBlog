@@ -1,11 +1,22 @@
 <script lang="ts">
     import { Button } from "$lib/components/ui/button/index.js";
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
+    import { settingSheet } from "../../../stores/sheets";
+  import EditInfo from "./settings/editInfo.svelte";
 
     let follow = true
     export let sameUser = true
+
+    const openSheet = (option: string) => {
+        
+        console.log($settingSheet.open);
+        settingSheet.set({option, open: true})
+    }
+    $: console.log($settingSheet.open);
+    
 </script>
 
+<EditInfo></EditInfo>
 {#if sameUser}
 <DropdownMenu.Root>
     <DropdownMenu.Trigger asChild let:builder>
@@ -15,9 +26,9 @@
     <DropdownMenu.Label>Options</DropdownMenu.Label>
     <DropdownMenu.Separator />
     <DropdownMenu.Group>
-        <DropdownMenu.Item>Share user</DropdownMenu.Item>
-        <DropdownMenu.Item>Edit information</DropdownMenu.Item>
-        <DropdownMenu.Item>Notifications</DropdownMenu.Item>
+        <DropdownMenu.Item   on:click={() => {openSheet("ShareUsr")}}   >Share user</DropdownMenu.Item>
+        <DropdownMenu.Item   on:click={() => {openSheet("EditInfo")}}   >Edit information</DropdownMenu.Item>
+        <DropdownMenu.Item   on:click={() => {openSheet("Notifica")}}   >Notifications</DropdownMenu.Item>
     </DropdownMenu.Group>
     <DropdownMenu.Separator />
     <DropdownMenu.Group>
@@ -55,9 +66,9 @@
     <DropdownMenu.Label>Options</DropdownMenu.Label>
     <DropdownMenu.Separator />
     <DropdownMenu.Group>
-        <DropdownMenu.Item>Share user</DropdownMenu.Item>
-        <DropdownMenu.Item>Edit information</DropdownMenu.Item>
-        <DropdownMenu.Item>Notifications</DropdownMenu.Item>
+        <DropdownMenu.Item   on:click={() => {openSheet("ShareUsr")}}   >Share user</DropdownMenu.Item>
+        <DropdownMenu.Item   on:click={() => {openSheet("EditInfo")}}   >Edit information</DropdownMenu.Item>
+        <DropdownMenu.Item   on:click={() => {openSheet("Notifica")}}   >Notifications</DropdownMenu.Item>
     </DropdownMenu.Group>
     <DropdownMenu.Separator />
     <DropdownMenu.Group>

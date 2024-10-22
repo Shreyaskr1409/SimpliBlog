@@ -5,4 +5,4 @@
         window.location.href = '/user/lua';
     })
 </script>
-<h1>Welcome to Simplibloh</h1>
+<h1>Welcome to Simpliblog</h1>
