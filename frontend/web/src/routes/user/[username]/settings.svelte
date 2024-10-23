@@ -2,21 +2,46 @@
     import { Button } from "$lib/components/ui/button/index.js";
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
     import { settingSheet } from "../../../stores/sheets";
-  import EditInfo from "./settings/editInfo.svelte";
+    import EditinfoSheet from "./settings/editinfoSheet.svelte";
+    import ShareuserSheet from "./settings/shareuserSheet.svelte";
+  
 
     let follow = true
     export let sameUser = true
 
     const openSheet = (option: string) => {
+        switch (option) {
+            case "EditInfo":
+                settingSheet.set({...$settingSheet, openEditInfo: true})
+                break;
+
+            case "ShareUsr":
+                settingSheet.set({...$settingSheet, openShareUsr: true})
+                break;
         
-        console.log($settingSheet.open);
-        settingSheet.set({option, open: true})
+            default:
+                break;
+        }
     }
-    $: console.log($settingSheet.open);
+
+    const logoutfunc = async () => {
+        const res = await fetch("/api/v1/users/logout");
+        if (res.ok) {
+            window.location.reload();
+        } else {
+            console.error("Logout failed");
+        }
+    };
+
+    
     
 </script>
 
-<EditInfo></EditInfo>
+
+<EditinfoSheet></EditinfoSheet>
+<ShareuserSheet></ShareuserSheet>
+
+
 {#if sameUser}
 <DropdownMenu.Root>
     <DropdownMenu.Trigger asChild let:builder>
@@ -92,9 +117,8 @@
     <DropdownMenu.Item>Support Me</DropdownMenu.Item>
     <DropdownMenu.Item>Feedback</DropdownMenu.Item>
     <DropdownMenu.Separator />
-    <DropdownMenu.Item>
+    <DropdownMenu.Item on:click={logoutfunc}>
         Log out
-        <!-- <DropdownMenu.Shortcut>⇧⌘Q</DropdownMenu.Shortcut> -->
     </DropdownMenu.Item>
     </DropdownMenu.Content>
 </DropdownMenu.Root>
