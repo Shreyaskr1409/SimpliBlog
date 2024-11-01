@@ -4,6 +4,7 @@
         buttonVariants
     } from "$lib/components/ui/button/index.js";
     import * as Dialog from "$lib/components/ui/dialog/index.js";
+  import { user } from "../../../stores/user";
 </script>
 
 <Dialog.Root>
@@ -14,9 +15,9 @@
     >
     <Dialog.Content class="sm:max-w-[425px]">
     <Dialog.Header>
-        <Dialog.Title>Shreyas Kumar</Dialog.Title>
+        <Dialog.Title>Profile Picture</Dialog.Title>
         <Dialog.Description>
-            @shreyaskr.1409
+            Functionality to edit this image will be added soon enough
         </Dialog.Description>
     </Dialog.Header>
     <div class="grid gap-4 py-4">

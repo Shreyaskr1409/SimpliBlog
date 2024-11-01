@@ -114,7 +114,9 @@ const getUserBlogList = asyncHandler( async (req, res) => {
         throw new ApiError(400, "Username is missing")
     }
 
-    const user = await User.findOne({username: username})
+    let username_lowercase = username.toLowerCase()
+
+    const user = await User.findOne({username: username_lowercase})
     if (!user) {
         throw new ApiError(404, "User with this username does not exits")
     }
@@ -122,7 +124,7 @@ const getUserBlogList = asyncHandler( async (req, res) => {
     const userBlogList = await User.aggregate([
         {
             $match: {
-                username: username
+                username: username_lowercase
             }
         },
         {

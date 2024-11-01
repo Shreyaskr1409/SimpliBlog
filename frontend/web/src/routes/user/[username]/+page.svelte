@@ -22,6 +22,9 @@
             const data = await res.json()
             userInfo.set(data);
             console.log($userInfo);
+            if(!res.ok) {
+                nouserinfoflag = true
+            }
         } catch (error) {
             nouserinfoflag = true
         }

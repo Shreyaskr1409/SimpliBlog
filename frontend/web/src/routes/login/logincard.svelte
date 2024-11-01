@@ -24,10 +24,13 @@
                 })
 
                 if (res.ok) {
+                    const res_data = await res.json()
+                    // console.log(res_data.data);
+                    
                     loggedInSuccessfully = true
                     userdoesnotexist = false
                     console.log("logged in");
-                    window.location.href = '/user';
+                    window.location.href = `/user/${res_data.data.user.username}`
                 } else if (res.status >= 500) {
                     serverDown = true
                     userdoesnotexist = false
@@ -77,6 +80,6 @@
     </Card.Footer>
     <Card.Footer>
         <Card.Description class="grow">Do not have an account?</Card.Description>
-        <Button variant="outline">Register</Button>
+        <Button variant="outline" on:click={() => {window.location.href = '/register'}}>Register</Button>
     </Card.Footer>
 </Card.Root>

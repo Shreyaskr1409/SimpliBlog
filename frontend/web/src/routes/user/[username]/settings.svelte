@@ -45,7 +45,7 @@
 {#if sameUser}
 <DropdownMenu.Root>
     <DropdownMenu.Trigger asChild let:builder>
-    <Button builders={[builder]} variant="outline" class="w-24">Settings</Button>
+    <Button builders={[builder]} variant="outline" class="w-24">Options</Button>
     </DropdownMenu.Trigger>
     <DropdownMenu.Content class="w-56">
     <DropdownMenu.Label>Options</DropdownMenu.Label>

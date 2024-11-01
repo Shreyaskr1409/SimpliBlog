@@ -11,6 +11,7 @@
     let blogSubtitle = ""
     let blogContent = ""
     let blogCreatedSuccessfully = false
+    let errorMessage = ""
 
     function createBlog() {( async() => {
         try {
@@ -25,11 +26,13 @@
                     body: blogContent
                 })
             })
+            const data = await res.json()
             if (res.ok) {
                 console.log("Blog Created");
                 blogCreatedSuccessfully = true
             } else {
                 blogCreatedSuccessfully = false
+                errorMessage = data.message
                 console.log("Blog not created");
                 throw new Error(`HTTP error! Status: ${res.status}`);
             }
@@ -51,6 +54,8 @@
         <Card.Description>All fields marked with * are compulsory</Card.Description>
         {#if blogCreatedSuccessfully}
             <Card.Description class="text-green-500">Blog created Successfully!!!</Card.Description>
+        {:else}
+            <Card.Description class="text-red-500">{errorMessage}</Card.Description>
         {/if}
     </Card.Header>
     <Card.Content>

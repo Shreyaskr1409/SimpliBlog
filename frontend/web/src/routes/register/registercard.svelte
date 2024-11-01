@@ -38,7 +38,7 @@
                     // registeredSuccessfully.set(true);
                     registeredSuccessfully = true
                     console.log("registered");
-                    window.location.href = '/user';
+                    window.location.href = '/login';
                 } else if (res.status >= 500) {
                     serverDown = true
                     registeredSuccessfully = false
@@ -107,6 +107,6 @@
     </Card.Footer>
     <Card.Footer>
         <Card.Description class="grow">Already have an account?</Card.Description>
-        <Button variant="outline">Login</Button>
+        <Button variant="outline" on:click={() => {window.location.href = '/login'}}>Login</Button>
     </Card.Footer>
 </Card.Root>
