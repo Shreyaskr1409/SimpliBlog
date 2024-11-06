@@ -108,49 +108,46 @@
     <title>SimpliBlog</title>
 </head>
 
-<ModeWatcher />
-<div id="bigcont" class="flex flex-col items-center h-screen my-8 gap-2">
-    <div class="w-2/3 h-fit p-2 bg-zinc-900 rounded-2xl">
-        <Search></Search>
-    </div>
-    <div class=" bg-zinc-900 flex flex-row gap-[10px] justify-start border-2 min-h-[800px]" id="outer_box">
-        <div class="flex flex-col w-2/3" id="inner_box_left">
-
-
-            
-
-            <!-- <Search></Search>
-            <div class="h-2"></div>
-            <Separator></Separator>
-            <div class="h-2"></div> -->
-
-            <Banner></Banner>
-            <div id="spacer_1"></div>
-            <Topbar></Topbar>
-            <div id="spacer_1"></div>
-
-            
-            <h3 class="scroll-m-20 self-start text-3xl font-bold tracking-tight lg:text-4xl ml-4">
-                User's Blogs:
-            </h3>
-            <div class="flex flex-col border-2 bg-zinc-950 p-[5px] items-center" id="inner_box_right">
-                <Blogslist></Blogslist>
-            </div>
+<div class="w-full flex flex-col justify-start items-center">
+    <ModeWatcher />
+    <div id="bigcont" class="flex flex-col items-center w-full h-screen my-8 gap-2 max-w-[1300px]">
+        <div class="w-2/3 h-fit p-2 bg-zinc-900 rounded-2xl">
+            <Search></Search>
         </div>
+        <div class=" bg-zinc-900 flex flex-row gap-[10px] justify-start border-2 min-h-[800px]" id="outer_box">
+            <div class="flex flex-col w-2/3" id="inner_box_left">
 
 
-        <div class="flex flex-col border-2 w-1/3 bg-zinc-950 p-[10px]" id="inner_box_right">
-            <RightBoxContent nouserinfo={nouserinfoflag} aboutMe={aboutMe} linkedin={linkedin} instagram={instagram} facebook={facebook} github={github}></RightBoxContent>
+                
+
+                <!-- <Search></Search>
+                <div class="h-2"></div>
+                <Separator></Separator>
+                <div class="h-2"></div> -->
+
+                <Banner></Banner>
+                <div id="spacer_1"></div>
+                <Topbar></Topbar>
+                <div id="spacer_1"></div>
+
+                
+                <h3 class="scroll-m-20 self-start text-3xl font-bold tracking-tight lg:text-4xl ml-4">
+                    User's Blogs:
+                </h3>
+                <div class="flex flex-col border-2 bg-zinc-950 p-[5px] items-center" id="inner_box_right">
+                    <Blogslist></Blogslist>
+                </div>
+            </div>
+
+
+            <div class="flex flex-col border-2 w-1/3 bg-zinc-950 p-[10px]" id="inner_box_right">
+                <RightBoxContent nouserinfo={nouserinfoflag} aboutMe={aboutMe} linkedin={linkedin} instagram={instagram} facebook={facebook} github={github}></RightBoxContent>
+            </div>
         </div>
     </div>
 </div>
 
-
 <style>
-    #bigcont{
-        width: 100%;
-        max-width: 1300px;
-    }
     #outer_box{
         padding: 10px;
         border-radius: 30px;
