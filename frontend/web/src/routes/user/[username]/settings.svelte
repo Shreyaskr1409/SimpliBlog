@@ -25,8 +25,12 @@
     }
 
     const logoutfunc = async () => {
-        const res = await fetch("/api/v1/users/logout");
+        const res = await fetch("/api/v1/users/logout", {
+            method: 'POST'
+        });
         if (res.ok) {
+            console.log(res);
+            
             window.location.reload();
         } else {
             console.error("Logout failed");
@@ -76,7 +80,7 @@
     <DropdownMenu.Item>Support Me</DropdownMenu.Item>
     <DropdownMenu.Item>Feedback</DropdownMenu.Item>
     <DropdownMenu.Separator />
-    <DropdownMenu.Item>
+    <DropdownMenu.Item on:click={logoutfunc}>
         Log out
         <!-- <DropdownMenu.Shortcut>⇧⌘Q</DropdownMenu.Shortcut> -->
     </DropdownMenu.Item>
@@ -117,8 +121,11 @@
     <DropdownMenu.Item>Support Me</DropdownMenu.Item>
     <DropdownMenu.Item>Feedback</DropdownMenu.Item>
     <DropdownMenu.Separator />
-    <DropdownMenu.Item on:click={logoutfunc}>
-        Log out
+    <DropdownMenu.Item on:click={() => {window.location.href = "/login"}}>
+        Log In
+    </DropdownMenu.Item>
+    <DropdownMenu.Item on:click={() => {window.location.href = "/register"}}>
+        Sign up
     </DropdownMenu.Item>
     </DropdownMenu.Content>
 </DropdownMenu.Root>

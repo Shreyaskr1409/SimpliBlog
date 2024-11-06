@@ -8,10 +8,10 @@
     import { onMount } from "svelte";
     import {Separator} from "$lib/components/ui/separator/index"
 
-    let loggedinFlag = true
+    let loggedinFlag = false
 
     onMount(async () => {
-        loggedinFlag = true
+        loggedinFlag = false
         try {
             const res = await fetch(`/api/v1/users/loggedin-confirm`, {
                     method:  "GET",
@@ -19,13 +19,11 @@
                 });
             const data = await res.json();
             console.log(data)
-            console.log("Hi " ,$user.data._id)
-            console.log("Bye " ,data.data._id)
             if (data.data._id == $user.data._id) {
-                loggedinFlag = false
+                loggedinFlag = true
             }
         } catch (error) {
-            loggedinFlag = true
+            loggedinFlag = false
         }
     });
 </script>
@@ -75,15 +73,14 @@
             </div>
             <div class="grow"></div>
             <div class="flex flex-col justify-center items-center">
-                {#if loggedinFlag}
+                {#if !loggedinFlag}
                     <Button variant="default" class="w-24">Subscribe</Button>
                 {/if}
                 <div class="min-h-1"></div>
-                {#if !loggedinFlag}
+                {#if loggedinFlag}
                     <Button variant="secondary" class="w-24" on:click={() => {window.location.href = '/blog/create-blog';}}>Create Blog</Button>
                 {/if}
                 <div class="min-h-1"></div>
-                <Settings sameUser={!loggedinFlag}></Settings>
             </div>
         </div>
     </div>
