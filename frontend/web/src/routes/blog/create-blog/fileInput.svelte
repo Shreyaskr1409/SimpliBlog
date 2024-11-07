@@ -10,7 +10,8 @@
     }
   </script>
   
-  <div class="flex items-center justify-center w-full">
+  <div class="flex flex-col items-center justify-center w-full">
+    <h5>(This functionality is yet to be added properly)</h5>
       <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-40 border-[1px] border-zinc-300 border-dashed rounded-sm cursor-pointer dark:bg-zinc-900 dark:border-zinc-700 dark:hover:border-zinc-600 dark:hover:bg-zinc-800">
           <div class="flex flex-col items-center justify-center pt-5 pb-6">
               <svg class="w-8 h-8 mb-1 text-zinc-500 dark:text-zinc-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">

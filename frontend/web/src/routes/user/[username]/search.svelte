@@ -19,7 +19,7 @@
                 });
             const data = await res.json();
             console.log(data)
-            if (data.data._id == $user.data._id) {
+            if (res.ok) {
                 loggedinFlag = true
             }
         } catch (error) {
@@ -37,7 +37,7 @@
     <div class="h-10 flex justify-center items-center bg-black rounded-es-xl rounded-ss-xl aspect-square border-[1px] border-r-0">
         <MagnifyingGlass size="30"></MagnifyingGlass>
     </div>
-    <Input class="w-full rounded-none rounded-ee-xl rounded-se-xl" placeholder="Search"/>
+    <Input class="w-full rounded-none rounded-ee-xl rounded-se-xl" placeholder="Search (Coming Soon)"/>
     <div class="w-4"></div>
 
     {#if loggedinFlag}
@@ -45,7 +45,7 @@
             <Person></Person>
         </div>
     {:else}
-        <Button variant="secondary">Login</Button>
+        <Button variant="secondary" on:click={() => {window.open("/login", "_self")}}>Login</Button>
     {/if}
     <div class="w-4"></div>
     

@@ -1,17 +1,20 @@
 <script>
     import Button from "$lib/components/ui/button/button.svelte";
     import AvatarDialogue from "./avatarDialogue.svelte";
-    import Settings from "./settings.svelte";
     import { blogslist } from "../../../stores/blogslist";
     import { user } from "../../../stores/user";
     import { subscribers, subscriptions } from "../../../stores/subscription";
     import { onMount } from "svelte";
     import {Separator} from "$lib/components/ui/separator/index"
 
-    let loggedinFlag = false
+    let sameUser = false
+    let loggedin_confirm = false
+    let subscribed_or_not = false
+    let subscriptionId
 
     onMount(async () => {
-        loggedinFlag = false
+        sameUser = false
+        loggedin_confirm = false
         try {
             const res = await fetch(`/api/v1/users/loggedin-confirm`, {
                     method:  "GET",
@@ -19,13 +22,98 @@
                 });
             const data = await res.json();
             console.log(data)
+            if (res.ok) {
+                loggedin_confirm = true
+            }
             if (data.data._id == $user.data._id) {
-                loggedinFlag = true
+                sameUser = true
             }
         } catch (error) {
-            loggedinFlag = false
+            console.log(error);
+            
+            sameUser = false
+            loggedin_confirm = false
+        }
+
+        try {
+            if (!sameUser) {
+                
+                const res = await fetch(`/api/v1/subscription/is-subscribed`, {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        blogger: $user.data._id
+                    })
+                })
+                const data = await res.json()
+                
+                if (res.ok) {
+                    subscribed_or_not = true
+                    subscriptionId = data.data._id
+                } else {
+                    subscribed_or_not = false
+                }
+            }
+            console.log("ran successfully");
+            
+
+        } catch (error) {
+            subscribed_or_not = false
+            console.log(error);
         }
     });
+
+    const subscribe = async () => {
+        if (!loggedin_confirm) {
+            window.open("/login", "_self")
+            return
+        }
+        try {
+            console.log($user.data.username);
+            
+            const res = await fetch(`/api/v1/subscription/subscribe`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    blogger_username: $user.data.username
+                })
+            })
+            const data = await res.json()
+            console.log(data);
+            
+            if (res.ok) {
+                subscribed_or_not = true
+                subscriptionId = data.data._id
+            } else {
+                subscribed_or_not = false
+            }
+        } catch (error) {
+            subscribed_or_not = false
+        }
+    }
+
+    const unsubscribe = async () => {
+        if (!loggedin_confirm) {
+            window.open("/login", "_self")
+            return
+        }
+        try {
+            const res = await fetch(`/api/v1/subscription/unsubscribe`, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    subscriptionId: subscriptionId
+                })
+            })
+            if (res.ok) {
+                subscribed_or_not = false
+            } else {
+                subscribed_or_not = true
+            }
+        } catch (error) {
+            subscribed_or_not = true
+        }
+    }
 </script>
 <div class="flex flex-col items-center w-full">
 
@@ -73,11 +161,15 @@
             </div>
             <div class="grow"></div>
             <div class="flex flex-col justify-center items-center">
-                {#if !loggedinFlag}
-                    <Button variant="default" class="w-24">Subscribe</Button>
+                {#if !sameUser}
+                    {#if subscribed_or_not}
+                    <Button variant="secondary" class="w-24" on:click={unsubscribe}>Unsubscribe</Button>
+                    {:else}
+                    <Button variant="default" class="w-24" on:click={subscribe}>Subscribe</Button>
+                    {/if}
                 {/if}
                 <div class="min-h-1"></div>
-                {#if loggedinFlag}
+                {#if sameUser}
                     <Button variant="secondary" class="w-24" on:click={() => {window.location.href = '/blog/create-blog';}}>Create Blog</Button>
                 {/if}
                 <div class="min-h-1"></div>

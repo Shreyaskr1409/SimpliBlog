@@ -13,6 +13,7 @@ const subscribe = asyncHandler( async (req, res) => {
     const blogger = await User.findOne(
         {username: blogger_username}
     )
+    
 
     if(req.user.username === blogger_username) {
         throw new ApiError(400, "You cannot subscribe to yourself")
@@ -59,6 +60,23 @@ const unsubscribe = asyncHandler( async (req, res) => {
         .json( new ApiResponse(
             200, "Unsubscribed unsuccessfully", {}
         ) )
+} )
+
+const isSubscribed = asyncHandler( async (req, res) => {
+    const { blogger } = req.body
+    
+    const subscribedObject = await Subscription.findOne({
+        blogger: blogger,
+        subscriber: req.user._id
+    })    
+
+    if (!subscribedObject) {
+        throw new ApiError(400, "Not subscribed")
+    }
+
+    return res.status(200).json(
+        new ApiResponse(200, "IsSubscribed", subscribedObject)
+    )
 } )
 
 const getUserSubscriptionsList = asyncHandler( async (req, res) => {
@@ -172,6 +190,7 @@ const getUserSubscribersList = asyncHandler( async (req, res) => {
 export {
     subscribe,
     unsubscribe,
+    isSubscribed,
     getUserSubscriptionsList,
     getUserSubscribersList
 }
