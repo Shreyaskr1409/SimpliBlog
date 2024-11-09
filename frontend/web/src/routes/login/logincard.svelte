@@ -3,16 +3,27 @@
     import * as Card from "$lib/components/ui/card/index.js";
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
+    import Reload from "svelte-radix/Reload.svelte";
 
     let loginUserName =     ""
     let loginUserPassword = ""
     let userdoesnotexist =  false
+    let wrongPassword = false
     let loggedInSuccessfully =  false
     let serverDown = false
+    let loading = false
+    let disabled = ""
+
+    $: if (loading) {
+        disabled = "disabled"
+    } else {
+        disabled = ""
+    }
 
     // Request to log in to the server
     function logInfo() {
         (async () => {
+            loading = true
             try {
                 const res = await fetch("/api/v1/users/login", {
                     method:  "POST",
@@ -22,25 +33,33 @@
                         password:        loginUserPassword
                     })
                 })
+                
 
                 if (res.ok) {
                     const res_data = await res.json()
-                    // console.log(res_data.data);
+                    console.log(res_data.data);
                     
                     loggedInSuccessfully = true
                     userdoesnotexist = false
-                    console.log("logged in");
+                    wrongPassword = false
                     window.location.href = `/user/${res_data.data.user.username}`
                 } else if (res.status >= 500) {
                     serverDown = true
                     userdoesnotexist = false
+                    wrongPassword = false
                 } else {
                     loggedInSuccessfully = false
-                    userdoesnotexist = true
-                    throw new Error(`HTTP error! Status: ${res.status}`);
+
+                    if (res.status == 404) {
+                        userdoesnotexist = true
+                    } else if (res.status == 401) {
+                        wrongPassword = true
+                    }
                 }
             } catch (error) {
                 console.error("Error encountered: ", error);
+            } finally {
+                loading = false
             }
         })()
     }
@@ -56,6 +75,9 @@
         {#if userdoesnotexist}
             <Card.Description class="text-red-500">User with given username or email does not exist</Card.Description>
         {/if}
+        {#if wrongPassword}
+            <Card.Description class="text-red-500">Wrong Password</Card.Description>
+        {/if}
         {#if serverDown}
             <Card.Description class="text-pink-500">Sorry for the inconvenience, the server is down</Card.Description>
         {/if}
@@ -63,23 +85,35 @@
     <Card.Content>
         <form>
         <div class="grid w-full items-center gap-4">
+
+
             <div class="flex flex-col space-y-1.5">
             <Label for="name">Username or email</Label>
-            <Input bind:value={loginUserName} id="name" placeholder="Enter your username or email" />
+            <Input bind:value={loginUserName} id="name" placeholder="Enter your username or email" {disabled} />
             </div>
+
+
             <div class="flex flex-col space-y-1.5">
             <Label for="password">Password</Label>
-            <Input bind:value={loginUserPassword} id="password" type="password" placeholder="Enter your password" />
+            <Input bind:value={loginUserPassword} id="password" type="password" placeholder="Enter your password" {disabled} />
             </div>
+
+
         </div>
         </form>
     </Card.Content>
     <Card.Footer class="flex justify-between">
-        <Button variant="outline">Cancel</Button>
-        <Button on:click={logInfo}>Login</Button>
+
+        <Button variant="outline" {disabled}>Cancel</Button>
+        <Button on:click={logInfo} {disabled}>
+            {#if loading}
+                <Reload class="mr-2 h-4 w-4 animate-spin" ></Reload>
+            {/if}
+            Login
+        </Button>
     </Card.Footer>
     <Card.Footer>
         <Card.Description class="grow">Do not have an account?</Card.Description>
-        <Button variant="outline" on:click={() => {window.location.href = '/register'}}>Register</Button>
+        <Button variant="outline" on:click={() => {window.location.href = '/register'}} {disabled}>Register</Button>
     </Card.Footer>
 </Card.Root>
