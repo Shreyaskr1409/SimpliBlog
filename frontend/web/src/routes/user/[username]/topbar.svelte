@@ -6,14 +6,19 @@
     import { subscribers, subscriptions } from "../../../stores/subscription";
     import { onMount } from "svelte";
     import {Separator} from "$lib/components/ui/separator/index"
+  import { Skeleton } from "$lib/components/ui/skeleton";
 
-    let sameUser = false
+    let sameUser = 2
+    // 0 => not same user
+    // 1 => same user
+    // 2 => loading
+    // 3 => not logged in (not same user)
     let loggedin_confirm = false
     let subscribed_or_not = false
     let subscriptionId
 
     onMount(async () => {
-        sameUser = false
+        sameUser = 2
         loggedin_confirm = false
         try {
             const res = await fetch(`/api/v1/users/loggedin-confirm`, {
@@ -22,21 +27,24 @@
                 });
             const data = await res.json();
             console.log(data)
-            if (res.ok) {
-                loggedin_confirm = true
+            if (res.status == 401) {
+                sameUser = 3
+                return
             }
-            if (data.data._id == $user.data._id) {
-                sameUser = true
+            if (data.data?.user._id == $user.data._id) {
+                sameUser = 1
+            } else {
+                sameUser = 0
             }
         } catch (error) {
             console.log(error);
             
-            sameUser = false
+            sameUser = 2
             loggedin_confirm = false
         }
 
         try {
-            if (!sameUser) {
+            if (sameUser == 0) {
                 
                 const res = await fetch(`/api/v1/subscription/is-subscribed`, {
                     method: "POST",
@@ -64,10 +72,6 @@
     });
 
     const subscribe = async () => {
-        if (!loggedin_confirm) {
-            window.open("/login", "_self")
-            return
-        }
         try {
             console.log($user.data.username);
             
@@ -93,10 +97,6 @@
     }
 
     const unsubscribe = async () => {
-        if (!loggedin_confirm) {
-            window.open("/login", "_self")
-            return
-        }
         try {
             const res = await fetch(`/api/v1/subscription/unsubscribe`, {
                 method: "POST",
@@ -161,18 +161,19 @@
             </div>
             <div class="grow"></div>
             <div class="flex flex-col justify-center items-center">
-                {#if !sameUser}
+                {#if sameUser == 0}
                     {#if subscribed_or_not}
                     <Button variant="secondary" class="w-24" on:click={unsubscribe}>Unsubscribe</Button>
                     {:else}
                     <Button variant="default" class="w-24" on:click={subscribe}>Subscribe</Button>
                     {/if}
+                {:else if sameUser == 1}
+                    <Button variant="secondary" class="w-24" on:click={() => {window.open('/blog/create-blog', "_self")}}>Create Blog</Button>
+                {:else if sameUser == 2}
+                    <Skeleton class="w-24 h-10 rounded-md"></Skeleton>
+                {:else}
+                    <Button variant="default" class="w-24" on:click={() => {window.open("/login", "_self")}}>Subscribe</Button>
                 {/if}
-                <div class="min-h-1"></div>
-                {#if sameUser}
-                    <Button variant="secondary" class="w-24" on:click={() => {window.location.href = '/blog/create-blog';}}>Create Blog</Button>
-                {/if}
-                <div class="min-h-1"></div>
             </div>
         </div>
     </div>

@@ -13,7 +13,7 @@
     <div class="lg:w-1/2 w-full h-full">
         <div id="bgimg_up" class="w-full h-full"></div>
     </div>
-    <div class="flex flex-col justify-center items-center w-1/2">
+    <div class="flex flex-col justify-center items-center lg:relative lg:translate-x-0 lg:left-0 lg:top-auto lg:w-1/2 absolute left-1/2 -translate-x-1/2  sm:w-[600px]">
         <div class="flex flex-col my-8">
             <h1 class="scroll-m-20 self-start text-4xl font-extrabold tracking-tight lg:text-5xl pb-4 mt-8">
                 Login:

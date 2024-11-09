@@ -65,7 +65,7 @@
     }
 </script>
 
-<Card.Root class="w-[500px] bg-zinc-900">
+<Card.Root class="w-[350px] md:w-[500px] bg-zinc-900">
     <Card.Header>
         <Card.Title>Welcome back to Simpliblog!</Card.Title>
         <Card.Description>Login into your Simpliblog account</Card.Description>
@@ -104,7 +104,7 @@
     </Card.Content>
     <Card.Footer class="flex justify-between">
 
-        <Button variant="outline" {disabled}>Cancel</Button>
+        <Button variant="outline" {disabled} on:click={() => window.history.back()}>Cancel</Button>
         <Button on:click={logInfo} {disabled}>
             {#if loading}
                 <Reload class="mr-2 h-4 w-4 animate-spin" ></Reload>

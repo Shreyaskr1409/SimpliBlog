@@ -69,7 +69,7 @@
     }
 </script>
 
-<Card.Root class="w-[500px] bg-zinc-900">
+<Card.Root class="w-[350px] md:w-[500px] bg-zinc-900">
     <Card.Header>
         <Card.Title>Welcome to Simpliblog!</Card.Title>
         <Card.Description>Create a Simpliblog account</Card.Description>
@@ -92,13 +92,12 @@
                 <Label for="email">Email</Label>
                 <Input bind:value={registerEmail} id="email" placeholder="Enter your email" {disabled}/>
             </div>
-            <div class="flex flex-row items-center justify-center">    
-                <div class="flex flex-col space-y-1.5">
+            <div class="flex flex-row items-center justify-center flex-wrap gap-4">    
+                <div class="flex flex-col space-y-1.5 grow">
                     <Label for="username">Username</Label>
                     <Input bind:value={registerUsername} id="username" placeholder="Enter a username" {disabled}/>
                 </div>
-                <div class=" w-4"></div>
-                <div class="flex flex-col space-y-1.5">
+                <div class="flex flex-col space-y-1.5 grow">
                     <Label for="fullname">Full Name</Label>
                     <Input bind:value={registerFullname} id="fullname" placeholder="Enter your fullname" {disabled}/>
                 </div>
@@ -115,7 +114,7 @@
         </form>
     </Card.Content>
     <Card.Footer class="flex justify-between">
-        <Button variant="outline" {disabled}>Back</Button>
+        <Button variant="outline" {disabled} on:click={() => window.history.back()}>Back</Button>
         <Button on:click={registerInfo} {disabled}>
             {#if loading}
                 <Reload class="mr-2 h-4 w-4 animate-spin" ></Reload>
