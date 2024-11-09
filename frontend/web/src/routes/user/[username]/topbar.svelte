@@ -6,7 +6,7 @@
     import { subscribers, subscriptions } from "../../../stores/subscription";
     import { onMount } from "svelte";
     import {Separator} from "$lib/components/ui/separator/index"
-  import { Skeleton } from "$lib/components/ui/skeleton";
+    import { Skeleton } from "$lib/components/ui/skeleton";
 
     let sameUser = 2
     // 0 => not same user
@@ -31,7 +31,7 @@
                 sameUser = 3
                 return
             }
-            if (data.data?.user._id == $user.data._id) {
+            if (data.data?._id == $user.data._id) {
                 sameUser = 1
             } else {
                 sameUser = 0
