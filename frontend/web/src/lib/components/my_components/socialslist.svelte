@@ -31,7 +31,7 @@
         <div id="box" style="background-image: url({imagePath});" class="min-h-10 min-w-10"></div>
         <div id="col1" class="overflow-hidden">
             <a class="scroll-m-20 text-xl font-semibold tracking-tight first:mt-0 hover:underline hover:cursor-pointer whitespace-nowrap" href={sociallink}>{title}</a>
-            <p class="scroll-m-20 text-sm text-nowrap font-regular truncate block">{socialId}{socialId}</p>
+            <p class="scroll-m-20 text-sm text-nowrap font-regular truncate block">{socialId}</p>
         </div>
     </div>
 </div>
