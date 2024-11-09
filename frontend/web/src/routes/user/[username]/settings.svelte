@@ -4,6 +4,7 @@
     import { settingSheet } from "../../../stores/sheets";
     import EditinfoSheet from "./settings/editinfoSheet.svelte";
     import ShareuserSheet from "./settings/shareuserSheet.svelte";
+    import { Gear } from "svelte-radix";
   
 
     let follow = true
@@ -49,7 +50,10 @@
 {#if sameUser}
 <DropdownMenu.Root>
     <DropdownMenu.Trigger asChild let:builder>
-    <Button builders={[builder]} variant="outline" class="w-24">Options</Button>
+    <Button builders={[builder]} variant="outline" class="w-24 max-md:hidden">Options</Button>
+    <Button builders={[builder]} variant="outline" class="w-fit md:hidden">
+        <Gear size="30"></Gear>
+    </Button>
     </DropdownMenu.Trigger>
     <DropdownMenu.Content class="w-56">
     <DropdownMenu.Label>Options</DropdownMenu.Label>
@@ -89,7 +93,10 @@
 {:else}
 <DropdownMenu.Root>
     <DropdownMenu.Trigger asChild let:builder>
-    <Button builders={[builder]} variant="outline" class="w-24">Settings</Button>
+    <Button builders={[builder]} variant="outline" class="w-24 max-md:hidden">Settings</Button>
+    <Button builders={[builder]} variant="outline" class="w-fit md:hidden px-2 aspect-square">
+        <Gear size="20"></Gear>
+    </Button>
     </DropdownMenu.Trigger>
     <DropdownMenu.Content class="w-56">
     <DropdownMenu.Label>Options</DropdownMenu.Label>

@@ -126,7 +126,7 @@
             <div id="spacer_2" class=""></div>
         </div>
 
-        <div id="right_container" class="flex items-center grow">
+        <div id="right_container" class="flex items-center grow justify-between">
             <div id="names_container">
                 {#if $user && $user.data}
                     <h2 class="scroll-m-20 text-3xl font-semibold tracking-tight">{$user.data.fullname}</h2>
@@ -147,10 +147,10 @@
 
                 <p>
                     {#if $subscribers && $subscribers.data && $subscribers.data && $subscribers.data.userSubscribersCount}
-                    <span class="cursor-pointer underline underline-offset-2"><span class=" text-2xl">{$subscribers.data.userSubscribersCount}</span> Subscribers,</span>
+                    <span class="cursor-pointer underline underline-offset-2"><span class=" text-2xl">{$subscribers.data.userSubscribersCount}</span> Subscribers</span>
                     {/if}
                     {#if $subscriptions && $subscriptions.data && $subscriptions.data && $subscriptions.data.userSubscriptionsCount}
-                    <span class="cursor-pointer underline underline-offset-2"><span class=" text-2xl">{$subscriptions.data.userSubscriptionsCount}</span> Subscriptions</span>
+                    <span class="cursor-pointer underline underline-offset-2"><span class=" text-2xl">,{$subscriptions.data.userSubscriptionsCount}</span> Subscriptions</span>
                     {/if}
                 </p>
 
@@ -159,17 +159,17 @@
                     <p><span class="cursor-pointer underline underline-offset-2"><span class=" text-2xl">{$blogslist.data.userBlogList.length}</span> Blogs</span></p>
                 {/if}
             </div>
-            <div class="grow"></div>
+            <!-- <div class="grow"></div> -->
             <div class="flex flex-col justify-center items-center">
-                {#if sameUser == 0}
+                {#if sameUser === 0}
                     {#if subscribed_or_not}
                     <Button variant="secondary" class="w-24" on:click={unsubscribe}>Unsubscribe</Button>
                     {:else}
                     <Button variant="default" class="w-24" on:click={subscribe}>Subscribe</Button>
                     {/if}
-                {:else if sameUser == 1}
+                {:else if sameUser === 1}
                     <Button variant="secondary" class="w-24" on:click={() => {window.open('/blog/create-blog', "_self")}}>Create Blog</Button>
-                {:else if sameUser == 2}
+                {:else if sameUser === 2}
                     <Skeleton class="w-24 h-10 rounded-md"></Skeleton>
                 {:else}
                     <Button variant="default" class="w-24" on:click={() => {window.open("/login", "_self")}}>Subscribe</Button>

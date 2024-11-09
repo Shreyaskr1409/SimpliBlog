@@ -27,11 +27,11 @@
 </script>
 
 <div id="contnr" class="w-full">
-    <div id="row1" class=" bg-zinc-900 gap-2 flex flex-row items-center flex-nowrap px-2 py-1 w-full hover:bg-zinc-800">
-        <div id="box" style="background-image: url({imagePath});" class="h-10 w-10"></div>
-        <div id="col1">
+    <div id="row1" class=" bg-zinc-900 gap-2 flex flex-row items-center px-2 py-1 w-full hover:bg-zinc-800">
+        <div id="box" style="background-image: url({imagePath});" class="min-h-10 min-w-10"></div>
+        <div id="col1" class="overflow-hidden">
             <a class="scroll-m-20 text-xl font-semibold tracking-tight first:mt-0 hover:underline hover:cursor-pointer whitespace-nowrap" href={sociallink}>{title}</a>
-            <p class=" text-sm text-nowrap truncate block max-w-60">{socialId}</p>
+            <p class="scroll-m-20 text-sm text-nowrap font-regular truncate block">{socialId}{socialId}</p>
         </div>
     </div>
 </div>

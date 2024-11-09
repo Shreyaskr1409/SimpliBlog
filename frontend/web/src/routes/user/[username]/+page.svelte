@@ -110,12 +110,12 @@
 
 <div class="w-full flex flex-col justify-start items-center">
     <ModeWatcher />
-    <div id="bigcont" class="flex flex-col items-center w-full h-screen my-8 gap-2 max-w-[1300px]">
-        <div class="w-2/3 h-fit p-2 bg-zinc-900 rounded-2xl">
+    <div id="bigcont" class="flex flex-col items-center w-full h-screen my-8 gap-2 max-w-[1300px] max-2xl:w-[90%]">
+        <div class="w-2/3 h-fit p-2 bg-zinc-900 rounded-2xl max-xl:w-[800px] max-lg:w-[700px] max-md:w-full">
             <Search></Search>
         </div>
-        <div class=" bg-zinc-900 flex flex-row gap-[10px] justify-start border-2 min-h-[800px]" id="outer_box">
-            <div class="flex flex-col w-2/3" id="inner_box_left">
+        <div class=" bg-zinc-900 flex flex-row gap-[10px] justify-start border-2 min-h-[800px] max-md:flex-col" id="outer_box">
+            <div class="flex flex-col w-2/3 max-md:w-full" id="inner_box_left">
 
 
                 
@@ -140,7 +140,7 @@
             </div>
 
 
-            <div class="flex flex-col border-2 w-1/3 bg-zinc-950 p-[10px]" id="inner_box_right">
+            <div class="flex flex-col border-2 w-1/3 max-md:w-full bg-zinc-950 p-[10px]" id="inner_box_right">
                 <RightBoxContent nouserinfo={nouserinfoflag} aboutMe={aboutMe} linkedin={linkedin} instagram={instagram} facebook={facebook} github={github}></RightBoxContent>
             </div>
         </div>

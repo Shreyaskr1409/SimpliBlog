@@ -33,7 +33,6 @@
 <style>
     #avatar{
         min-height: 150px;
-        min-width: 150px;
         height: 150px;
         width: 150px;
         border-radius: 20px;
