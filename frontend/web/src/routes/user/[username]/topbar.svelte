@@ -62,7 +62,6 @@
                     subscribed_or_not = false
                 }
             }
-            console.log("ran successfully");
             
 
         } catch (error) {
