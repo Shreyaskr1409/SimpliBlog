@@ -7,7 +7,6 @@
     import Button from "$lib/components/ui/button/button.svelte";
     import {Person} from "svelte-radix"
     import Settings from "./settings.svelte";
-    import { Avatar } from "$lib/components/ui/avatar";
 
     let loggedinFlag = false
 
@@ -92,11 +91,6 @@
                         {#each searchResults as user}
                         <div class="flex flex-row gap-2 w-full items-center">
                             <div class="h-10 aspect-square rounded-full bg-white"></div>
-
-                            <Avatar.Root>
-                                <Avatar.Image src="https://github.com/shadcn.png" alt="@shadcn" />
-                                <Avatar.Fallback>SK</Avatar.Fallback>
-                            </Avatar.Root>
 
                             <div class="flex flex-col w-full justify-center">
                                 <button class="text-md hover:underline cursor-pointer w-fit" on:click={() => window.open(`/user/${user.username}`, "_self")}>{user.fullname}</button>
