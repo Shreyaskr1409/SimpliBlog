@@ -114,7 +114,7 @@
         <div class="w-2/3 h-fit p-2 bg-zinc-900 rounded-2xl max-xl:w-[800px] max-lg:w-[700px] max-md:w-full">
             <Search></Search>
         </div>
-        <div class=" bg-zinc-900 flex flex-row gap-[10px] justify-start border-2 min-h-[800px] max-md:flex-col" id="outer_box">
+        <div class=" bg-zinc-900 flex flex-row gap-[10px] justify-start border-2 h-fit md:min-h-[800px] max-md:flex-col" id="outer_box">
             <div class="flex flex-col w-2/3 max-md:w-full" id="inner_box_left">
 
 

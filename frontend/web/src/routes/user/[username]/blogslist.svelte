@@ -66,7 +66,7 @@
 </script>
 
 
-<div class="box-border w-full grid grid-cols-2 gap-x-[5px] gap-y-[5px]">
+<div class="box-border w-full grid grid-cols-2 max-sm:grid-cols-1 gap-x-[5px] gap-y-[5px]">
     
     {#if errorWhileFetching == true}
     <Listcontent title={"Error occured while fetching blogs"} date={"Content not available"} customstyle1={"col-span-2"} alertmsg={true}></Listcontent>

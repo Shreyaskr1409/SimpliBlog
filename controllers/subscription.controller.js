@@ -68,7 +68,9 @@ const isSubscribed = asyncHandler( async (req, res) => {
     const subscribedObject = await Subscription.findOne({
         blogger: blogger,
         subscriber: req.user._id
-    })    
+        // TEST COMMENT
+        // subscriber: "6685bbd90df1596714b9bd9f"
+    }).select('_id');
 
     if (!subscribedObject) {
         throw new ApiError(400, "Not subscribed")

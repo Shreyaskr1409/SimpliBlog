@@ -51,8 +51,8 @@
 <DropdownMenu.Root>
     <DropdownMenu.Trigger asChild let:builder>
     <Button builders={[builder]} variant="outline" class="w-24 max-md:hidden">Options</Button>
-    <Button builders={[builder]} variant="outline" class="w-fit md:hidden">
-        <Gear size="30"></Gear>
+    <Button builders={[builder]} variant="outline" class="w-fit md:hidden px-2 aspect-square">
+        <Gear size="20"></Gear>
     </Button>
     </DropdownMenu.Trigger>
     <DropdownMenu.Content class="w-56">

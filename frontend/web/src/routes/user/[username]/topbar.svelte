@@ -126,7 +126,7 @@
             <div id="spacer_2" class=""></div>
         </div>
 
-        <div id="right_container" class="flex items-center grow justify-between">
+        <div id="right_container" class="flex flex-row items-center grow justify-between max-sm:flex-col max-sm:items-start max-sm:gap-2">
             <div id="names_container">
                 {#if $user && $user.data}
                     <h2 class="scroll-m-20 text-3xl font-semibold tracking-tight">{$user.data.fullname}</h2>
