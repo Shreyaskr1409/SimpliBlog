@@ -1,7 +1,9 @@
 <script>
   import Listcontent from "$lib/components/my_components/listcontent.svelte";
 import Socialslist from "$lib/components/my_components/socialslist.svelte";
+  import Button from "$lib/components/ui/button/button.svelte";
   import Skeleton from '$lib/components/ui/skeleton/skeleton.svelte';
+  import { settingSheet } from "../../../stores/sheets";
   import Interests from "./interests.svelte";
 
     // export let aboutMe = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure, esse cupiditate? Nobis quae voluptatum ab facere ratione. Est, reprehenderit similique aliquid, recusandae et veritatis harum quod quidem eaque maiores error.
@@ -11,9 +13,15 @@ import Socialslist from "$lib/components/my_components/socialslist.svelte";
     export let facebook
     export let github
     export let aboutMe
-
+    export let loggedinFlag = false
     export let nouserinfo = false
 </script>
+
+
+{#if loggedinFlag}
+    <Button variant="secondary" class="mb-2 w-fit m-2 absolute bottom-0 right-0"   on:click={() => { settingSheet.set({...$settingSheet, openEditInfo: true}); }}   >Edit Info</Button>
+{/if}
+
 <h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-4xl">
     About me:
 </h1>

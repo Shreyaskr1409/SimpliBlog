@@ -4,7 +4,7 @@
     import { settingSheet } from "../../../stores/sheets";
     import EditinfoSheet from "./settings/editinfoSheet.svelte";
     import ShareuserSheet from "./settings/shareuserSheet.svelte";
-    import { Gear } from "svelte-radix";
+    import {Gear, Person} from "svelte-radix";
   
 
     let follow = true
@@ -36,9 +36,7 @@
         } else {
             console.error("Logout failed");
         }
-    };
-
-    
+    }; 
     
 </script>
 
@@ -50,9 +48,11 @@
 {#if sameUser}
 <DropdownMenu.Root>
     <DropdownMenu.Trigger asChild let:builder>
-    <Button builders={[builder]} variant="outline" class="w-24 max-md:hidden">Options</Button>
-    <Button builders={[builder]} variant="outline" class="w-fit md:hidden px-2 aspect-square">
+    <Button builders={[builder]} variant="outline" class="w-fit px-2 aspect-square rounded-xl">
         <Gear size="20"></Gear>
+    </Button>
+    <Button variant="outline" class="w-fit px-2 aspect-square rounded-xl">
+        <Person></Person>
     </Button>
     </DropdownMenu.Trigger>
     <DropdownMenu.Content class="w-56">
@@ -61,28 +61,28 @@
     <DropdownMenu.Group>
         <DropdownMenu.Item   on:click={() => {openSheet("ShareUsr")}}   >Share user</DropdownMenu.Item>
         <DropdownMenu.Item   on:click={() => {openSheet("EditInfo")}}   >Edit information</DropdownMenu.Item>
-        <DropdownMenu.Item   on:click={() => {openSheet("Notifica")}}   >Notifications</DropdownMenu.Item>
+        <DropdownMenu.Item   on:click={() => {openSheet("Notifica")}}        disabled={true}>Notifications</DropdownMenu.Item>
     </DropdownMenu.Group>
     <DropdownMenu.Separator />
     <DropdownMenu.Group>
         <DropdownMenu.Sub>
         <DropdownMenu.SubTrigger>Invite users</DropdownMenu.SubTrigger>
         <DropdownMenu.SubContent>
-            <DropdownMenu.Item>LinkedIn</DropdownMenu.Item>
-            <DropdownMenu.Item>Instagram</DropdownMenu.Item>
-            <DropdownMenu.Item>X</DropdownMenu.Item>
-            <DropdownMenu.Item>WhatsApp</DropdownMenu.Item>
-            <DropdownMenu.Item>Email</DropdownMenu.Item>
+            <DropdownMenu.Item     disabled={true}>LinkedIn</DropdownMenu.Item>
+            <DropdownMenu.Item     disabled={true}>Instagram</DropdownMenu.Item>
+            <DropdownMenu.Item     disabled={true}>X</DropdownMenu.Item>
+            <DropdownMenu.Item     disabled={true}>WhatsApp</DropdownMenu.Item>
+            <DropdownMenu.Item     disabled={true}>Email</DropdownMenu.Item>
             <DropdownMenu.Separator />
-            <DropdownMenu.Item>More...</DropdownMenu.Item>
+            <DropdownMenu.Item     disabled={true}>More...</DropdownMenu.Item>
         </DropdownMenu.SubContent>
         </DropdownMenu.Sub>
     </DropdownMenu.Group>
     <DropdownMenu.Separator />
-    <DropdownMenu.Item>GitHub</DropdownMenu.Item>
-    <DropdownMenu.Item>Help</DropdownMenu.Item>
-    <DropdownMenu.Item>Support Me</DropdownMenu.Item>
-    <DropdownMenu.Item>Feedback</DropdownMenu.Item>
+    <DropdownMenu.Item on:click={()=> { window.open("https://github.com/Shreyaskr1409/SimpliBlog", "_blank")}}>GitHub</DropdownMenu.Item>
+    <DropdownMenu.Item     disabled={true}>Help</DropdownMenu.Item>
+    <DropdownMenu.Item     disabled={true}>Support Me</DropdownMenu.Item>
+    <DropdownMenu.Item     disabled={true}>Feedback</DropdownMenu.Item>
     <DropdownMenu.Separator />
     <DropdownMenu.Item on:click={logoutfunc}>
         Log out
@@ -93,8 +93,7 @@
 {:else}
 <DropdownMenu.Root>
     <DropdownMenu.Trigger asChild let:builder>
-    <Button builders={[builder]} variant="outline" class="w-24 max-md:hidden">Settings</Button>
-    <Button builders={[builder]} variant="outline" class="w-fit md:hidden px-2 aspect-square">
+    <Button builders={[builder]} variant="outline" class="w-fit px-2 aspect-square rounded-xl">
         <Gear size="20"></Gear>
     </Button>
     </DropdownMenu.Trigger>
@@ -103,30 +102,28 @@
     <DropdownMenu.Separator />
     <DropdownMenu.Group>
         <DropdownMenu.Item   on:click={() => {openSheet("ShareUsr")}}   >Share user</DropdownMenu.Item>
-        <DropdownMenu.Item   on:click={() => {openSheet("EditInfo")}}   >Edit information</DropdownMenu.Item>
-        <DropdownMenu.Item   on:click={() => {openSheet("Notifica")}}   >Notifications</DropdownMenu.Item>
     </DropdownMenu.Group>
     <DropdownMenu.Separator />
     <DropdownMenu.Group>
-        <DropdownMenu.Item>Report user</DropdownMenu.Item>
+        <DropdownMenu.Item     disabled={true}>Report user</DropdownMenu.Item>
         <DropdownMenu.Sub>
         <DropdownMenu.SubTrigger>Invite users</DropdownMenu.SubTrigger>
         <DropdownMenu.SubContent>
-            <DropdownMenu.Item>LinkedIn</DropdownMenu.Item>
-            <DropdownMenu.Item>Instagram</DropdownMenu.Item>
-            <DropdownMenu.Item>X</DropdownMenu.Item>
-            <DropdownMenu.Item>WhatsApp</DropdownMenu.Item>
-            <DropdownMenu.Item>Email</DropdownMenu.Item>
+            <DropdownMenu.Item     disabled={true}>LinkedIn</DropdownMenu.Item>
+            <DropdownMenu.Item     disabled={true}>Instagram</DropdownMenu.Item>
+            <DropdownMenu.Item     disabled={true}>X</DropdownMenu.Item>
+            <DropdownMenu.Item     disabled={true}>WhatsApp</DropdownMenu.Item>
+            <DropdownMenu.Item     disabled={true}>Email</DropdownMenu.Item>
             <DropdownMenu.Separator />
-            <DropdownMenu.Item>More...</DropdownMenu.Item>
+            <DropdownMenu.Item     disabled={true}>More...</DropdownMenu.Item>
         </DropdownMenu.SubContent>
         </DropdownMenu.Sub>
     </DropdownMenu.Group>
     <DropdownMenu.Separator />
-    <DropdownMenu.Item>GitHub</DropdownMenu.Item>
-    <DropdownMenu.Item>Help</DropdownMenu.Item>
-    <DropdownMenu.Item>Support Me</DropdownMenu.Item>
-    <DropdownMenu.Item>Feedback</DropdownMenu.Item>
+    <DropdownMenu.Item on:click={()=> { window.open("https://github.com/Shreyaskr1409/SimpliBlog", "_blank")}}>GitHub</DropdownMenu.Item>
+    <DropdownMenu.Item     disabled={true}>Help</DropdownMenu.Item>
+    <DropdownMenu.Item     disabled={true}>Support Me</DropdownMenu.Item>
+    <DropdownMenu.Item     disabled={true}>Feedback</DropdownMenu.Item>
     <DropdownMenu.Separator />
     <DropdownMenu.Item on:click={() => {window.location.href = "/login"}}>
         Log In
