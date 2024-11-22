@@ -14,7 +14,7 @@
 <HoverCard.Root>
     <HoverCard.Trigger
     href={url}
-    target="_blank"
+    target="_self"
     rel="noreferrer noopener"
     class="rounded-sm underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-black"
     >

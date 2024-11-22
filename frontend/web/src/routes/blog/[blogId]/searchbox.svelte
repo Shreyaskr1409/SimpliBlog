@@ -3,4 +3,4 @@
 import { Input } from "$lib/components/ui/input/index.js";
 
 </script>
-<Input type="Search" placeholder="Search" class=" max-w-60" />
+<Input type="Search" placeholder="Search" class=" max-sm:hidden max-w-60" />

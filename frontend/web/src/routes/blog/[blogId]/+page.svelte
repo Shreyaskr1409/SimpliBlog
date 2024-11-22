@@ -80,10 +80,10 @@
         </h1>
 
 
-        <div class=" bg-zinc-900 flex flex-row justify-start border-2 grow" id="outer_box">
+        <div class=" bg-zinc-900 flex flex-row justify-start border-2 grow max-[1000px]:flex-col" id="outer_box">
 
 
-            <div class="flex flex-col w-2/3" id="inner_box_left">
+            <div class="flex flex-col w-2/3 max-[1000px]:w-full" id="inner_box_left">
                 <Topbar></Topbar>
                 <div id="spacer_1"></div>
                 <Blogground></Blogground>
@@ -93,7 +93,7 @@
                 <Blogcontent></Blogcontent>
             </div>
 
-            <div id="spacer_2" class=""></div>
+            <div id="spacer_2" class=" min-[1000px]:w-[10px] max-[1000px]:h-[10px]"></div>
 
             <div class="flex flex-col border-2 grow bg-zinc-950 p-[5px] items-center" id="inner_box_right">
                 <CommentsOrBlog></CommentsOrBlog>
@@ -114,7 +114,7 @@
 <style>
     body{
         overflow-x: hidden;
-        padding: 0 30px 0 30px;
+        padding: 0 10px 0 10px;
     }
     #bigcont{
         width: 100%;
@@ -126,9 +126,6 @@
     }
     #inner_box_right{
         border-radius: 20px;
-    }
-    #spacer_2{
-        width: 10px;
     }
     #spacer_1{
         height: 10px;

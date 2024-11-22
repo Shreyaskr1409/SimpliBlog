@@ -41,11 +41,11 @@
 </script>
 
 
-<EditinfoSheet></EditinfoSheet>
 <ShareuserSheet></ShareuserSheet>
 
 
 {#if sameUser}
+<EditinfoSheet></EditinfoSheet>
 <DropdownMenu.Root>
     <DropdownMenu.Trigger asChild let:builder>
     <Button builders={[builder]} variant="outline" class="w-fit px-2 aspect-square rounded-xl">

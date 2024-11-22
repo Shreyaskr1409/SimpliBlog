@@ -8,7 +8,7 @@
 
 
 
-<div class="flex justify-between items-center">
+<div class="flex flex-row max-md:flex-col justify-between items-center gap-2">
 
 
     {#if $blog}

@@ -23,7 +23,8 @@
                     username: "",
                     _id: "",
                 },
-            ]
+            ],
+            interests: [""]
         },
     });
 
@@ -63,7 +64,7 @@
                     data: {
                         ...current.data,
                         ...additionalData,
-                        // interests: [...(current.data.interests || []), ...(additionalData.interests || [])]
+                        interests: additionalData.data.interests,
                     },
                 }));
                 console.log("Hello\n", $currentUser.data);
@@ -122,7 +123,7 @@
                         <h4 class=" ml-1 text-base scroll-m-20 font-normal tracking-tight">Add Interests</h4>
                         <Input placeholder="Interests"/>
                         <div class="flex flex-row justify-center flex-wrap gap-1 pt-2">
-                            {#each $currentUser.data.interests as interest, index}
+                            {#each $currentUser.data.interests ?? [] as interest, index}
                                 <Badge variant={index % 2 === 0 ? "secondary" : "outline"}>{interest}</Badge>
                             {/each}
                         </div>
