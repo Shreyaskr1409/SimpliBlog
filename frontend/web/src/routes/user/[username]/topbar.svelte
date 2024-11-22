@@ -45,12 +45,14 @@
 
         try {
             if (sameUser == 0) {
+                const url = new URL(window.location.href);
+                let username = url.pathname.split('/').pop(); // Get the last part of the URL
                 
                 const res = await fetch(`/api/v1/subscription/is-subscribed`, {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        blogger: $user.data._id
+                        blogger: username
                     })
                 })
                 const data = await res.json()
