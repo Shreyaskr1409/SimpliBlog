@@ -67,7 +67,6 @@
                         interests: additionalData.data.interests,
                     },
                 }));
-                console.log("Hello\n", $currentUser.data);
                 
             } else {
                 console.error("Failed to fetch additional user info");
@@ -97,13 +96,13 @@
                         <Input value={$currentUser.data.username} class="col-span-3"/>
                     </div>
 
-                    
+
                     <div class="grid grid-cols-4 items-center">
                         <h4 class=" ml-1 text-lg scroll-m-20 font-normal tracking-tight">Full Name</h4>
                         <Input value={$currentUser.data.fullname} class="col-span-3"/>
                     </div>
 
-                    
+
                     <div class="grid grid-cols-4 items-center">
                         <h4 class=" ml-1 text-lg scroll-m-20 font-normal tracking-tight">Email</h4>
                         <Input value={$currentUser.data.email} class="col-span-3"/>
@@ -113,7 +112,7 @@
                 <div class="my-4 p-4 bg-zinc-900 rounded-lg flex flex-col">
                     <h4 class=" ml-1 text-lg scroll-m-20 font-normal tracking-tight">About</h4>
                     <Textarea class="bg-black min-h-32" value="I am a software engineer and a student from NIT Rourkela. I love the work I do. I also play piano when I feel tired. That's me!"></Textarea>
-                    
+
                     <div class="mt-4"></div>
 
                     <div class="rounded-lg w-full h-fit p-2 bg-black">
@@ -147,21 +146,21 @@
                             <Input value="shreyaskr.1409" class="col-span-3"/>
                         </div>
 
-                        
+
                         <div class="grid grid-cols-4 items-center">
                             <h4 class=" ml-1 text-lg scroll-m-20 font-normal tracking-tight">Github</h4>
                             <Input value="Shreyaskr1409" class="col-span-3"/>
                         </div>
 
-                        
+
                         <div class="grid grid-cols-4 items-center">
                             <h4 class=" ml-1 text-lg scroll-m-20 font-normal tracking-tight">LinkedIn</h4>
                             <Input value="https://www.linkedin.com/in/shreyas-kumar-164482298/" class="col-span-3"/>
                         </div>
                     </div>
-                    
+
                 </div>
-            
+
                 <Sheet.Footer>
                 <Button variant="outline" on:click={() => settingSheet.set({openShareUsr: false})}>Cancel</Button>
                 <Button>Save</Button>

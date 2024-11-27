@@ -4,13 +4,14 @@
     import Settings from "./settings.svelte";
     import Username from "./username.svelte";
     import Usertitle from "./usertitle.svelte";
+    import {user} from "../../../stores/user";
 </script>
 
 <div class="h-fit flex flex-row items-center justify-between">
     <div id="Account" class="flex items-center">
         
         <Avatar.Root>
-            <Avatar.Image src="https://github.com/shadcn.png" alt="@shadcn" />
+            <Avatar.Image src={$user.data.avatar} alt="@shadcn" />
             <Avatar.Fallback>SK</Avatar.Fallback>
         </Avatar.Root>
 

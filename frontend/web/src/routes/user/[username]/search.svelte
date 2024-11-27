@@ -67,7 +67,7 @@
             
             <div class="relative w-full">
                 {#if searchQuery.length >= 3}
-                <div class="absolute top-0 left-1/2 -translate-x-1/2 h-fit w-full bg-zinc-950 my-2 border-[1px] rounded-lg flex flex-col p-2">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 h-fit w-full bg-zinc-950 my-2 border-[1px] rounded-lg flex flex-col p-2 z-20">
                     {#if searchResults.length === 0}
                     <h3 class="w-full text-center">No results</h3>
                     {:else}
@@ -103,13 +103,12 @@
             <Button variant="secondary" on:click={() => {window.open("/login", "_self")}}>Login</Button>
         {/if}
 
-        <Settings sameUser={loggedinFlag}></Settings>
     </div>
 
     <div class="md:hidden flex-row flex grow items-center w-full gap-2">
         <div class="flex flex-nowrap w-full justify-end">
-            <button on:click={() => {}} class="h-10 flex justify-center items-center bg-black rounded-es-xl rounded-ss-xl max-[580px]:rounded-xl aspect-square border-[1px] border-r-0">
-                <MagnifyingGlass size="30"></MagnifyingGlass>
+            <button on:click={() => {}} class="h-10 flex justify-center items-center bg-black rounded-es-xl rounded-ss-xl max-[580px]:rounded-xl aspect-square border-[1px]">
+                <MagnifyingGlass size="25"></MagnifyingGlass>
             </button>
             <Input class="w-full rounded-none rounded-ee-xl rounded-se-xl max-[580px]:hidden" placeholder="Search (Coming Soon)"/>
         </div>
@@ -121,7 +120,8 @@
         {:else}
             <Button variant="secondary" on:click={() => {window.open("/login", "_self")}}>Login</Button>
         {/if}
-
-        <Settings sameUser={loggedinFlag}></Settings>
     </div>
+
+    <div class="min-w-1"></div>
+    <Settings sameUser={loggedinFlag}></Settings>
 </div>

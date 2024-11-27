@@ -9,14 +9,23 @@
 
     let follow = true
     export let sameUser = true
+    settingSheet.set(
+        {
+            openEditInfo: false,
+            openShareUsr: false,
+            openEditImage: false,
+        }
+    );
 
     const openSheet = (option: string) => {
         switch (option) {
             case "EditInfo":
+                console.log("Edit info")
                 settingSheet.set({...$settingSheet, openEditInfo: true})
                 break;
 
             case "ShareUsr":
+                console.log("Share user")
                 settingSheet.set({...$settingSheet, openShareUsr: true})
                 break;
         
@@ -42,15 +51,16 @@
 
 
 <ShareuserSheet></ShareuserSheet>
+<EditinfoSheet></EditinfoSheet>
 
 
 {#if sameUser}
-<EditinfoSheet></EditinfoSheet>
 <DropdownMenu.Root>
     <DropdownMenu.Trigger asChild let:builder>
     <Button builders={[builder]} variant="outline" class="w-fit px-2 aspect-square rounded-xl">
         <Gear size="20"></Gear>
     </Button>
+    <div class="min-w-1"></div>
     <Button variant="outline" class="w-fit px-2 aspect-square rounded-xl">
         <Person></Person>
     </Button>

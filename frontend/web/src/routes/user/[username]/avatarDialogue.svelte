@@ -10,7 +10,11 @@
 <Dialog.Root>
     <Dialog.Trigger
     >
-    <img id="avatar" src="https://github.com/shadcn.png" alt="avatar">
+        {#if $user.data.avatar !== ""}
+            <img id="avatar" src={$user.data.avatar} alt="avatar">
+        {:else}
+            <img id="avatar" src="https://github.com/shadcn.png" alt="avatar">
+        {/if}
     </Dialog.Trigger
     >
     <Dialog.Content class="sm:max-w-[425px]">
