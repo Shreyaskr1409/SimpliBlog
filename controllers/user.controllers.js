@@ -304,6 +304,15 @@ const updateUserAvatar = asyncHandler( async(req, res) => {
         )
 } )
 
+const removeUserAvatar = asyncHandler( async(req, res) => {
+    const user = await User.findById(req.user._id)
+    user.avatar = ""
+    await user.save({validateBeforeSave: false})
+    return res.status(200).json(
+        new ApiResponse(200, "User avatar removed", user)
+    )
+} )
+
 const addUserInfo = asyncHandler( async(req, res) => {
     const user = await User.findById(req.user._id)
     if (!user) {
@@ -486,5 +495,6 @@ export {
     updateInfo, 
     getUserInfo,
     updateUserInterests,
-    updateAccountDetails
+    updateAccountDetails,
+    removeUserAvatar
 }

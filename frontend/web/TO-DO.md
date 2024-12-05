@@ -9,3 +9,16 @@
 - link github repo
 - make link helpdesk
 - make support me page
+
+### For images
+
+- implement avatar CRUD
+- implement Blog images uploading
+
+### For code
+
+- see why TS is creating such a huge mess with those squiggly red lines
+- resolve the variable management in a cleaner way
+- sameuser and loggedinconfirm from topbar and +page of user should be merged into a single variable
+- remove get user like api calls from editinfosheet and just use the available data from stores to fill the required data
+- make sure the images are removed from cloudinary as the aatar is altered

@@ -11,7 +11,7 @@ export const user = writable({
     avatar: '',
     createdAt: '',
     __v: null,
-    userInfo: ''
+    userInfo: '',
   },
   success: false
 });
@@ -28,7 +28,7 @@ export const setUser = (userData) => {
       avatar: userData.data.avatar,
       createdAt: userData.data.createdAt,
       __v: userData.data.__v,
-      userInfo: userData.data.userInfo
+      userInfo: userData.data.userInfo,
     },
     success: userData.success
   });

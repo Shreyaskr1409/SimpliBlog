@@ -5,7 +5,7 @@
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
     import Textarea from "$lib/components/ui/textarea/textarea.svelte";
-    import FileInput from "./fileInput.svelte";
+    import FileInput from "../../../lib/components/my_components/fileInput.svelte";
 
     let blogTitle = ""
     let blogSubtitle = ""

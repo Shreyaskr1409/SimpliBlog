@@ -7,6 +7,7 @@
     import { onMount } from "svelte";
     import {Separator} from "$lib/components/ui/separator/index"
     import { Skeleton } from "$lib/components/ui/skeleton";
+    import { basic } from "../../../stores/basic";
 
     let sameUser = 2
     // 0 => not same user
@@ -28,18 +29,23 @@
             const data = await res.json();
             console.log(data)
             if (res.status == 401) {
+                basic.set({sameUser: 3})
                 sameUser = 3
                 return
             }
             if (data.data?._id == $user.data._id) {
+                basic.set({sameUser: 1})
                 sameUser = 1
             } else {
+                basic.set({sameUser: 0})
                 sameUser = 0
             }
+            
         } catch (error) {
             console.log(error);
             
             sameUser = 2
+            basic.set({sameUser: 2})
             loggedin_confirm = false
         }
 

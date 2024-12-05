@@ -10,6 +10,7 @@
     import { subscribers, subscriptions } from "../../../stores/subscription";
     import Search from "./search.svelte";
     import Separator from "$lib/components/ui/separator/separator.svelte";
+  import { basic } from "../../../stores/basic";
 
     let username
     let nouserinfoflag = false
