@@ -33,7 +33,7 @@
                 sameUser = 3
                 return
             }
-            if (data.data?._id == $user.data._id) {
+            if (data.data?._id === $user.data?._id) {
                 basic.set({sameUser: 1})
                 sameUser = 1
             } else {

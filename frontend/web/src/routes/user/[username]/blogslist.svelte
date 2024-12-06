@@ -52,6 +52,7 @@
         currentPage * blogsPerPage,
         (currentPage + 1) * blogsPerPage
     );
+    // $: console.log(paginatedBlogs)
 
     function nextPage() {
         if (currentPage < totalPages - 1) {
@@ -90,7 +91,7 @@
 
 
     {#if paginatedBlogs && paginatedBlogs.length > 0}
-        {#each paginatedBlogs as listOfBlogs}
+        {#each paginatedBlogs as listOfBlogs (listOfBlogs._id)}
         <Listcontent
             title={listOfBlogs.title}
             date={formatDate(listOfBlogs.createdAt)}
