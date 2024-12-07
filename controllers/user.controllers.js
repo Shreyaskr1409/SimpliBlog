@@ -199,9 +199,9 @@ const refreshAccessToken = asyncHandler( async (req, res) => {
 } )
 
 const updateAccountDetails = asyncHandler( async (req, res) => {
-    const {fullname, email} = req.body
+    const {username, fullname, email} = req.body
 
-    if (!email || !fullname) {
+    if (!username || !email || !fullname) {
         throw new ApiError(400, "All fields are required")
     }
 
@@ -209,6 +209,7 @@ const updateAccountDetails = asyncHandler( async (req, res) => {
         req.user._id,
         {
             $set: {
+                username,
                 fullname,
                 // same as fullName: fullName
                 email: email
@@ -368,7 +369,7 @@ const addUserInfo = asyncHandler( async(req, res) => {
     )
 } )
 
-const updateInfo = asyncHandler( async(req, res) => {
+const updateAboutMeAndSocials = asyncHandler( async(req, res) => {
     const user = await User.findById(req.user._id)
     if (!user) {
         throw new ApiError(400, "Invalid Access Token")
@@ -450,7 +451,7 @@ const getUserInfo = asyncHandler( async(req, res) => {
     }
     const userInfo = await UserInfo.findById(user.userInfo)
     if (!userInfo) {
-        throw new ApiError(404, "UserInfo does not exist for given userId")
+        throw new ApiError(402, "UserInfo does not exist for given userId")
     }
 
     res.status(200).json(
@@ -492,7 +493,7 @@ export {
     updateUserAvatar,
     isLoggedInUtil,
     addUserInfo,
-    updateInfo, 
+    updateAboutMeAndSocials, 
     getUserInfo,
     updateUserInterests,
     updateAccountDetails,

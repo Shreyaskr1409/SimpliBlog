@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import {addUserInfo, changeCurrentUserPassword, getCurrentUser, getUser, getUserInfo, isLoggedInUtil, loginUser, logoutUser, refreshAccessToken, registerUser, removeUserAvatar, updateAccountDetails, updateInfo, updateUserAvatar, updateUserInterests} from "../controllers/user.controllers.js";
+import {addUserInfo, changeCurrentUserPassword, getCurrentUser, getUser, getUserInfo, isLoggedInUtil, loginUser, logoutUser, refreshAccessToken, registerUser, removeUserAvatar, updateAboutMeAndSocials, updateAccountDetails, updateUserAvatar, updateUserInterests} from "../controllers/user.controllers.js";
 import { verifyJWT } from '../middlewares/auth.middlewares.js';
 import {upload} from '../middlewares/multer.middlewares.js';
 
@@ -17,7 +17,7 @@ router.route("/update-avatar").post(verifyJWT, upload.single("avatar"), updateUs
 router.route("/remove-avatar").post(verifyJWT, removeUserAvatar)
 router.route("/loggedin-confirm").get(verifyJWT, isLoggedInUtil)
 router.route("/add-user-info").post(verifyJWT, addUserInfo)
-router.route("/update-user-info").post(verifyJWT, updateInfo)
+router.route("/update-user-info").post(verifyJWT, updateAboutMeAndSocials)
 router.route("/get-user-info/:userIdOrName").get(getUserInfo)
 router.route("/update-user-interests").post(verifyJWT, updateUserInterests)
 

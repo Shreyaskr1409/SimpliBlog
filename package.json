@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon run dotenv/config --experimental-json-modules ./index.js --ignore ./frontend",    
+    "dev": "nodemon run dotenv/config --experimental-json-modules ./index.js --ignore ./frontend",
     "dev_lite": "nodemon run dotenv/config --experimental-json-modules ./index.js --ignore ./frontend --max-memory-restart 128M"
   },
   "keywords": [
