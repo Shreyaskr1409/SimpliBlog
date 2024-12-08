@@ -35,7 +35,7 @@
         @apply list-decimal pl-5 mb-6;
     }
     :global(.blog-content blockquote) {
-        @apply border-l-4 border-zinc-300 pl-4 italic text-zinc-800 mb-6;
+        @apply border-l-4 border-zinc-300 pl-4 italic text-zinc-400 mb-6;
     }
     :global(.blog-content pre) {
         @apply bg-zinc-800 text-white p-4 rounded mb-6;

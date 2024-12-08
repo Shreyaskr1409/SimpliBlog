@@ -64,10 +64,10 @@ const unsubscribe = asyncHandler( async (req, res) => {
 
 const isSubscribed = asyncHandler( async (req, res) => {
     const { blogger } = req.body
-
-    const bloggerUser = User.findOne({
-        username: blogger,
-    })
+    
+    const bloggerUser = await User.findOne(
+        {username: blogger}
+    )
     
     const subscribedObject = await Subscription.findOne({
         blogger: bloggerUser._id,
