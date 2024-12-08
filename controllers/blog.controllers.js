@@ -41,7 +41,7 @@ const uploadBlog = asyncHandler( async (req, res) => {
 
     return res.status(201).json(
         new ApiResponse( 201,
-            "User successfully registered",
+            "Blog successfully created",
             createdBlog)
     )
 } )
@@ -180,7 +180,7 @@ const addBlogLinks = asyncHandler( async(req, res) => {
 
     const {blogId, blogLinks} = req.body
 
-    if(!blogId || Array.isArray(blogLinks) || blogLinks.length === 0) {
+    if(!blogId || !Array.isArray(blogLinks) || blogLinks.length === 0) {
         throw new ApiError(400, "Blog ID and blogLinks (array) are required");
     }
 

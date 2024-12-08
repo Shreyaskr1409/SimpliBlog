@@ -12,8 +12,9 @@
 
 ### For images
 
-- implement avatar CRUD
-- implement Blog images uploading
+- ~~implement avatar CRUD~~
+- ~~implement Blog images showing~~
+- implement blog images carousel
 
 ### For code
 
@@ -21,4 +22,9 @@
 - resolve the variable management in a cleaner way
 - sameuser and loggedinconfirm from topbar and +page of user should be merged into a single variable
 - remove get user like api calls from editinfosheet and just use the available data from stores to fill the required data
-- make sure the images are removed from cloudinary as the aatar is altered
+- make sure the images are removed from cloudinary as the avatar is altered
+
+### QUICK!
+
+- Make the backend changes for showing the images in the blog posts. Do the regex and get it done quickly.
+- Add functionality to preview code and add basic informations for how to write markdown

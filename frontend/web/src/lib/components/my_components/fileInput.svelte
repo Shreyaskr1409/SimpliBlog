@@ -1,11 +1,17 @@
 <script>
     import { createEventDispatcher } from "svelte";
+  import Button from "../ui/button/button.svelte";
     let filesArray = [];
     const dispatch = createEventDispatcher();
 
     function handleFileChange(event) {
         let newFiles = Array.from(event.target.files);
         filesArray = [...filesArray, ...newFiles];
+        dispatch("filechange", { files: filesArray });
+    }
+
+    export function handleRemoveAllImages() {
+        filesArray = []
         dispatch("filechange", { files: filesArray });
     }
 </script>
@@ -40,10 +46,18 @@
     </label>
 </div>
 
-<div class="mt-4">
-    <ul>
+<div class="mt-4 flex flex-col gap-4">
+    <ul class="flex flex-row gap-2 w-full">
+        {#each filesArray as file (file.name)}
+            <img src={URL.createObjectURL(file)} alt={file.name} class="h-20">
+        {/each}
+    </ul>
+    <div>
         {#each filesArray as file (file.name)}
             <li class="text-sm">{file.name}</li>
         {/each}
-    </ul>
+    </div>
+    <div class="w-full">
+        <Button variant="secondary" on:click={handleRemoveAllImages}>Clear Images</Button>
+    </div>
 </div>

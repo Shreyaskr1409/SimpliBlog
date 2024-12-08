@@ -72,8 +72,6 @@
             console.error("Error during fetch:", error);
         }
     });
-
-    $: console.log("Current User: \n", $currentUser);
     
 
     let interestsList = []

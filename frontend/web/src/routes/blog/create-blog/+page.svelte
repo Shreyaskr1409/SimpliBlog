@@ -26,7 +26,7 @@
     <title>SimpliBlog - Create Blog</title>
 </head>
 
-<body class="lg:flex lg:flex-row justify-center items-center w-screen h-screen ">
+<body class="lg:flex lg:flex-row justify-center items-start w-screen h-screen ">
     <ModeWatcher />
     <div class="lg:w-1/2 w-full h-full">
         <div id="bgimg_up" class="w-full h-full"></div>

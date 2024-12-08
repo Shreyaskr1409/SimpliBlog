@@ -7,6 +7,7 @@
         import * as Dialog from "$lib/components/ui/dialog/index.js";
     import { user } from "../../../stores/user";
     import { basic } from "../../../stores/basic";
+  import Skeleton from "$lib/components/ui/skeleton/skeleton.svelte";
 
     let editImageContent = false
     let dialogOpen = false
@@ -78,7 +79,7 @@
         {#if $user.data?.avatar !== ""}
             <img id="avatar" src={$user.data?.avatar} alt="avatar">
         {:else}
-            <img id="avatar" src="https://github.com/shadcn.png" alt="avatar">
+            <Skeleton class="w-[150px] h-[150px]"></Skeleton>
         {/if}
     </Dialog.Trigger
     >
@@ -94,7 +95,7 @@
                 {#if $user.data.avatar !== ""}
                 <img id="avatarDisplay" src={$user.data.avatar} alt="avatarDisplay">
                 {:else}
-                <img id="avatarDisplay" src="https://github.com/shadcn.png" alt="avatarDisplay">
+                <Skeleton class="w-full aspect-square"></Skeleton>
                 {/if}
             </div>
 
@@ -111,7 +112,7 @@
                     Functionality to edit this image will be added soon enough
                 </Dialog.Description>
             </Dialog.Header>
-            <FileInput on:filechange="{(event) => (selectedFiles = event.detail.files)}" />
+            <FileInput on:filechange={(event) => (selectedFiles = event.detail.files)} />
             <Dialog.Footer>
                 <Button type="submit" on:click={() => {editImageContent = false}} variant="outline">Cancel</Button>
                 <Button type="submit" on:click={saveImage}>Save Image</Button>

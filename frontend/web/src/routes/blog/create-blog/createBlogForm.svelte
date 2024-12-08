@@ -6,17 +6,25 @@
     import { Label } from "$lib/components/ui/label/index.js";
     import Textarea from "$lib/components/ui/textarea/textarea.svelte";
     import FileInput from "../../../lib/components/my_components/fileInput.svelte";
+    import Reload from "svelte-radix/Reload.svelte";
 
     let blogTitle = ""
     let blogSubtitle = ""
     let blogContent = ""
     let blogCreatedSuccessfully = false
     let errorMessage = ""
+    let data
+
+    let loading = false
+    let disabled = ""
+    $: disabled = loading ? "disabled" : "";
+
+    let selectedFiles: any = [];
+    let imageTitles: any = []
 
     function createBlog() {( async() => {
+        loading = true
         try {
-            console.log(blogTitle);
-            
             const res = await fetch(`/api/v1/blogs/upload-blog`, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
@@ -26,10 +34,10 @@
                     body: blogContent
                 })
             })
-            const data = await res.json()
+            data = await res.json()
+            console.log(data)
             if (res.ok) {
-                console.log("Blog Created");
-                blogCreatedSuccessfully = true
+                console.log("Blog texts uploaded");
             } else {
                 blogCreatedSuccessfully = false
                 errorMessage = data.message
@@ -37,8 +45,52 @@
                 throw new Error(`HTTP error! Status: ${res.status}`);
             }
         } catch (error) {
+            loading = false
             console.error("Error encountered: ", error);
+            return
         }
+
+        // uploading images later because images need blogid to attach to the blogs
+        try {
+            console.log(data.data._id)
+            imageTitles = selectedFiles.map((files) => files.name)
+
+            // Create a FormData object
+            const formData = new FormData();
+
+            // Append each file and its title to the FormData object
+            selectedFiles.forEach((file, index) => {
+                formData.append('images', file); // Add the file
+                formData.append('titles', imageTitles[index]); // Add the corresponding title
+            });
+
+            console.log(imageTitles)
+            const res = await fetch(`/api/v1/blogs/update-blog-images?blogid=${data.data._id}`, {
+                method: "POST",
+                body: formData
+            })
+            console.log(res)
+            if (res.ok) {
+                console.log("Blog Created");
+                blogCreatedSuccessfully = true
+            } else {
+                blogCreatedSuccessfully = false
+
+                // deleting the uploaded blog if images are not uploaded successfully
+                let res1 = await fetch(`/api/v1/blogs/delete-blog/${data.data._id}`)
+
+                errorMessage = data.message
+                console.log("Blog not created");
+                throw new Error(`HTTP error! Status: ${res.status}`);
+            }
+        } catch (error) {
+            loading = false
+            console.error("Error encountered: ", error);
+            return
+        } finally {
+            loading = false
+        }
+
     })()}
 
     function clearAll() {
@@ -63,25 +115,30 @@
         <div class="grid w-full items-center gap-4">
             <div class="flex flex-col space-y-1.5">
             <Label for="blogTitle">Title</Label>
-            <Input bind:value={blogTitle} id="blogTitle" placeholder="Enter title for your blog" />
+            <Input bind:value={blogTitle} id="blogTitle" placeholder="Enter title for your blog" {disabled}/>
             </div>
             <div class="flex flex-col space-y-1.5">
             <Label for="blogSubtitle">Subtitle</Label>
-            <Input bind:value={blogSubtitle} id="blogSubtitle" placeholder="Enter subtitle for your blog" />
+            <Input bind:value={blogSubtitle} id="blogSubtitle" placeholder="Enter subtitle for your blog" {disabled}/>
             </div>
             <div class="flex flex-col space-y-1.5">
                 <Label for="blogContent">Content</Label>
-                <Textarea bind:value={blogContent} class="h-60" placeholder="Enter Content for your blog"></Textarea>
+                <Textarea bind:value={blogContent} class="h-40" placeholder="Enter Content for your blog" {disabled}></Textarea>
             </div>
             <div class="flex flex-col space-y-1.5">
             <Label for="blogImages">Images</Label>
-            <FileInput></FileInput>
+            <FileInput on:filechange={(event) => (selectedFiles = event.detail.files)} />
             </div>
         </div>
         </form>
     </Card.Content>
     <Card.Footer class="flex justify-between">
-        <Button on:click={clearAll} variant="outline">Clear All</Button>
-        <Button on:click={createBlog}>Create Blog</Button>
+        <Button on:click={clearAll} variant="outline" {disabled}>Clear All</Button>
+        <Button on:click={createBlog} {disabled}>
+            {#if loading}
+                <Reload class="mr-2 h-4 w-4 animate-spin" ></Reload>
+            {/if}
+            Create Blog
+        </Button>
     </Card.Footer>
 </Card.Root>
