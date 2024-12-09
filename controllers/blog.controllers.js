@@ -213,7 +213,9 @@ const updateBlogImages = asyncHandler( async(req, res) => {
     try {
         console.log(typeof titles)
         console.log(titles)
-        imageTitles = typeof titles === 'object' ? JSON.parse(titles) : [...[], titles];
+        const data = await JSON.stringify(titles)
+        console.log(data)
+        imageTitles = typeof titles === 'object' ? JSON.parse(data) : [...[], titles];
     } catch (error) {
         console.log(error)
         throw new ApiError(400, "Invalid titles format", error)

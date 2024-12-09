@@ -81,7 +81,7 @@
             if (res.ok) {
                 console.log("Blog Created");
                 blogCreatedSuccessfully = true
-                window.open(`/blog/${data2.data._id}`)
+                window.open(`/blog/${data2.data._id}`, "_self")
             } else {
                 blogCreatedSuccessfully = false
 
