@@ -211,13 +211,16 @@ const updateBlogImages = asyncHandler( async(req, res) => {
     
     let imageTitles
     try {
-        imageTitles = typeof titles === 'string' ? JSON.parse(titles) : titles;
+        console.log(typeof titles)
+        console.log(titles)
+        imageTitles = typeof titles === 'object' ? JSON.parse(titles) : [...[], titles];
     } catch (error) {
-        return res.status(400).json({ message: 'Invalid titles format' });
+        console.log(error)
+        throw new ApiError(400, "Invalid titles format", error)
     }
 
     if (!files || files.length !== imageTitles.length) {
-        return res.status(400).json({ message: 'Files and titles mismatch or missing' });
+        throw new ApiError(400, "Files and titles mismatch or missing")
     }
 
     const uploadPromises = files.map(async (file, index) => {

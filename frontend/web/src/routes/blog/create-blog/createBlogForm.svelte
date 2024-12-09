@@ -52,34 +52,43 @@
 
         // uploading images later because images need blogid to attach to the blogs
         try {
+            if (!selectedFiles[0]) {
+                blogCreatedSuccessfully = true
+                loading = false
+                return
+            }
             console.log(data.data._id)
             imageTitles = selectedFiles.map((files) => files.name)
 
             // Create a FormData object
             const formData = new FormData();
+            console.log(imageTitles)
 
             // Append each file and its title to the FormData object
+            // const filesArray = Array.isArray(selectedFiles) ? selectedFiles : [selectedFiles];
             selectedFiles.forEach((file, index) => {
                 formData.append('images', file); // Add the file
                 formData.append('titles', imageTitles[index]); // Add the corresponding title
             });
+            
 
-            console.log(imageTitles)
             const res = await fetch(`/api/v1/blogs/update-blog-images?blogid=${data.data._id}`, {
                 method: "POST",
                 body: formData
             })
-            console.log(res)
+            const data2 = await res.json()
+            console.log(data2)
             if (res.ok) {
                 console.log("Blog Created");
                 blogCreatedSuccessfully = true
+                window.open(`/blog/${data2.data._id}`)
             } else {
                 blogCreatedSuccessfully = false
 
                 // deleting the uploaded blog if images are not uploaded successfully
                 let res1 = await fetch(`/api/v1/blogs/delete-blog/${data.data._id}`)
 
-                errorMessage = data.message
+                errorMessage = data2.message
                 console.log("Blog not created");
                 throw new Error(`HTTP error! Status: ${res.status}`);
             }

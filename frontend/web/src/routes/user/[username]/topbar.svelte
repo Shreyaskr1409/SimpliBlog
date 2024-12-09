@@ -62,10 +62,14 @@
                     })
                 })
                 const data = await res.json()
+                console.log(data);
+                
                 
                 if (res.ok) {
                     subscribed_or_not = true
-                    subscriptionId = data.data._id
+                    if (data.data.id) {
+                        subscriptionId = data.data._id
+                    }
                 } else {
                     subscribed_or_not = false
                 }

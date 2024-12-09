@@ -18,6 +18,7 @@
     onMount(async () => {
         userInfo.set({})
         try {
+            setTimeout(()=>{}, 1000)
             const url = new URL(window.location.href);
             username = url.pathname.split('/').pop(); // Get the last part of the URL
 
