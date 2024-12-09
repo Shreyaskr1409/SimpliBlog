@@ -21,6 +21,19 @@
     onMount(async () => {
         sameUser = 2
         loggedin_confirm = false
+
+        try {
+            const url = new URL(window.location.href);
+            const username = url.pathname.split('/').pop(); // Get the last part of the URL
+
+            const res = await fetch(`/api/v1/users/get-user/${username}`);
+            const data = await res.json()
+            user.set(data);
+            console.log($user);
+        } catch (error) {
+
+        }
+
         try {
             const res = await fetch(`/api/v1/users/loggedin-confirm`, {
                     method:  "GET",
@@ -37,6 +50,7 @@
                 basic.set({sameUser: 1})
                 sameUser = 1
             } else {
+                console.log(data.data?._id, "\n" , $user.data?._id)
                 basic.set({sameUser: 0})
                 sameUser = 0
             }

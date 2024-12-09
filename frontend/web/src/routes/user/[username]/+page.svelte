@@ -33,20 +33,22 @@
             nouserinfoflag = true
         }
     });
-    onMount(async () => {
-        user.set({})
-        try {
-            const url = new URL(window.location.href);
-            username = url.pathname.split('/').pop(); // Get the last part of the URL
 
-            const res = await fetch(`/api/v1/users/get-user/${username}`);
-            const data = await res.json()
-            user.set(data);
-            console.log($user);
-        } catch (error) {
+    // removed user fetching from here because top bar needs fetching god more desperately than the following function
+    // onMount(async () => {
+    //     user.set({})
+    //     try {
+    //         const url = new URL(window.location.href);
+    //         username = url.pathname.split('/').pop(); // Get the last part of the URL
 
-        }
-    });
+    //         const res = await fetch(`/api/v1/users/get-user/${username}`);
+    //         const data = await res.json()
+    //         user.set(data);
+    //         console.log($user);
+    //     } catch (error) {
+
+    //     }
+    // });
     onMount(async () => {
         subscribers.set({})
         try {
