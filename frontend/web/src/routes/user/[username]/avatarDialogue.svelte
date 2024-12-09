@@ -79,7 +79,7 @@
         {#if $user.data?.avatar !== ""}
             <img id="avatar" src={$user.data?.avatar} alt="avatar">
         {:else}
-            <Skeleton class="w-[150px] h-[150px]"></Skeleton>
+            <Skeleton class="w-[150px] h-[150px] rounded-xl"></Skeleton>
         {/if}
     </Dialog.Trigger
     >

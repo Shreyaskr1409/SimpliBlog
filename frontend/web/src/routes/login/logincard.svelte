@@ -4,6 +4,7 @@
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
     import Reload from "svelte-radix/Reload.svelte";
+  import { loggedInUser } from "../../stores/loggedInUser";
 
     let loginUserName =     ""
     let loginUserPassword = ""
@@ -42,6 +43,9 @@
                     loggedInSuccessfully = true
                     userdoesnotexist = false
                     wrongPassword = false
+
+                    loggedInUser.set(res_data.data)
+
                     window.location.href = `/user/${res_data.data.user.username}`
                 } else if (res.status >= 500) {
                     serverDown = true

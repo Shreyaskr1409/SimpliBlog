@@ -35,6 +35,11 @@
 
 	let open = false;
 	let value = "";
+	let disabled = ""
+
+	if (!$blog.data.blogLinks[0]) {
+		disabled = "disabled"
+	}
 
 
  
@@ -68,6 +73,7 @@
 				role="combobox"
 				aria-expanded={open}
 				class="w-[200px] justify-between"
+				{disabled}
 			>
 				{selectedValue}
 				<CaretSort class="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -133,13 +139,7 @@
 		</Popover.Content>
 	</Popover.Root>
 	
-	<div id="spacer"></div>
+	<div class="w-2"></div>
 
-	<Button>Go</Button>
+	<Button {disabled}>Go</Button>
 </div>
-
-<style>
-	#spacer{
-		width: 10px;
-	}
-</style>
