@@ -10,11 +10,11 @@
 - make link helpdesk
 - make support me page
 
-### For images
+### ~For images~
 
 - ~~implement avatar CRUD~~
 - ~~implement Blog images showing~~
-- implement blog images carousel
+- ~implement blog images carousel~
 
 ### For code
 

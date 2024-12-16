@@ -5,9 +5,9 @@
     import Separator from "$lib/components/ui/separator/separator.svelte";
     import * as Sheet from '$lib/components/ui/sheet/index';
     import Textarea from "$lib/components/ui/textarea/textarea.svelte";
-  import { writable } from "svelte/store";
+    import { writable } from "svelte/store";
     import { settingSheet } from "../../../../stores/sheets";
-  import { onMount } from "svelte";
+    import { onMount } from "svelte";
 
     const currentUser = writable({
         data: {
@@ -29,6 +29,10 @@
             interests: []
         },
     });
+
+    let uploadUser = writable($currentUser)
+
+    let userInfoExists = true
 
     onMount(async () => {
         try {
@@ -66,6 +70,7 @@
                 }));
                 
             } else {
+                userInfoExists = false
                 console.error("Failed to fetch additional user info");
             }
         } catch (error) {
@@ -125,6 +130,28 @@
         }
         
         removingInterest = ""
+    }
+
+    function uploadNewInfo() {
+        const socialsChanged = get(currentUser).data.socials.some((social, index) => {
+            const uploadedSocial = get(uploadUser).data.socials[index]
+            return (
+                social.platform !== uploadedSocial?.platform ||
+                social.username !== uploadedSocial?.username ||
+                social.url !== uploadedSocial?.url ||
+                social._id !== uploadedSocial?._id
+            )
+        })
+
+        if (!userInfoExists) {
+            // add user info
+        }
+        
+        if($currentUser.data.aboutme === ""
+        || $currentUser.data.aboutme !== $uploadUser.data.aboutme
+        || socialsChanged) {
+            // edit user info
+        }
     }
 
 </script>
@@ -209,27 +236,33 @@
                     <h4 class=" ml-1 text-lg scroll-m-20 font-normal tracking-tight">Personal Website</h4>
                     <Input value={$currentUser.data.personalWebsiteUrl}/>
                     <div class="my-2 bg-zinc-900 rounded-lg grid gap-2">
+
                         <div class="grid grid-cols-4 items-center">
                             <h4 class=" ml-1 text-lg scroll-m-20 font-normal tracking-tight">Instagram</h4>
-                            <Input value="shreyaskr.1409" class="col-span-3"/>
+                            <Input value={
+                                $currentUser.data.socials?.filter((social) => social.platform==="instagram")[0]?.username
+                            } class="col-span-3"/>
                         </div>
-
 
                         <div class="grid grid-cols-4 items-center">
                             <h4 class=" ml-1 text-lg scroll-m-20 font-normal tracking-tight">Github</h4>
-                            <Input value="Shreyaskr1409" class="col-span-3"/>
+                            <Input value={
+                                $currentUser.data.socials?.filter((social) => social.platform==="github")[0]?.username
+                            } class="col-span-3"/>
                         </div>
 
+                        <div class="grid grid-cols-4 items-center">
+                            <h4 class=" ml-1 text-lg scroll-m-20 font-normal tracking-tight">LinkedIn url</h4>
+                            <Input value={
+                                $currentUser.data.socials?.filter((social) => social.platform==="linkedIn")[0]?.url
+                            } class="col-span-3"/>
+                        </div>
 
                         <div class="grid grid-cols-4 items-center">
                             <h4 class=" ml-1 text-lg scroll-m-20 font-normal tracking-tight">Facebook</h4>
-                            <Input value="Shreyaskr1409" class="col-span-3"/>
-                        </div>
-
-
-                        <div class="grid grid-cols-4 items-center">
-                            <h4 class=" ml-1 text-lg scroll-m-20 font-normal tracking-tight">LinkedIn</h4>
-                            <Input value="https://www.linkedin.com/in/shreyas-kumar-164482298/" class="col-span-3"/>
+                            <Input value={
+                                $currentUser.data.socials?.filter((social) => social.platform==="facebook")[0]?.username
+                            } class="col-span-3"/>
                         </div>
                     </div>
 

@@ -175,7 +175,7 @@
                     <span class="cursor-pointer underline underline-offset-2"><span class=" text-2xl">{$subscribers.data.userSubscribersCount}</span> Subscribers</span>
                     {/if}
                     {#if $subscriptions && $subscriptions.data && $subscriptions.data && $subscriptions.data.userSubscriptionsCount}
-                    <span class="cursor-pointer underline underline-offset-2"><span class=" text-2xl">,{$subscriptions.data.userSubscriptionsCount}</span> Subscriptions</span>
+                    <span class="cursor-pointer underline underline-offset-2"><span class=" text-2xl"> {$subscriptions.data.userSubscriptionsCount}</span> Subscriptions</span>
                     {/if}
                 </p>
 
