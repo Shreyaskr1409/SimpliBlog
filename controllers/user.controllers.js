@@ -481,6 +481,58 @@ const updateUserInterests = asyncHandler( async(req, res) => {
     )
 })
 
+const updateAllUserDetails = asyncHandler( async(req, res)=> {
+
+    const {
+        username,
+        fullname,
+        email,
+        aboutme,
+        socials,
+        personalWebsiteUrl,
+        interests
+    } = req.body
+
+    const user = await User.findById(req.user._id).select("-password -refreshToken")
+    if (!user) {
+        throw new ApiError(400, "Invalid Access Token")
+    }
+
+    user.username  = username  ? username : user.username
+    user.fullname  = fullname  ? fullname : user.fullname
+    user.email     = email     ? email    : user.email
+    user.aboutme   = aboutme   ? aboutme  : user.aboutme
+    user.socials   = socials   ? socials  : user.socials
+    user.interests = interests ? interests: user.interests
+    user.personalWebsiteUrl = personalWebsiteUrl ? personalWebsiteUrl : user.personalWebsiteUrl
+
+    await user.save({validateBeforeSave: false})
+
+    res.status(200).json(
+        new ApiResponse(200, "User updated successfully", user)
+    )
+})
+
+const getBasicUserInfo = asyncHandler( async (req, res) => {
+    const {userid} = req.params
+    const user = await User.findById(userid)
+
+    if (!user) {
+        throw new ApiError(404, "User not found for provided userId")
+    }
+
+    const payload = {
+        username : user.username,
+        fullname : user.fullname,
+        aboutme  : user.aboutme,
+        avatar   : user.avatar,
+    }
+
+    res.status(200).json(
+        new ApiResponse(200, "Basic user info fetched", payload)
+    )
+})
+
 export {
     generateAccessAndRefreshTokens,
     registerUser,
@@ -497,5 +549,7 @@ export {
     getUserInfo,
     updateUserInterests,
     updateAccountDetails,
-    removeUserAvatar
+    removeUserAvatar,
+    updateAllUserDetails,
+    getBasicUserInfo
 }

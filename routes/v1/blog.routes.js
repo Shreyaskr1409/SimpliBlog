@@ -1,8 +1,8 @@
 import {Router} from "express";
-import {verifyJWT} from "../middlewares/auth.middlewares.js";
-import {addBlogLinks, deleteBlog, getBlog, getUserBlogList, shareBlog, updateBlogImages, uploadBlog} from "../controllers/blog.controllers.js";
-import {deleteComment, editComment, getBlogComments, uploadComment} from "../controllers/comment.controllers.js";
-import { upload } from "../middlewares/multer.middlewares.js";
+import {verifyJWT} from "../../middlewares/auth.middlewares.js";
+import {addBlogLinks, deleteBlog, getBlog, getUserBlogList, shareBlog, updateBlogImages, uploadBlog} from "../../controllers/blog.controllers.js";
+import {deleteComment, editComment, getBlogComments, uploadComment} from "../../controllers/comment.controllers.js";
+import { upload } from "../../middlewares/multer.middlewares.js";
 
 const router = Router()
 

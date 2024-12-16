@@ -16,16 +16,18 @@ app.use(express.urlencoded({
 app.use(express.static("public"))
 app.use(cookieParser())
 
-import userRouter from "./routes/user.routes.js"
+import userRouter from "./routes/v1/user.routes.js"
 app.use("/api/v1/users", userRouter)
+import userRouterV2 from "./routes/v2/user.routes.js"
+app.use("/api/v2/users", userRouterV2)
 
-import blogRouter from "./routes/blog.routes.js"
+import blogRouter from "./routes/v1/blog.routes.js"
 app.use("/api/v1/blogs", blogRouter)
 
-import subscriptionRouter from "./routes/subscription.routes.js"
+import subscriptionRouter from "./routes/v1/subscription.routes.js"
 app.use("/api/v1/subscription", subscriptionRouter)
 
-import searchRouter from "./routes/search.routes.js"
+import searchRouter from "./routes/v1/search.routes.js"
 app.use("/api/v1/search", searchRouter)
 
 // Error-handling middleware for returning JSON errors

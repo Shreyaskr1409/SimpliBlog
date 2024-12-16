@@ -29,9 +29,6 @@ const userSchema = new Schema(
             type:      String,
             required:  [true, "Password is Required"]
         },
-        active: {
-            type:      Boolean
-        },
         avatar: {
             type:      String
         },
@@ -41,7 +38,35 @@ const userSchema = new Schema(
         },
         refreshToken: {
             type:      String
-        }
+        },
+        aboutme: {
+            type: String,
+        },
+        socials: [
+            {
+                platform: {
+                    type: String,
+                    required: true
+                },
+                username: {
+                    type: String,
+                    req: true
+                },
+                url: {
+                    type: String,
+                    req: true
+                },
+            }
+        ],
+        personalWebsiteUrl: {
+            type: String,
+            req: true
+        },
+        interests: [
+            {
+                type: String
+            }
+        ]
     },
     {
         timestamps: true
