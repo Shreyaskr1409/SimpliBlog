@@ -498,6 +498,9 @@ const updateAllUserDetails = asyncHandler( async(req, res)=> {
         throw new ApiError(400, "Invalid Access Token")
     }
 
+    // it is expected that whatever value needs to be changed, will be arrived
+    // if a field is null, no changes will be made
+
     user.username  = username  ? username : user.username
     user.fullname  = fullname  ? fullname : user.fullname
     user.email     = email     ? email    : user.email
@@ -533,6 +536,26 @@ const getBasicUserInfo = asyncHandler( async (req, res) => {
     )
 })
 
+const passwordValidation = asyncHandler( async (req, res) => {
+    const { password } = req.body
+    const userId = req.user._id
+
+    const user = await User.findById(userId)
+    if (!user) {
+        throw new ApiError(400, "Invalid access token")
+    }
+
+    const isCorrect = await user.isPasswordCorrect(password)
+
+    if (isCorrect) {
+        return res.status(200).json(
+            new ApiResponse(200, "Password is correct", {})
+        )
+    } else {
+        throw new ApiError(400, "Password is incorrect")
+    }
+} )
+
 export {
     generateAccessAndRefreshTokens,
     registerUser,
@@ -551,5 +574,6 @@ export {
     updateAccountDetails,
     removeUserAvatar,
     updateAllUserDetails,
-    getBasicUserInfo
+    getBasicUserInfo,
+    passwordValidation
 }

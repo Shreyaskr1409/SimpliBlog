@@ -4,7 +4,7 @@ import {
     getCurrentUser,
     getUser,
     loginUser,
-    logoutUser,
+    logoutUser, passwordValidation,
     refreshAccessToken,
     registerUser,
     removeUserAvatar,
@@ -24,6 +24,7 @@ router.route("/refresh-accesstoken").post(verifyJWT, refreshAccessToken)
 router.route("/get-basicuserinfo/:userid").get(getBasicUserInfo)
 router.route("/get-currentuser").get(verifyJWT, getCurrentUser)
 router.route("/get-user/:userIdOrName").get(getUser)
+router.route("/is-password-correct").get(verifyJWT, passwordValidation)
 
 router.route("/change-password").post(verifyJWT, changeCurrentUserPassword)
 router.route("/update-avatar").post(verifyJWT, upload.single("avatar"), updateUserAvatar)

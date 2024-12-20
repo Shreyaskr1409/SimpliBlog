@@ -30,6 +30,9 @@ app.use("/api/v1/subscription", subscriptionRouter)
 import searchRouter from "./routes/v1/search.routes.js"
 app.use("/api/v1/search", searchRouter)
 
+import listRouter from "./routes/v2/list.routes.js"
+app.use("/api/v2/lists", listRouter)
+
 // Error-handling middleware for returning JSON errors
 app.use((err, req, res, next) => {
     // Set default values for error response

@@ -1,8 +1,8 @@
-import mongoose from 'mongoose';
+import mongoose, {Schema} from 'mongoose';
 
 const listSchema = new mongoose.Schema(
     {
-        author: {
+        listAuthor: {
             type:      Schema.Types.ObjectId,
             ref:       "User",
             required:  true
@@ -11,7 +11,7 @@ const listSchema = new mongoose.Schema(
             type:      String,
             required:  true
         },
-        blogs: [{
+        blogsList: [{
             blogId: {
                 type: Schema.Types.ObjectId,
                 ref: "Blog"
