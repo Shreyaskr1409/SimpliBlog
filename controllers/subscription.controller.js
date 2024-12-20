@@ -77,8 +77,8 @@ const isSubscribed = asyncHandler( async (req, res) => {
     }).select('_id');
 
     if (!subscribedObject) {
-        return res.status(200).json(
-            new ApiResponse(200, "Is not subscribed", {})
+        return res.status(400).json(
+            new ApiResponse(400, "Is not subscribed", {})
         )
     }
 

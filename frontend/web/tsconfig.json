@@ -2,7 +2,6 @@
 	"extends": "./.svelte-kit/tsconfig.json",
 	"compilerOptions": {
 	  "allowJs": true,
-	//   "checkJs": true,
 	  "esModuleInterop": true,
 	  "forceConsistentCasingInFileNames": true,
 	  "module": "ESNext",
@@ -13,7 +12,11 @@
 	  "strict": false,
 	  "target": "ESNext"
 	},
-	"include": ["src/**/*"],
+	"include": [
+	  "src/**/*",
+	  "node_modules/.pnpm/svelte/types/*",  // Add this for Svelte types
+	  "node_modules/svelte/**/*"            // Ensure Svelte types are included
+	],
 	"exclude": ["node_modules", "build"]
   }
   

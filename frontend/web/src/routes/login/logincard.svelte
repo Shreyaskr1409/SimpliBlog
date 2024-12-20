@@ -4,7 +4,6 @@
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
     import Reload from "svelte-radix/Reload.svelte";
-  import { loggedInUser } from "../../stores/loggedInUser";
 
     let loginUserName =     ""
     let loginUserPassword = ""
@@ -14,6 +13,7 @@
     let serverDown = false
     let loading = false
     let disabled = ""
+    let errorMessage = ""
 
     $: if (loading) {
         disabled = "disabled"
@@ -34,25 +34,23 @@
                         password:        loginUserPassword
                     })
                 })
-                
+                const res_data = await res.json()
+                console.log(res_data.data);
+
 
                 if (res.ok) {
-                    const res_data = await res.json()
-                    console.log(res_data.data);
-                    
                     loggedInSuccessfully = true
                     userdoesnotexist = false
                     wrongPassword = false
-
-                    loggedInUser.set(res_data.data)
-
                     window.location.href = `/user/${res_data.data.user.username}`
                 } else if (res.status >= 500) {
                     serverDown = true
                     userdoesnotexist = false
                     wrongPassword = false
+                    errorMessage = res_data.message
                 } else {
                     loggedInSuccessfully = false
+                    errorMessage = res_data.message
 
                     if (res.status == 404) {
                         userdoesnotexist = true
@@ -61,6 +59,7 @@
                     }
                 }
             } catch (error) {
+                errorMessage = error
                 console.error("Error encountered: ", error);
             } finally {
                 loading = false
@@ -84,6 +83,9 @@
         {/if}
         {#if serverDown}
             <Card.Description class="text-pink-500">Sorry for the inconvenience, the server is down</Card.Description>
+        {/if}
+        {#if errorMessage}
+            <Card.Description class="text-red-500">{errorMessage}</Card.Description>
         {/if}
     </Card.Header>
     <Card.Content>

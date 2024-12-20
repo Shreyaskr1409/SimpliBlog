@@ -6,6 +6,7 @@ export default defineConfig({
     server: {
         proxy: {
             '/api/v1': 'http://localhost:4400',
+            '/api/v2': 'http://localhost:4400',
         },
     },
 });

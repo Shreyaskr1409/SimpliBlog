@@ -38,7 +38,7 @@ const registerUser = asyncHandler( async (req, res) => {
         $or: [{username}, {email}]
     })
     if (existingUser) {
-        throw new ApiError(401, "User already exists")
+        throw new ApiError(401, "User already exists with given username/email")
     }
 
     const user = await User.create({
@@ -112,7 +112,8 @@ const isLoggedInUtil = asyncHandler( async(req, res) => {
     return res.status(200)
         .json(
             new ApiResponse(200, "User is loggedin", {
-                _id: user._id
+                _id: user._id,
+                username: user._username
             })
         )
 })
