@@ -31,13 +31,13 @@
                 errormessage = blog_data.message
                 return
             }
-            blog.set(blog_data)
+            blog.set(blog_data.data)
             console.log(blog_data);
             blog_loading = false
 
-            const user_res = await fetch(`/api/v1/users/get-user/${$blog.data.author}`)
+            const user_res = await fetch(`/api/v1/users/get-user/${$blog.author}`)
             const user_data = await user_res.json()
-            user.set(user_data)
+            user.set(user_data.data)
             console.log($user);
             user_loading = false
             if (!user_res.ok) {
@@ -45,7 +45,8 @@
                 return
             }
 
-            const list_res = await fetch(`/api/v1/blogs/get-userblog/${$user.data.username}`)
+            // This part is still not yet changed and thought about thus uses blogList.data
+            const list_res = await fetch(`/api/v1/blogs/get-userblog/${$user.username}`)
             const list_data = await list_res.json()
             blogslist.set(list_data)
             console.log($blogslist);

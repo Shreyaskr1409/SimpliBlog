@@ -20,7 +20,7 @@
 <div class="w-full box-border flex flex-col gap-[5px]">
 
     <!-- <ScrollArea class="flex flex-col"> -->
-        {#if $blogslist && $blogslist.data && $blogslist.data.userBlogList}
+        {#if $blogslist.data.userBlogList}
 
             {#each $blogslist.data.userBlogList as listOfBlogs}
                 <Listcontent title={listOfBlogs.title} date={formatDate(listOfBlogs.createdAt)} blogid={`${listOfBlogs._id}`}  blogUrl={`${baseUrl}/${listOfBlogs._id}`}></Listcontent>

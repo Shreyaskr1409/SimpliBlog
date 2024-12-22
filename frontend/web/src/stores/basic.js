@@ -5,6 +5,5 @@ export const basic = writable({
     // 0 => not same user
     // 1 => same user
     // 2 => loading
-    // 3 => not logged in (not same user),
-    loggedin: false
+    // 3 => NOT LOGGED IN (not same user),
 });

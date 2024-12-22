@@ -11,8 +11,8 @@
     <div id="Account" class="flex items-center">
         
         <Avatar.Root>
-            <Avatar.Image src={$user.data.avatar} alt="@shadcn" />
-            <Avatar.Fallback>SK</Avatar.Fallback>
+            <Avatar.Image src={$user.avatar} alt="" />
+            <Avatar.Fallback>{$user.fullname.charAt(0)}</Avatar.Fallback>
         </Avatar.Root>
 
 

@@ -6,7 +6,7 @@ export const user = writable({
 	fullname: '',
 	avatar: '',
 	createdAt: '',
-	aboutme: null,
+	aboutme: '',
 	socials: [],
 	personalWebsiteUrl: '',
 	interests: []

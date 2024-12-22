@@ -31,13 +31,13 @@
 
 	// a weird typechecking i had to do as i was using ts,
 	// because i was facing trouble importing a ts file
-	const platforms1 = ($blog as any)?.data?.blogLink || []
+	const platforms1 = ($blog as any)?.blogLink || []
 
 	let open = false;
 	let value = "";
 	let disabled = ""
 
-	if (!$blog.data.blogLinks[0]) {
+	if (!$blog.blogLinks[0]) {
 		disabled = "disabled"
 	}
 

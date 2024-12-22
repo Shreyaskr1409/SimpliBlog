@@ -18,16 +18,16 @@
     <div id="textArea" class="w-full h-full bg-zinc-950">
         
         <h2 class="scroll-m-20 text-2xl font-semibold tracking-tight transition-colors first:mt-0">
-            {#if $blog && $blog.data && $blog.data.subtitle}
-                {$blog.data.subtitle}
+            {#if $blog.subtitle}
+                {$blog.subtitle}
             {:else}
                 <Skeleton class="h-8 w-80"></Skeleton>
             {/if}
         </h2>
 
         <p class="text-sm">
-            {#if $blog && $blog.data && $blog.data.createdAt}
-                {formatDate($blog.data.createdAt)}
+            {#if $blog.createdAt}
+                {formatDate($blog.createdAt)}
             {:else}
                 <Skeleton class="h-3 my-1 w-40"></Skeleton>
             {/if}
@@ -38,8 +38,8 @@
         <br>
 
         <div class="prose prose-zinc max-w-none blog-content">
-            {#if $blog && $blog.data && $blog.data.body}
-                <RenderedMarkdown markdownHTML={renderMarkdown($blog.data.body)}></RenderedMarkdown>
+            {#if $blog.body}
+                <RenderedMarkdown markdownHTML={renderMarkdown($blog.body)}></RenderedMarkdown>
             {:else}
                 <Skeleton class="w-full h-[600px]"></Skeleton>
             {/if}
