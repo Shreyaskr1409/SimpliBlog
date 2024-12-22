@@ -8,31 +8,53 @@
     import { writable } from "svelte/store";
     import { settingSheet } from "../../../../stores/sheets";
     import { onMount } from "svelte";
+    import { user } from "../../../../stores/user";
+    import Reload from "svelte-radix/Reload.svelte";
+  import { currentUser } from "../../../../stores/currentUser";
 
-    const currentUser = writable({
-        data: {
-            username: "",
-            fullname: "",
-            email: "",
-            id: "",
-            avatar: "",
-            aboutme: "",
-            socials: [
-                {
-                    platform: "",
-                    username: "",
-                    url: "",
-                    _id: "",
-                },
-            ],
-            personalWebsiteUrl: "",
-            interests: []
-        },
-    });
+    // MADE GLOBAL
+    // const currentUser = writable({
+    //     data: {
+    //         username: "",
+    //         fullname: "",
+    //         email: "",
+    //         _id: "",
+    //         avatar: "",
+    //         aboutme: "",
+    //         socials: [
+    //             {
+    //                 platform: "",
+    //                 username: "",
+    //                 url: "",
+    //             },
+    //         ],
+    //         personalWebsiteUrl: "",
+    //         interests: []
+    //     },
+    // });
 
-    let uploadUser = writable($currentUser)
+    let loading = false
+    let disabled = ""
+    let errormessage = ""
 
-    let userInfoExists = true
+    $: if (loading) {
+        disabled = "disabled"
+    } else {
+        disabled = ""
+    }
+    let successmessage = ""
+    
+    let interestInput
+    let usernameInput
+    let fullnameInput
+    let emailInput
+    let aboutMeInput
+    let personalWebsiteUrlInput
+    let instagramInput
+    let githubInput
+    let linkedInInput
+    let facebookInput
+
 
     onMount(async () => {
         try {
@@ -45,38 +67,31 @@
                 const data = await res1.json();
                 console.log("Current user data:", data);
                 currentUser.set(data);
+                // console.log("$currentUser:", $currentUser);
+                
+                setDefaultForm()
+    
             } else {
                 console.error("Failed to fetch current user");
                 return;
-            }
-
-            let currentUserData;
-            currentUser.subscribe((value) => {
-                currentUserData = value;
-            });
-
-            const res2 = await fetch(`/api/v1/users/get-user-info/${currentUserData.data.username}`);
-            if (res2.ok) {
-                const additionalData = await res2.json();
-                console.log("Additional user info:", additionalData);
-
-                // Merge additional data into the current user store
-                currentUser.update((current) => ({
-                    ...current,
-                    data: {
-                        ...current.data,
-                        ...additionalData.data,
-                    },
-                }));
-                
-            } else {
-                userInfoExists = false
-                console.error("Failed to fetch additional user info");
             }
         } catch (error) {
             console.error("Error during fetch:", error);
         }
     });
+
+    function setDefaultForm() {
+        interestInput = ""
+        usernameInput = $currentUser.data.username
+        fullnameInput = $currentUser.data.fullname
+        emailInput = $currentUser.data.email
+        aboutMeInput = $currentUser.data.aboutme
+        personalWebsiteUrlInput = $currentUser.data.personalWebsiteUrl
+        instagramInput = $currentUser.data.socials?.filter((social) => social.platform==="instagram")[0]?.username
+        githubInput = $currentUser.data.socials?.filter((social) => social.platform==="github")[0]?.username
+        linkedInInput = $currentUser.data.socials?.filter((social) => social.platform==="linkedIn")[0]?.url
+        facebookInput = $currentUser.data.socials?.filter((social) => social.platform==="facebook")[0]?.username
+    }
     
 
     let interestsList = []
@@ -91,6 +106,7 @@
     // $: console.log(removedInterestsList);
     
     function addInterest(interest) {
+        interestInput = ""
         if (!interest || interest === "") {
             console.log("no addingInterest", interest);
             return
@@ -132,25 +148,71 @@
         removingInterest = ""
     }
 
-    function uploadNewInfo() {
-        const socialsChanged = get(currentUser).data.socials.some((social, index) => {
-            const uploadedSocial = get(uploadUser).data.socials[index]
-            return (
-                social.platform !== uploadedSocial?.platform ||
-                social.username !== uploadedSocial?.username ||
-                social.url !== uploadedSocial?.url ||
-                social._id !== uploadedSocial?._id
-            )
-        })
-
-        if (!userInfoExists) {
-            // add user info
-        }
+    async function uploadNewInfo() {
+        console.log("uploading");
         
-        if($currentUser.data.aboutme === ""
-        || $currentUser.data.aboutme !== $uploadUser.data.aboutme
-        || socialsChanged) {
-            // edit user info
+        errormessage = ""
+        loading= true
+        try {
+            let socialsList = []
+            if (githubInput) {
+                socialsList = [...socialsList, {
+                    platform: "github",
+                    username: githubInput
+                }]
+            }
+            if (instagramInput) {
+                socialsList = [...socialsList, {
+                    platform: "instagram",
+                    username: instagramInput
+                }]
+            }
+            if (linkedInInput) {
+                socialsList = [...socialsList, {
+                    platform: "linkedIn",
+                    username: linkedInInput
+                }]
+            }
+            if (facebookInput) {
+                socialsList = [...socialsList, {
+                    platform: "facebook",
+                    username: facebookInput
+                }]
+            }
+            console.log(socialsList);
+            
+
+            const updatedUser = {
+                username: usernameInput,
+                fullname: fullnameInput,
+                email: emailInput,
+                aboutme: aboutMeInput,
+                socials: socialsList,
+                personalWebsiteUrl: personalWebsiteUrlInput,
+                interests: interestsList
+            }
+            console.log(updatedUser);
+            
+
+            const res = await fetch("/api/v2/users/update-all-user-details", {
+                method:  "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedUser)
+            })
+            const data = await res.json()
+            console.log(data);
+            
+            if (res.ok) {
+                successmessage = "Successfully Updated information"
+                user.set(data.data)
+            } else {
+                errormessage = data.message
+            }
+        } catch (error) {
+            errormessage = error
+            console.log(error);
+        } finally {
+            loading = false
         }
     }
 
@@ -174,25 +236,25 @@
 
                     <div class="grid grid-cols-4 items-center">
                         <h4 class=" ml-1 text-lg scroll-m-20 font-normal tracking-tight">Username</h4>
-                        <Input value={$currentUser.data.username} class="col-span-3"/>
+                        <Input bind:value={usernameInput} class="col-span-3" {disabled}/>
                     </div>
 
 
                     <div class="grid grid-cols-4 items-center">
                         <h4 class=" ml-1 text-lg scroll-m-20 font-normal tracking-tight">Full Name</h4>
-                        <Input value={$currentUser.data.fullname} class="col-span-3"/>
+                        <Input bind:value={fullnameInput} class="col-span-3" {disabled}/>
                     </div>
 
 
                     <div class="grid grid-cols-4 items-center">
                         <h4 class=" ml-1 text-lg scroll-m-20 font-normal tracking-tight">Email</h4>
-                        <Input value={$currentUser.data.email} class="col-span-3"/>
+                        <Input bind:value={emailInput} class="col-span-3" {disabled}/>
                     </div>
                 </div>
 
                 <div class="my-4 p-4 bg-zinc-900 rounded-lg flex flex-col">
                     <h4 class=" ml-1 text-lg scroll-m-20 font-normal tracking-tight">About</h4>
-                    <Textarea class="bg-black min-h-40" value={$currentUser.data.aboutme}></Textarea>
+                    <Textarea class="bg-black min-h-40" bind:value={aboutMeInput} {disabled}></Textarea>
 
                     <div class="mt-4"></div>
 
@@ -201,10 +263,13 @@
                         <h6 class=" ml-1 text-sm text-muted-foreground">CLICK on the interest badges to remove them and CLICK on badges from removed section to UNDO changes</h6>
                         <div class="h-4"></div>
                         <h4 class=" ml-1 text-base scroll-m-20 font-normal tracking-tight">Add Interests</h4>
-                        <Input placeholder="Interests"/>
+                        <div class="flex w-full gap-2">
+                            <Input placeholder="Interests" bind:value={interestInput} {disabled}/>
+                            <Button variant="secondary" on:click={() => addInterest(interestInput)} {disabled}>Add</Button>
+                        </div>
                         <div class="flex flex-row justify-center flex-wrap gap-1 pt-2">
                             {#each interestsList ?? [] as interest, index}
-                                <Badge variant={index % 2 === 0 ? "secondary" : "outline"}>
+                                <Badge variant={index % 2 === 0 ? "secondary" : "outline"} {disabled}>
                                     <!-- svelte-ignore a11y-no-static-element-interactions -->
                                     <!-- svelte-ignore a11y-click-events-have-key-events -->
                                     <span class="hover:underline cursor-pointer" on:click={() => {handleRemoveInterests(interest)}}>{interest}</span>
@@ -220,7 +285,7 @@
                                 <p class=" ml-1 text-sm text-muted-foreground">No removed interests</p>
                             {:else}
                             {#each removedInterestsList ?? [] as interest, index}
-                                <Badge variant={index % 2 === 0 ? "secondary" : "outline"}>
+                                <Badge variant={index % 2 === 0 ? "secondary" : "outline"} {disabled}>
                                     <!-- svelte-ignore a11y-no-static-element-interactions -->
                                     <!-- svelte-ignore a11y-click-events-have-key-events -->
                                     <span class="hover:underline cursor-pointer" on:click={() => {handleAddInterests(interest)}}>{interest}</span>
@@ -234,43 +299,44 @@
                 <div class="my-4 p-4 bg-zinc-900 rounded-lg flex flex-col">
 
                     <h4 class=" ml-1 text-lg scroll-m-20 font-normal tracking-tight">Personal Website</h4>
-                    <Input value={$currentUser.data.personalWebsiteUrl}/>
+                    <Input bind:value={personalWebsiteUrlInput} {disabled}/>
                     <div class="my-2 bg-zinc-900 rounded-lg grid gap-2">
 
                         <div class="grid grid-cols-4 items-center">
                             <h4 class=" ml-1 text-lg scroll-m-20 font-normal tracking-tight">Instagram</h4>
-                            <Input value={
-                                $currentUser.data.socials?.filter((social) => social.platform==="instagram")[0]?.username
-                            } class="col-span-3"/>
+                            <Input bind:value={instagramInput} class="col-span-3" {disabled}/>
                         </div>
 
                         <div class="grid grid-cols-4 items-center">
                             <h4 class=" ml-1 text-lg scroll-m-20 font-normal tracking-tight">Github</h4>
-                            <Input value={
-                                $currentUser.data.socials?.filter((social) => social.platform==="github")[0]?.username
-                            } class="col-span-3"/>
+                            <Input bind:value={githubInput} class="col-span-3" {disabled}/>
                         </div>
 
                         <div class="grid grid-cols-4 items-center">
                             <h4 class=" ml-1 text-lg scroll-m-20 font-normal tracking-tight">LinkedIn url</h4>
-                            <Input value={
-                                $currentUser.data.socials?.filter((social) => social.platform==="linkedIn")[0]?.url
-                            } class="col-span-3"/>
+                            <Input bind:value={linkedInInput} class="col-span-3" {disabled}/>
                         </div>
 
                         <div class="grid grid-cols-4 items-center">
                             <h4 class=" ml-1 text-lg scroll-m-20 font-normal tracking-tight">Facebook</h4>
-                            <Input value={
-                                $currentUser.data.socials?.filter((social) => social.platform==="facebook")[0]?.username
-                            } class="col-span-3"/>
+                            <Input bind:value={facebookInput} class="col-span-3" {disabled}/>
                         </div>
                     </div>
 
                 </div>
+                <p class="text-sm mt-0 text-green-500" >{successmessage}</p>
+                <p class="text-sm mt-0 text-red-500" >{errormessage}</p>
 
                 <Sheet.Footer>
-                <Button variant="outline" on:click={() => settingSheet.set({openShareUsr: false})}>Cancel</Button>
-                <Button>Save</Button>
+                <Button variant="secondary" on:click={setDefaultForm} {disabled}>Reset</Button>
+                <div class=" flex-1"></div>
+                <Button variant="outline" on:click={() => settingSheet.set({openShareUsr: false})} {disabled}>Cancel</Button>
+                <Button on:click={uploadNewInfo} {disabled}>
+                    {#if loading}
+                        <Reload class="mr-2 h-4 w-4 animate-spin" ></Reload>
+                    {/if}
+                    Save
+                </Button>
                 </Sheet.Footer>
             </Sheet.Content>
             {/if}

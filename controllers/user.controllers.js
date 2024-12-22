@@ -38,7 +38,7 @@ const registerUser = asyncHandler( async (req, res) => {
         $or: [{username}, {email}]
     })
     if (existingUser) {
-        throw new ApiError(401, "User already exists")
+        throw new ApiError(401, "User already exists with given username/email")
     }
 
     const user = await User.create({
@@ -112,7 +112,8 @@ const isLoggedInUtil = asyncHandler( async(req, res) => {
     return res.status(200)
         .json(
             new ApiResponse(200, "User is loggedin", {
-                _id: user._id
+                _id: user._id,
+                username: user._username
             })
         )
 })
@@ -481,6 +482,81 @@ const updateUserInterests = asyncHandler( async(req, res) => {
     )
 })
 
+const updateAllUserDetails = asyncHandler( async(req, res)=> {
+
+    const {
+        username,
+        fullname,
+        email,
+        aboutme,
+        socials,
+        personalWebsiteUrl,
+        interests
+    } = req.body
+
+    const user = await User.findById(req.user._id).select("-password -refreshToken")
+    if (!user) {
+        throw new ApiError(400, "Invalid Access Token")
+    }
+
+    // it is expected that whatever value needs to be changed, will be arrived
+    // if a field is null, no changes will be made
+
+    user.username  = username  ? username : user.username
+    user.fullname  = fullname  ? fullname : user.fullname
+    user.email     = email     ? email    : user.email
+    user.aboutme   = aboutme   ? aboutme  : user.aboutme
+    user.socials   = socials   ? socials  : user.socials
+    user.interests = interests ? interests: user.interests
+    user.personalWebsiteUrl = personalWebsiteUrl ? personalWebsiteUrl : user.personalWebsiteUrl
+
+    await user.save({validateBeforeSave: false})
+
+    res.status(200).json(
+        new ApiResponse(200, "User updated successfully", user)
+    )
+})
+
+const getBasicUserInfo = asyncHandler( async (req, res) => {
+    const {userid} = req.params
+    const user = await User.findById(userid)
+
+    if (!user) {
+        throw new ApiError(404, "User not found for provided userId")
+    }
+
+    const payload = {
+        username : user.username,
+        fullname : user.fullname,
+        aboutme  : user.aboutme,
+        avatar   : user.avatar,
+    }
+
+    res.status(200).json(
+        new ApiResponse(200, "Basic user info fetched", payload)
+    )
+})
+
+const passwordValidation = asyncHandler( async (req, res) => {
+    const { password } = req.body
+    const userId = req.user._id
+
+    const user = await User.findById(userId)
+    if (!user) {
+        throw new ApiError(400, "Invalid access token")
+    }
+
+    const isCorrect = await user.isPasswordCorrect(password)
+
+    if (isCorrect) {
+        return res.status(200).json(
+            new ApiResponse(200, "Password is correct", {})
+        )
+    } else {
+        throw new ApiError(400, "Password is incorrect")
+    }
+} )
+
 export {
     generateAccessAndRefreshTokens,
     registerUser,
@@ -497,5 +573,8 @@ export {
     getUserInfo,
     updateUserInterests,
     updateAccountDetails,
-    removeUserAvatar
+    removeUserAvatar,
+    updateAllUserDetails,
+    getBasicUserInfo,
+    passwordValidation
 }

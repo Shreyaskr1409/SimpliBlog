@@ -5,50 +5,30 @@
     import Banner from "./banner.svelte";
     import Blogslist from "./blogslist.svelte";
     import { onMount } from "svelte";
-    import { userInfo } from "../../../stores/userInfo";
     import { user } from "../../../stores/user";
     import { subscribers, subscriptions } from "../../../stores/subscription";
     import Search from "./search.svelte";
-    import Separator from "$lib/components/ui/separator/separator.svelte";
-  import { basic } from "../../../stores/basic";
 
     let username
-    let nouserinfoflag = false
-    let loggedinFlag = false
+    // let loggedinFlag = false
+    let loading = true
+
     onMount(async () => {
-        userInfo.set({})
         try {
-            setTimeout(()=>{}, 1000)
             const url = new URL(window.location.href);
             username = url.pathname.split('/').pop(); // Get the last part of the URL
 
-            const res = await fetch(`/api/v1/users/get-user-info/${username}`);
+            const res = await fetch(`/api/v1/users/get-user/${username}`);
             const data = await res.json()
-            userInfo.set(data);
-            console.log($userInfo);
-            if(!res.ok) {
-                nouserinfoflag = true
-            }
+            console.log(data);
+            user.set(data.data);
+            
         } catch (error) {
-            nouserinfoflag = true
+            console.log(error);
+        } finally {
+            loading = false
         }
     });
-
-    // removed user fetching from here because top bar needs fetching god more desperately than the following function
-    // onMount(async () => {
-    //     user.set({})
-    //     try {
-    //         const url = new URL(window.location.href);
-    //         username = url.pathname.split('/').pop(); // Get the last part of the URL
-
-    //         const res = await fetch(`/api/v1/users/get-user/${username}`);
-    //         const data = await res.json()
-    //         user.set(data);
-    //         console.log($user);
-    //     } catch (error) {
-
-    //     }
-    // });
     onMount(async () => {
         subscribers.set({})
         try {
@@ -60,7 +40,7 @@
             subscribers.set(data);
             console.log($subscribers);
         } catch (error) {
-
+            console.log(error);
         }
     });
     onMount(async () => {
@@ -74,55 +54,30 @@
             subscriptions.set(data);
             console.log($subscriptions);
         } catch (error) {
-
+            console.log(error);
         }
     });
-    onMount(async () => {
-        loggedinFlag = false
-        try {
-            const res = await fetch(`/api/v1/users/loggedin-confirm`, {
-                method:  "GET",
-                headers: { 'Content-Type': 'application/json' }
-            });
-            const data = await res.json();
-            console.log(data)
-            if (res.ok) {
-                loggedinFlag = true
-            }
-        } catch (error) {
-            loggedinFlag = false
-        }
-    });
-    
 
-    let aboutMe
-    let instagram
-    let linkedin
-    let facebook
-    let github
-    $: if ($userInfo && $userInfo.data && $userInfo.data.aboutme) {
-        aboutMe = $userInfo.data.aboutme
-    }
+    // NOT NEEDED ANYMORE
 
-    $: if ($userInfo && $userInfo.data && $userInfo.data.socials) {
-        const instagramSocial = $userInfo.data.socials.find(social => social.platform === "instagram");
-        instagram = instagramSocial ? instagramSocial.username : undefined;
-    }
+    // onMount(async () => {
+    //     loggedinFlag = false
+    //     try {
+    //         const res = await fetch(`/api/v1/users/loggedin-confirm`, {
+    //             method:  "GET",
+    //             headers: { 'Content-Type': 'application/json' }
+    //         });
+    //         const data = await res.json();
+    //         console.log(data)
+    //         if (res.ok) {
+    //             loggedinFlag = true
+    //         }
+    //     } catch (error) {
+    //         loggedinFlag = false
+    //     }
+    // });
 
-    $: if ($userInfo && $userInfo.data && $userInfo.data.socials) {
-        const linkedinSocial = $userInfo.data.socials.find(social => social.platform === "linkedIn");
-        linkedin = linkedinSocial ? linkedinSocial.url : undefined;
-    }
 
-    $: if ($userInfo && $userInfo.data && $userInfo.data.socials) {
-        const facebookSocial = $userInfo.data.socials.find(social => social.platform === "facebook");
-        facebook = facebookSocial ? facebookSocial.username : undefined;
-    }
-
-    $: if ($userInfo && $userInfo.data && $userInfo.data.socials) {
-        const githubSocial = $userInfo.data.socials.find(social => social.platform === "github");
-        github = githubSocial ? githubSocial.username : undefined;
-    }
 </script>
 
 <head>
@@ -130,22 +85,13 @@
 </head>
 
 <div class="w-full flex flex-col justify-start items-center">
-    <ModeWatcher />
+    <ModeWatcher defaultMode="dark"/>
     <div id="bigcont" class="flex flex-col items-center w-full h-screen my-8 gap-2 max-w-[1300px] max-2xl:w-[90%]">
         <div class="w-2/3 h-fit p-2 bg-zinc-900 rounded-2xl max-xl:w-[800px] max-lg:w-[700px] max-md:w-full">
-            <Search loggedinFlag={loggedinFlag}></Search>
+            <Search></Search>
         </div>
-        <div class=" bg-zinc-900 flex flex-row gap-[10px] justify-start border-2 h-fit md:min-h-[800px] max-md:flex-col" id="outer_box">
+        <div class=" bg-zinc-900 flex self-stretch flex-row gap-[10px] justify-start border-2 h-fit md:min-h-[800px] max-md:flex-col" id="outer_box">
             <div class="flex flex-col w-2/3 max-md:w-full" id="inner_box_left">
-
-
-                
-
-                <!-- <Search></Search>
-                <div class="h-2"></div>
-                <Separator></Separator>
-                <div class="h-2"></div> -->
-
                 <Banner></Banner>
                 <div id="spacer_1"></div>
                 <Topbar></Topbar>
@@ -162,7 +108,8 @@
 
 
             <div class="flex flex-col border-2 w-1/3 max-md:w-full bg-zinc-950 p-[10px] relative" id="inner_box_right">
-                <RightBoxContent loggedinFlag={loggedinFlag} nouserinfo={nouserinfoflag} aboutMe={aboutMe} linkedin={linkedin} instagram={instagram} facebook={facebook} github={github}></RightBoxContent>
+                <RightBoxContent loading={loading} class="relative">
+                </RightBoxContent>
             </div>
         </div>
     </div>

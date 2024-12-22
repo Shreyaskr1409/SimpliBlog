@@ -1,14 +1,15 @@
 <script lang="ts">
     import { Button } from "$lib/components/ui/button/index.js";
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
+  import { basic } from "../../../stores/basic";
     import { settingSheet } from "../../../stores/sheets";
     import EditinfoSheet from "./settings/editinfoSheet.svelte";
     import ShareuserSheet from "./settings/shareuserSheet.svelte";
     import {Gear, Person} from "svelte-radix";
   
 
-    let follow = true
-    export let sameUser = true
+    let sameUser = $basic.sameUser === 1
+    $: sameUser = $basic.sameUser === 1
     settingSheet.set(
         {
             openEditInfo: false,
@@ -106,6 +107,12 @@
     <Button builders={[builder]} variant="outline" class="w-fit px-2 aspect-square rounded-xl">
         <Gear size="20"></Gear>
     </Button>
+    {#if $basic.sameUser !== 3}
+        <div class="min-w-1"></div>
+        <Button variant="outline" class="w-fit px-2 aspect-square rounded-xl" on:click>
+            <Person></Person>
+        </Button>
+    {/if}
     </DropdownMenu.Trigger>
     <DropdownMenu.Content class="w-56">
     <DropdownMenu.Label>Options</DropdownMenu.Label>
@@ -135,12 +142,19 @@
     <DropdownMenu.Item     disabled={true}>Support Me</DropdownMenu.Item>
     <DropdownMenu.Item     disabled={true}>Feedback</DropdownMenu.Item>
     <DropdownMenu.Separator />
-    <DropdownMenu.Item on:click={() => {window.location.href = "/login"}}>
-        Log In
-    </DropdownMenu.Item>
-    <DropdownMenu.Item on:click={() => {window.location.href = "/register"}}>
-        Sign up
-    </DropdownMenu.Item>
+    {#if $basic.sameUser !== 3}
+        <DropdownMenu.Item on:click={logoutfunc}>
+            Log out
+            <!-- <DropdownMenu.Shortcut>⇧⌘Q</DropdownMenu.Shortcut> -->
+        </DropdownMenu.Item>
+    {:else}
+        <DropdownMenu.Item on:click={() => {window.location.href = "/login"}}>
+            Log In
+        </DropdownMenu.Item>
+        <DropdownMenu.Item on:click={() => {window.location.href = "/register"}}>
+            Sign up
+        </DropdownMenu.Item>
+    {/if}
     </DropdownMenu.Content>
 </DropdownMenu.Root>
 {/if}

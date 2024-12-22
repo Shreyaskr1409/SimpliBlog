@@ -5,10 +5,10 @@
 
 <div class="relative flex flex-col">
 
-    {#if $blog.data.blogImage[0]}
+    {#if $blog.blogImage[0]}
     <Carousel.Root class="w-full">
         <Carousel.Content>
-        {#each $blog.data.blogImage as image, i (image.imageurl)}
+        {#each $blog.blogImage as image, i (image.imageurl)}
             <Carousel.Item>
                 <div
                     class="relative w-full h-[400px] rounded-[20px] border-2 flex justify-center items-center overflow-hidden"
@@ -50,14 +50,14 @@
 
             <p class="underline underline-offset-2 text-nowrap">
                 <span class="cursor-pointer">
-                    <span class=" text-2xl">{$blog.data.readerCount}</span> views
+                    <span class=" text-2xl">{$blog.readerCount}</span> views
                 </span>
             </p>
 
 
             <p class="underline underline-offset-2">
                 <span class="cursor-pointer">
-                    <span class=" text-2xl">{$blog.data.shareCount}</span> shares
+                    <span class=" text-2xl">{$blog.shareCount}</span> shares
                 </span>
             </p>
 

@@ -3,7 +3,6 @@
     import * as Card from "$lib/components/ui/card/index.js";
     import { Input } from "$lib/components/ui/input/index.js";
     import { Label } from "$lib/components/ui/label/index.js";
-    import Skeleton from "$lib/components/ui/skeleton/skeleton.svelte";
     import Reload from "svelte-radix/Reload.svelte";
 
     let registerEmail =           ""
@@ -16,6 +15,7 @@
     let serverDown = false
     let loading = false
     let disabled = ""
+    let errorMessage = ""
 
     $: if (loading) {
         disabled = "disabled"
@@ -27,6 +27,7 @@
     // request to register to the server
     function registerInfo() {
         (async () => {
+            errorMessage = ""
             loading = true
             try {
                 passwordMatch = (registerPassword === registerConfirmPassword) ? true : false
@@ -45,6 +46,8 @@
                         password: registerPassword
                     })
                 })
+                let data = await res.json()
+                console.log(data)
                 if (res.ok) {
                     // registeredSuccessfully.set(true);
                     registeredSuccessfully = true
@@ -52,10 +55,12 @@
                     window.location.href = '/login';
                 } else if (res.status >= 500) {
                     serverDown = true
+                    errorMessage = data.message
                     registeredSuccessfully = false
                 } else {
                     // registeredSuccessfully.set(false);
                     registeredSuccessfully = false
+                    errorMessage = data.message
                     throw new Error(`HTTP error! Status: ${res.status}`);
                 }
 
@@ -83,6 +88,9 @@
         {/if}
         {#if serverDown}
             <Card.Description class="text-pink-500">Sorry for the inconvenience, the server is down</Card.Description>
+        {/if}
+        {#if errorMessage}
+            <Card.Description class="text-red-500">{errorMessage}</Card.Description>
         {/if}
     </Card.Header>
     <Card.Content>
