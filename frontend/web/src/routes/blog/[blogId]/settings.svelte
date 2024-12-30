@@ -4,7 +4,6 @@
 
     // variables to alter UI elements
     let follow = true
-    let save = true
     let loggedIn = false
     
 
@@ -86,17 +85,24 @@
 
         </DropdownMenu.SubContent>
         </DropdownMenu.Sub>
-            {#if save}
-            <DropdownMenu.Item>
-            Save Blog
-            <!-- <DropdownMenu.Shortcut>⌘B</DropdownMenu.Shortcut> -->
-            </DropdownMenu.Item>
-            {:else}
-            <DropdownMenu.Item>
-            Unsave Blog
-            <!-- <DropdownMenu.Shortcut>⌘B</DropdownMenu.Shortcut> -->
-            </DropdownMenu.Item>
-            {/if}
+        
+
+        <DropdownMenu.Sub>
+            <DropdownMenu.SubTrigger>Add to list</DropdownMenu.SubTrigger>
+            <DropdownMenu.SubContent>
+                
+                <DropdownMenu.Item>New List</DropdownMenu.Item>
+    
+                <DropdownMenu.Separator />
+    
+                <DropdownMenu.Item>List 1</DropdownMenu.Item>
+                <DropdownMenu.Item>List 2</DropdownMenu.Item>
+                <DropdownMenu.Item>List 3</DropdownMenu.Item>
+    
+            </DropdownMenu.SubContent>
+        </DropdownMenu.Sub>
+
+
         <DropdownMenu.Item>Report blog</DropdownMenu.Item>
 
     </DropdownMenu.Group>

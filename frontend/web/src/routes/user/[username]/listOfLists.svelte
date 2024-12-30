@@ -92,7 +92,7 @@
                     {/each}
                 </div>
                     
-                <Button variant="secondary" class="w-fit px-4 self-center mt-2">Show more</Button>
+                <Button variant="secondary" class="w-fit px-4 self-center mt-2" disabled>Show more</Button>
 
 
             </div>

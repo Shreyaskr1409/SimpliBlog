@@ -115,6 +115,13 @@
                 <div class="h-4"></div>
 
                 <Separator></Separator>
+                <div class="h-4"></div>
+                <p>Features around lists will be added soon enough.
+                    Backend is ready but the frontend will need a lot of work.
+                    I am working on it and the following is a small preview of how it will look.</p>
+                <div class="h-4"></div>
+
+                <Separator></Separator>
 
                 <div class="h-4"></div>
                 <div>

@@ -95,9 +95,6 @@
         {#if !editImageContent}
             <Dialog.Header>
                 <Dialog.Title>Profile Picture</Dialog.Title>
-                <Dialog.Description>
-                    Functionality to edit this image will be added soon enough
-                </Dialog.Description>
             </Dialog.Header>
             <div class="grid gap-4 py-4">
                 {#if $user.avatar !== ""}
@@ -121,9 +118,6 @@
         {:else}
             <Dialog.Header>
                 <Dialog.Title>Profile Picture</Dialog.Title>
-                <Dialog.Description>
-                    Functionality to edit this image will be added soon enough
-                </Dialog.Description>
             </Dialog.Header>
             <FileInput on:filechange={(event) => (selectedFiles = event.detail.files)} />
             <Dialog.Footer>
