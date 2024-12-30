@@ -168,7 +168,7 @@ const getUserBlogList = asyncHandler( async (req, res) => {
 
     return res.status(200)
         .json(
-            new ApiResponse( 200, "User's blogs fetched successfully", userBlogList[0])
+            new ApiResponse( 200, "All user blogs fetched successfully", userBlogList[0])
         )
 })
 
@@ -194,7 +194,7 @@ const addBlogLinks = asyncHandler( async(req, res) => {
 
     return res.status(200)
         .json(
-            new ApiResponse(200, "Blog links added successfully, blog")
+            new ApiResponse(200, "Blog links added successfully", blog)
         )
 } )
 
@@ -213,7 +213,7 @@ const updateBlogImages = asyncHandler( async(req, res) => {
     try {
         console.log(typeof titles)
         console.log(titles)
-        const data = await JSON.stringify(titles)
+        const data = JSON.stringify(titles)
         console.log(data)
         imageTitles = typeof titles === 'object' ? JSON.parse(data) : [...[], titles];
     } catch (error) {

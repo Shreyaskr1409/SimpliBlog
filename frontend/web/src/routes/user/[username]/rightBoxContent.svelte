@@ -28,7 +28,7 @@
 
 
 {#if $basic.sameUser === 1}
-<Button variant="secondary" class="mb-2 w-fit m-2 absolute top-0 right-0"   on:click={() => { settingSheet.set({...$settingSheet, openEditInfo: true}); }} >Edit Info</Button>
+<Button variant="default" class="mb-2 w-fit m-2 absolute bottom-2 right-2"   on:click={() => { settingSheet.set({...$settingSheet, openEditInfo: true}); }} >Edit Info</Button>
 {/if}
 
 <h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-4xl">
@@ -83,3 +83,5 @@
 </div>
 <br>
 <Interests loading={loading}></Interests>
+<div class="flex-1"></div>
+<div class=" w-full h-14 bg-zinc-950"></div>

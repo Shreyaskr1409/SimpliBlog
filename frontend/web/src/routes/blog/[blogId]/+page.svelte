@@ -11,7 +11,7 @@
     import { user } from "../../../stores/user.js";
     import CommentsOrBlog from "./commentsOrBlog.svelte";
     import Separator from "$lib/components/ui/separator/separator.svelte";
-    import { blogslist } from "../../../stores/blogslist";
+    import { userblogslist } from "../../../stores/userblogslist.js";
 
     let blogId
     let blog_loading = true
@@ -48,8 +48,8 @@
             // This part is still not yet changed and thought about thus uses blogList.data
             const list_res = await fetch(`/api/v1/blogs/get-userblog/${$user.username}`)
             const list_data = await list_res.json()
-            blogslist.set(list_data)
-            console.log($blogslist);
+            userblogslist.set(list_data)
+            console.log($userblogslist);
             bloglist_loading = false
             if (!list_res.ok) {
                 errormessage = list_data.message

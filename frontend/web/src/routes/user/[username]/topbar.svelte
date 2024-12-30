@@ -1,7 +1,7 @@
 <script>
     import Button from "$lib/components/ui/button/button.svelte";
     import AvatarDialogue from "./avatarDialogue.svelte";
-    import { blogslist } from "../../../stores/blogslist";
+    import { userblogslist } from "../../../stores/userblogslist.js";
     import { user } from "../../../stores/user";
     import { subscribers, subscriptions } from "../../../stores/subscription";
     import { onMount } from "svelte";
@@ -158,8 +158,8 @@
                 </p>
 
 
-                {#if $blogslist && $blogslist.data && $blogslist.data.userBlogList}
-                    <p><span class="cursor-pointer underline underline-offset-2"><span class=" text-2xl">{$blogslist.data.userBlogList.length}</span> Blogs</span></p>
+                {#if $userblogslist && $userblogslist.data && $userblogslist.data.userBlogList}
+                    <p><span class="cursor-pointer underline underline-offset-2"><span class=" text-2xl">{$userblogslist.data.userBlogList.length}</span> Blogs</span></p>
                 {/if}
             </div>
             <!-- <div class="grow"></div> -->

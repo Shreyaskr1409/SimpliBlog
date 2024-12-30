@@ -2,6 +2,7 @@
     import { Button } from "$lib/components/ui/button/index.js";
     import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
   import { basic } from "../../../stores/basic";
+  import { currentUser } from "../../../stores/currentUser";
     import { settingSheet } from "../../../stores/sheets";
     import EditinfoSheet from "./settings/editinfoSheet.svelte";
     import ShareuserSheet from "./settings/shareuserSheet.svelte";
@@ -62,9 +63,16 @@
         <Gear size="20"></Gear>
     </Button>
     <div class="min-w-1"></div>
-    <Button variant="outline" class="w-fit px-2 aspect-square rounded-xl">
-        <Person></Person>
-    </Button>
+    {#if $basic.sameUser !== 3}
+        <div class="min-w-1"></div>
+        {#if $currentUser.data.avatar}
+            <img src={$currentUser.data.avatar} class=" aspect-square h-10 border rounded-xl hover:cursor-pointer" alt="" on:click={() => {window.open(`/user/${$currentUser.data.username}`)}}>
+        {:else}
+            <Button variant="outline" class="w-fit px-2 aspect-square rounded-xl" on:click={() => {window.open(`/user/${$currentUser.data.username}`)}}>
+                <Person></Person>
+            </Button>
+        {/if}
+    {/if}
     </DropdownMenu.Trigger>
     <DropdownMenu.Content class="w-56">
     <DropdownMenu.Label>Options</DropdownMenu.Label>
@@ -109,9 +117,13 @@
     </Button>
     {#if $basic.sameUser !== 3}
         <div class="min-w-1"></div>
-        <Button variant="outline" class="w-fit px-2 aspect-square rounded-xl" on:click>
-            <Person></Person>
-        </Button>
+        {#if $currentUser.data.avatar}
+            <img src={$currentUser.data.avatar} class=" aspect-square h-10 border rounded-xl hover:cursor-pointer" alt="" on:click={() => {window.open(`/user/${$currentUser.data.username}`)}}>
+        {:else}
+            <Button variant="outline" class="w-fit px-2 aspect-square rounded-xl" on:click={() => {window.open(`/user/${$currentUser.data.username}`)}}>
+                <Person></Person>
+            </Button>
+        {/if}
     {/if}
     </DropdownMenu.Trigger>
     <DropdownMenu.Content class="w-56">

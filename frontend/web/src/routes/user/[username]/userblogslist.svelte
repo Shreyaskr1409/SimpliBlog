@@ -1,7 +1,7 @@
 <script>
 	import Listcontent from "$lib/components/my_components/listcontent.svelte";
 	import { onMount } from "svelte"
-    import { blogslist } from "../../../stores/blogslist.js";
+    import { userblogslist } from "../../../stores/userblogslist.js";
     import { formatDate } from "$lib/util/dateFormat.js";
     import Skeleton from '$lib/components/ui/skeleton/skeleton.svelte';
     import Separator from "$lib/components/ui/separator/separator.svelte";
@@ -19,12 +19,12 @@
             username = url.pathname.split('/').pop(); // Get the last part of the URL
 
 
-            blogslist.set({})
+            userblogslist.set({})
             const res = await fetch(`/api/v1/blogs/get-userblog/${username}`);
             const data = await res.json();
-            blogslist.set(data);
-            console.log($blogslist);
-            if ($blogslist.data.userBlogCount === 0) {
+            userblogslist.set(data);
+            console.log($userblogslist);
+            if ($userblogslist.data.userBlogCount === 0) {
                 noblogs = true
             }
     
@@ -42,17 +42,15 @@
     });
 
 
-    let currentPage = 0;
-    const blogsPerPage = 6;
-    $: totalBlogs = $blogslist?.data?.userBlogList?.length || 0;
-    $: totalPages = Math.ceil(totalBlogs / blogsPerPage);
+    let currentPage = 0
+    const blogsPerPage = 6
+    $: totalBlogs = $userblogslist?.data?.userBlogList?.length || 0
+    $: totalPages = Math.ceil(totalBlogs / blogsPerPage)
 
-    // Sliced data for current page
-    $: paginatedBlogs = $blogslist?.data?.userBlogList?.slice(
+    $: paginatedBlogs = $userblogslist?.data?.userBlogList?.slice(
         currentPage * blogsPerPage,
         (currentPage + 1) * blogsPerPage
-    );
-    // $: console.log(paginatedBlogs)
+    )
 
     function nextPage() {
         if (currentPage < totalPages - 1) {
@@ -70,17 +68,17 @@
 <div class="box-border w-full grid grid-cols-2 max-sm:grid-cols-1 gap-x-[5px] gap-y-[5px]">
     
     {#if errorWhileFetching == true}
-    <Listcontent title={"Error occured while fetching blogs"} date={"Content not available"} customstyle1={"col-span-2"} alertmsg={true}></Listcontent>
+    <Listcontent title={"Error occured while fetching blogs"} date={"Content not available"} customstyle1={"col-span-full"} alertmsg={true}></Listcontent>
     {/if}
 
     {#if noblogs == true}
-    <Listcontent title={"User does not have any blogs"} date={"No blogs available"} customstyle1={"col-span-2"} alertmsg={true}></Listcontent>
+    <Listcontent title={"User does not have any blogs"} date={"No blogs available"} customstyle1={"col-span-full"} alertmsg={true}></Listcontent>
     {/if}
 
     <!-- <ScrollArea class="grid"> -->
-        <!-- {#if $blogslist && $blogslist.data && $blogslist.data.userBlogList}
+        <!-- {#if $userblogslist && $userblogslist.data && $userblogslist.data.userBlogList}
 
-            {#each $blogslist.data.userBlogList as listOfBlogs}
+            {#each $userblogslist.data.userBlogList as listOfBlogs}
                 <Listcontent title={listOfBlogs.title} date={formatDate(listOfBlogs.createdAt)} blogid={`${listOfBlogs._id}`}  blogUrl={`${baseUrl}blog/${listOfBlogs._id}`}></Listcontent>
             {/each}
             

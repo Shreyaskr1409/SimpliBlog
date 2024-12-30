@@ -4,6 +4,7 @@ import {List} from "../models/list.models.js";
 import {ApiResponse} from "../util/ApiResponse.util.js";
 import {ApiError} from "../util/ApiError.util.js";
 import mongoose from "mongoose";
+import { Blog } from "../models/blog.models.js";
 
 const createList = asyncHandler( async (req, res) => {
     const userId = req.user._id
@@ -11,8 +12,7 @@ const createList = asyncHandler( async (req, res) => {
     if (!user) {
         throw new ApiError(400, "Invalid access token")
     }
-    const { title, blog } = req.body
-    // blog is like {blogId, blogTitle, authorId}
+    const { title, description, blogId } = req.body
 
     const list = await List.create({
         listAuthor: req.user._id,
@@ -25,43 +25,69 @@ const createList = asyncHandler( async (req, res) => {
         throw new ApiError(500, "Something went wrong while creating the list")
     }
 
-    try {
-        if (blog) {
-            if (
-                [blog.blogId, blog.blogTitle, blog.authorId].some( (field) =>
-                    field?.trim() !== ""
-                )
-            ) {
-                createdList.blogsList = [...createdList.blogsList, blog]
-                await createdList.save({validateBeforeSave: false})
-            }
-        }
-    } catch (err) {
-        await List.findByIdAndDelete(list._id)
+    if (description) {
+        createdList.description = description
     }
+
+    if (blogId) {
+        const blog = await Blog.findById(blogId)
+        if (!blog) {
+            await List.findByIdAndDelete(list._id)
+            throw new ApiError(400, "Invalid blogId")
+        }
+        createdList.blogsList = [...createdList.blogsList, {
+            blogId: blog._id,
+            blogTitle: blog.title,
+            blogSubtitle: blog.subtitle,
+            // even though i only need author username, I can not add just username
+            // this is because username can be changed by the user
+            author: blog.author,
+            readerCount: blog.readerCount,
+            shareCount: blog.shareCount,
+            blogImageUrl: blog.blogImage.length > 0 ? blog.blogImage[0].imageurl : null,
+            createdAt: blog.createdAt,
+        }]
+    }
+
+    await createdList.save({validateBeforeSave: false})
 
     return res.status(200).json(
         new ApiResponse(200, "Blog List created successfully", createdList)
     )
 })
 
-const getList = asyncHandler( async(req, res) => {
+const getList = asyncHandler(async (req, res) => {
     const { listId } = req.params
-    const list = await List.findById(listId)
+
+    const list = await List.findById(listId).populate('blogsList.author', 'username')
 
     if (!list) {
-        throw new ApiError(404, "list was not found")
+        throw new ApiError(404, "List was not found")
+    }
+
+    const blogsListWithUsername = await Promise.all(
+        list.blogsList.map(async (blog) => {
+            const username = await User.findById(blog.author).username
+            return {
+                ...blog.toObject(),
+                username,
+            }
+        })
+    )
+
+    const listWithUsernames = {
+        ...list.toObject(),
+        blogsList: blogsListWithUsername
     }
 
     return res.status(200).json(
-        new ApiResponse(200, "List fetched successfully", list)
+        new ApiResponse(200, "List fetched successfully", listWithUsernames)
     )
-})
-
+});
+    
 const addToList = asyncHandler( async (req, res) => {
     const { listId } = req.params
-    const { blog } = req.body
-    // blog is like {blogId, blogTitle, authorId}
+    const { blogId } = req.body
 
     const list = await List.findById(listId)
 
@@ -70,15 +96,23 @@ const addToList = asyncHandler( async (req, res) => {
         throw new ApiError(400, "Invalid List ID")
     }
 
-    if (
-        [blog.blogId, blog.blogTitle, blog.authorId].some( (field) =>
-            field?.trim() === ""
-        )
-    ) {
-        throw new ApiError(400, "Invalid blog format")
+    const blog = await Blog.findById(blogId)
+    if (!blog) {
+        throw new ApiError(400, "Invalid blogId")
     }
+    list.blogsList = [...list.blogsList, {
+        blogId: blog._id,
+        blogTitle: blog.title,
+        blogSubtitle: blog.subtitle,
+        // even though i only need author username, I can not add just username
+        // this is because username can be changed by the user
+        author: blog.author,
+        readerCount: blog.readerCount,
+        shareCount: blog.shareCount,
+        blogImageUrl: blog.blogImage.length > 0 ? blog.blogImage[0].imageurl : null,
+        createdAt: blog.createdAt,
+    }]
 
-    list.blogsList = [...list.blogsList, blog]
     await list.save({validateBeforeSave: false})
 
     return res.status(200).json(
@@ -119,7 +153,9 @@ const getUserLists = asyncHandler( async (req, res) => {
                     _id: 1,
                     title: 1,
                     blogsList: 1, // Include blogsList field
-                    createdAt: 1 // Include creation date if needed
+                    createdAt: 1, // Include creation date if needed
+                    updatedAt: 1,
+                    description: 1
                 }
             }
         }
@@ -127,7 +163,7 @@ const getUserLists = asyncHandler( async (req, res) => {
 
     return res.status(200)
         .json(
-            new ApiResponse( 200, "User's blogs fetched successfully", userLists)
+            new ApiResponse( 200, "User's lists fetched successfully", userLists[0])
         )
 })
 
@@ -188,10 +224,24 @@ const deleteList = asyncHandler( async (req, res) => {
     )
 })
 
+const editListDescription = asyncHandler( async(req, res) => {
+    const { description, listId } = req.body
+    const list = await List.findById(listId)
+    if (!list) {
+        throw new ApiError(400, "Invalid list id")
+    }
+    list.description = description
+    list.save({validateBeforeSave: false})
+    return res.status(200).json(
+        new ApiResponse(200, "Description of the list is updated now", list)
+    )
+} )
+
 export {
     createList,
     getList,
     addToList,
     getUserLists,
-    deleteList
+    deleteList,
+    editListDescription
 }

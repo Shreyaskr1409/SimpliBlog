@@ -11,18 +11,28 @@ const listSchema = new mongoose.Schema(
             type:      String,
             required:  true
         },
+        description: String,
         blogsList: [{
             blogId: {
                 type: Schema.Types.ObjectId,
                 ref: "Blog"
             },
-            blogTitle: {
-                type: String,
-            },
+            blogTitle: String,
+            blogSubtitle: String,
             author: {
                 type: Schema.Types.ObjectId,
                 ref: "User"
-            }
+            },
+            readerCount: {
+                type: Number,
+                default: 0
+            },
+            shareCount: {
+                type: Number,
+                default: 0
+            },
+            blogImageUrl: String,
+            createdAt: Date
         }]
     }, { timestamps: true }
 )

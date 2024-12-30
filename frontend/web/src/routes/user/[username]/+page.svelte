@@ -3,11 +3,14 @@
     import Topbar from "./topbar.svelte";
     import RightBoxContent from "./rightBoxContent.svelte";
     import Banner from "./banner.svelte";
-    import Blogslist from "./blogslist.svelte";
+    import Userblogslist from "./userblogslist.svelte";
     import { onMount } from "svelte";
     import { user } from "../../../stores/user";
     import { subscribers, subscriptions } from "../../../stores/subscription";
     import Search from "./search.svelte";
+    import ListOfLists from "./listOfLists.svelte";
+  import Separator from "$lib/components/ui/separator/separator.svelte";
+  import { Button } from "$lib/components/ui/button";
 
     let username
     // let loggedinFlag = false
@@ -86,7 +89,7 @@
 
 <div class="w-full flex flex-col justify-start items-center">
     <ModeWatcher defaultMode="dark"/>
-    <div id="bigcont" class="flex flex-col items-center w-full h-screen my-8 gap-2 max-w-[1300px] max-2xl:w-[90%]">
+    <div id="bigcont" class="flex flex-col items-center w-full h-fit my-8 gap-2 max-w-[1300px] max-2xl:w-[90%]">
         <div class="w-2/3 h-fit p-2 bg-zinc-900 rounded-2xl max-xl:w-[800px] max-lg:w-[700px] max-md:w-full">
             <Search></Search>
         </div>
@@ -98,11 +101,39 @@
                 <div id="spacer_1"></div>
 
                 
-                <h3 class="scroll-m-20 self-start text-3xl font-bold tracking-tight lg:text-4xl ml-4">
-                    User's Blogs:
-                </h3>
-                <div class="flex flex-col border-2 bg-zinc-950 p-[5px] items-center" id="inner_box_right">
-                    <Blogslist></Blogslist>
+                <div>
+                    <div class="flex justify-between py-1">
+                        <h3 class="scroll-m-20 self-start text-3xl font-bold tracking-tight lg:text-4xl ml-4">
+                            User's Blogs:
+                        </h3>
+                        <Button variant="outline" disabled>Show more</Button>
+                    </div>
+                    <div class="flex flex-col border-2 bg-zinc-950 p-[5px] items-center" id="inner_box_right">
+                        <Userblogslist></Userblogslist>
+                    </div>
+                </div>
+                <div class="h-4"></div>
+
+                <Separator></Separator>
+                <div class="h-4"></div>
+                <p>Features around lists will be added soon enough.
+                    Backend is ready but the frontend will need a lot of work.
+                    I am working on it and the following is a small preview of how it will look.</p>
+                <div class="h-4"></div>
+
+                <Separator></Separator>
+
+                <div class="h-4"></div>
+                <div>
+                    <div class="flex justify-between py-1">
+                        <h3 class="scroll-m-20 self-start text-3xl font-bold tracking-tight lg:text-4xl ml-4">
+                            User's Lists:
+                        </h3>
+                        <Button variant="outline" disabled>Show more</Button>
+                    </div>
+                    <div class="flex flex-col border-2 bg-zinc-950 p-[5px] items-center" id="inner_box_right">
+                        <ListOfLists></ListOfLists>
+                    </div>
                 </div>
             </div>
 
