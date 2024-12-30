@@ -32,12 +32,17 @@ const createList = asyncHandler( async (req, res) => {
                     field?.trim() !== ""
                 )
             ) {
-                createdList.blogsList = [...createdList.blogsList, blog]
+                createdList.blogsList = [...createdList.blogsList, {
+                    blogId: blog.blogId,
+                    blogTitle: blog.blogTitle,
+                    author: blog.authorId
+                }]
                 await createdList.save({validateBeforeSave: false})
             }
         }
     } catch (err) {
         await List.findByIdAndDelete(list._id)
+        throw ApiError(500, "Something went wrong while adding blog to the list")
     }
 
     return res.status(200).json(
@@ -119,7 +124,8 @@ const getUserLists = asyncHandler( async (req, res) => {
                     _id: 1,
                     title: 1,
                     blogsList: 1, // Include blogsList field
-                    createdAt: 1 // Include creation date if needed
+                    createdAt: 1, // Include creation date if needed
+                    updatedAt: 1
                 }
             }
         }
@@ -127,7 +133,7 @@ const getUserLists = asyncHandler( async (req, res) => {
 
     return res.status(200)
         .json(
-            new ApiResponse( 200, "User's blogs fetched successfully", userLists)
+            new ApiResponse( 200, "User's lists fetched successfully", userLists)
         )
 })
 

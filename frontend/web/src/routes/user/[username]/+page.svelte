@@ -3,11 +3,12 @@
     import Topbar from "./topbar.svelte";
     import RightBoxContent from "./rightBoxContent.svelte";
     import Banner from "./banner.svelte";
-    import Blogslist from "./blogslist.svelte";
+    import Userblogslist from "./userblogslist.svelte";
     import { onMount } from "svelte";
     import { user } from "../../../stores/user";
     import { subscribers, subscriptions } from "../../../stores/subscription";
     import Search from "./search.svelte";
+    import ListOfLists from "./listOfLists.svelte";
 
     let username
     // let loggedinFlag = false
@@ -102,7 +103,16 @@
                     User's Blogs:
                 </h3>
                 <div class="flex flex-col border-2 bg-zinc-950 p-[5px] items-center" id="inner_box_right">
-                    <Blogslist></Blogslist>
+                    <Userblogslist></Userblogslist>
+                </div>
+                <div id="spacer_1"></div>
+
+
+                <h3 class="scroll-m-20 self-start text-3xl font-bold tracking-tight lg:text-4xl ml-4">
+                    User's Lists:
+                </h3>
+                <div class="flex flex-col border-2 bg-zinc-950 p-[5px] items-center" id="inner_box_right">
+                    <ListOfLists></ListOfLists>
                 </div>
             </div>
 

@@ -5,7 +5,7 @@
 
 <!-- <script>
     import { onMount } from "svelte";
-    import { blogslist } from "../../../stores/blogslist.js";
+    import { userblogslist } from "../../../stores/userblogslist.js";
     import { formatDate } from "$lib/util/dateFormat.js";
     import ScrollArea from "$lib/components/ui/scroll-area/scroll-area.svelte";
     import Listcontent from "$lib/components/my_components/listcontent.svelte";
@@ -16,8 +16,8 @@
         // Fetch and set blog data
         const res = await fetch("/api/v1/blogs/get-userblog/lua");
         const data = await res.json();
-        blogslist.set(data);
-        console.log($blogslist);
+        userblogslist.set(data);
+        console.log($userblogslist);
 
         // Construct URL
         const currentUrl = new URL(window.location.href);
@@ -31,8 +31,8 @@
 <div class="w-full flex flex-col gap-[5px]">
     <ScrollArea class="flex flex-col">
         <Listcontent isActive={true} title={"The People of the Kingdom"} date={"22 July 2024"} blogUrl={blogUrl}></Listcontent>
-        {#if $blogslist && $blogslist.data && $blogslist.data.userBlogList}
-            {#each $blogslist.data.userBlogList as listOfBlogs}
+        {#if $userblogslist && $userblogslist.data && $userblogslist.data.userBlogList}
+            {#each $userblogslist.data.userBlogList as listOfBlogs}
             <Listcontent title={listOfBlogs.title} date={formatDate(listOfBlogs.createdAt)}></Listcontent>
             {/each}
         {/if}

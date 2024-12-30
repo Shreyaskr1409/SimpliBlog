@@ -23,7 +23,7 @@
 
     let usedtitle = title;
     if (!alertmsg) {
-      if (title.length>30) {
+      if (title?.length>30) {
           usedtitle = title.substring(0, 30) + "..."
       }
     }

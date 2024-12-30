@@ -1,3 +1,12 @@
-import { writable } from 'svelte/store';
+import {writable} from "svelte/store";
 
-export const blogslist = writable({ data: { userBlogList: [] } });
+export const blogslist = writable({
+    userLists: [{
+        blogsList: [{
+            _id: null,
+            blogTitle: null,
+            blogId: null,
+            author: null,
+        }]
+    }]
+})
