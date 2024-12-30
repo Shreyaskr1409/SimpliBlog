@@ -213,7 +213,7 @@ const updateBlogImages = asyncHandler( async(req, res) => {
     try {
         console.log(typeof titles)
         console.log(titles)
-        const data = await JSON.stringify(titles)
+        const data = JSON.stringify(titles)
         console.log(data)
         imageTitles = typeof titles === 'object' ? JSON.parse(data) : [...[], titles];
     } catch (error) {

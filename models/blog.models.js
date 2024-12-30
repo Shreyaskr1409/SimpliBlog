@@ -44,7 +44,8 @@ const blogSchema = new mongoose.Schema(
                     type: String
                 },
                 imageurl: {
-                    type: String
+                    type: String,
+                    required: true
                 }
             }
         ]

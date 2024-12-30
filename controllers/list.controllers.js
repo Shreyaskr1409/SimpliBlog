@@ -4,6 +4,7 @@ import {List} from "../models/list.models.js";
 import {ApiResponse} from "../util/ApiResponse.util.js";
 import {ApiError} from "../util/ApiError.util.js";
 import mongoose from "mongoose";
+import { Blog } from "../models/blog.models.js";
 
 const createList = asyncHandler( async (req, res) => {
     const userId = req.user._id
@@ -11,7 +12,7 @@ const createList = asyncHandler( async (req, res) => {
     if (!user) {
         throw new ApiError(400, "Invalid access token")
     }
-    const { title, blog } = req.body
+    const { title, blogId } = req.body
     // blog is like {blogId, blogTitle, authorId}
 
     const list = await List.create({
@@ -25,24 +26,24 @@ const createList = asyncHandler( async (req, res) => {
         throw new ApiError(500, "Something went wrong while creating the list")
     }
 
-    try {
-        if (blog) {
-            if (
-                [blog.blogId, blog.blogTitle, blog.authorId].some( (field) =>
-                    field?.trim() !== ""
-                )
-            ) {
-                createdList.blogsList = [...createdList.blogsList, {
-                    blogId: blog.blogId,
-                    blogTitle: blog.blogTitle,
-                    author: blog.authorId
-                }]
-                await createdList.save({validateBeforeSave: false})
-            }
+    if (blogId) {
+        const blog = await Blog.findById(blogId)
+        if (!blog) {
+            await List.findByIdAndDelete(list._id)
+            throw new ApiError(400, "Invalid blogId")
         }
-    } catch (err) {
-        await List.findByIdAndDelete(list._id)
-        throw ApiError(500, "Something went wrong while adding blog to the list")
+        createdList.blogsList = [...createdList.blogsList, {
+            blogId: blog._id,
+            blogTitle: blog.title,
+            blogSubtitle: blog.subtitle,
+            // even though i only need author username, I can not add just username
+            // this is because username can be changed by the user
+            author: blog.author,
+            readerCount: blog.readerCount,
+            shareCount: blog.shareCount,
+            blogImageUrl: blog.blogImage.length > 0 ? blog.blogImage[0].imageUrl : null,
+            createdAt: blog.createdAt,
+        }]
     }
 
     return res.status(200).json(
@@ -50,19 +51,35 @@ const createList = asyncHandler( async (req, res) => {
     )
 })
 
-const getList = asyncHandler( async(req, res) => {
+const getList = asyncHandler(async (req, res) => {
     const { listId } = req.params
-    const list = await List.findById(listId)
+
+    const list = await List.findById(listId).populate('blogsList.author', 'username')
 
     if (!list) {
-        throw new ApiError(404, "list was not found")
+        throw new ApiError(404, "List was not found")
+    }
+
+    const blogsListWithUsername = await Promise.all(
+        list.blogsList.map(async (blog) => {
+            const username = await User.findById(blog.author).username
+            return {
+                ...blog.toObject(),
+                username,
+            }
+        })
+    )
+
+    const listWithUsernames = {
+        ...list.toObject(),
+        blogsList: blogsListWithUsername
     }
 
     return res.status(200).json(
-        new ApiResponse(200, "List fetched successfully", list)
+        new ApiResponse(200, "List fetched successfully", listWithUsernames)
     )
-})
-
+});
+    
 const addToList = asyncHandler( async (req, res) => {
     const { listId } = req.params
     const { blog } = req.body
