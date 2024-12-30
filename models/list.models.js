@@ -11,6 +11,7 @@ const listSchema = new mongoose.Schema(
             type:      String,
             required:  true
         },
+        description: String,
         blogsList: [{
             blogId: {
                 type: Schema.Types.ObjectId,
