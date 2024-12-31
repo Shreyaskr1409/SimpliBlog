@@ -66,7 +66,9 @@
     {#if $basic.sameUser !== 3}
         <div class="min-w-1"></div>
         {#if $currentUser.data.avatar}
-            <img src={$currentUser.data.avatar} class=" aspect-square h-10 border rounded-xl hover:cursor-pointer" alt="" on:click={() => {window.open(`/user/${$currentUser.data.username}`)}}>
+            <a href={`/user/${$currentUser.data.username}`}>
+                <img src={$currentUser.data.avatar} class=" aspect-square h-10 border rounded-xl hover:cursor-pointer" alt="">
+            </a>
         {:else}
             <Button variant="outline" class="w-fit px-2 aspect-square rounded-xl" on:click={() => {window.open(`/user/${$currentUser.data.username}`)}}>
                 <Person></Person>
@@ -118,7 +120,9 @@
     {#if $basic.sameUser !== 3}
         <div class="min-w-1"></div>
         {#if $currentUser.data.avatar}
-            <img src={$currentUser.data.avatar} class=" aspect-square h-10 border rounded-xl hover:cursor-pointer" alt="" on:click={() => {window.open(`/user/${$currentUser.data.username}`)}}>
+            <a href={`/user/${$currentUser.data.username}`}>
+                <img src={$currentUser.data.avatar} class=" aspect-square h-10 border rounded-xl hover:cursor-pointer" alt="">
+            </a>
         {:else}
             <Button variant="outline" class="w-fit px-2 aspect-square rounded-xl" on:click={() => {window.open(`/user/${$currentUser.data.username}`)}}>
                 <Person></Person>

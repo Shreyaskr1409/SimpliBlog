@@ -35,13 +35,13 @@
     About me:
 </h1>
 {#if loading}
-    <div class="flex flex-col gap-1">
-        <Skeleton class="w-full h-5 rounded-md"></Skeleton>
-        <Skeleton class="w-full h-5 rounded-md"></Skeleton>
-        <Skeleton class="w-full h-5 rounded-md"></Skeleton>
-        <Skeleton class="w-full h-5 rounded-md"></Skeleton>
-        <Skeleton class="w-full h-5 rounded-md"></Skeleton>
-        <Skeleton class="w-full h-5 rounded-md"></Skeleton>
+    <div class="flex flex-col">
+        <Skeleton class="w-full h-5 my-0.5 rounded-md"></Skeleton>
+        <Skeleton class="w-full h-5 my-0.5 rounded-md"></Skeleton>
+        <Skeleton class="w-full h-5 my-0.5 rounded-md"></Skeleton>
+        <Skeleton class="w-full h-5 my-0.5 rounded-md"></Skeleton>
+        <Skeleton class="w-full h-5 my-0.5 rounded-md"></Skeleton>
+        <Skeleton class="w-full h-5 my-0.5 rounded-md"></Skeleton>
     </div>
 {:else}
     <!-- <p class="mt-1">{aboutMe}</p> -->

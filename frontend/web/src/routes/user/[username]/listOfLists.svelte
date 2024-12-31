@@ -1,7 +1,7 @@
 <script>
     import { onMount } from "svelte";
     import { user } from "../../../stores/user";
-    import { blogslist } from "../../../stores/blogslist";
+    import { userlists } from "../../../stores/userlists.js";
     import { waitUntilNotEqual } from "$lib/util/waitTillNotEqual";
     import Listcontent from "$lib/components/my_components/listcontent.svelte";
     import {formatDate} from "$lib/util/dateFormat.js";
@@ -32,8 +32,8 @@
             const data = await res.json()
             console.log(data)
             if (res.ok) {
-                blogslist.set(data.data)
-                console.log($blogslist);
+                userlists.set(data.data)
+                console.log($userlists);
             } else {
                 // to be implemented
             }
@@ -46,9 +46,9 @@
 
     let currentPage = 0
     const listsPerPage = 2
-    $: totalLists = $blogslist.userLists.length || 0
+    $: totalLists = $userlists.userLists.length || 0
     $: totalPages = Math.ceil(totalLists / listsPerPage)
-    $: paginatedLists = $blogslist.userLists.slice(
+    $: paginatedLists = $userlists.userLists.slice(
         currentPage * listsPerPage,
         (currentPage + 1) * listsPerPage
     )
@@ -67,13 +67,13 @@
 </script>
 
 <div class="w-full grid grid-cols-2 max-sm:grid-cols-1 md:max-xl:grid-cols-1 gap-2">
-    {#if $blogslist.userLists.length === 0 && !loading}
+    {#if $userlists.userLists.length === 0 && !loading}
         <Listcontent title={"User does not have any lists"} date={"No blogs available"} customstyle1={"col-span-full"} alertmsg={true}></Listcontent>
     {/if}
     {#if paginatedLists.length > 0}
         {#each paginatedLists as list (list._id)}
             <div class="w-full rounded-[15px] px-2 py-2 bg-zinc-900 flex flex-col">
-                <a class="scroll-m-20 text-2xl font-semibold tracking-tight first:mt-0 hover:underline hover:cursor-pointer whitespace-nowrap w-full text-center" href="">{list.title}</a>
+                <a class="scroll-m-20 text-2xl font-semibold tracking-tight first:mt-0 hover:underline hover:cursor-pointer whitespace-nowrap w-full text-center" href={`/list/${list._id}`}>{list.title}</a>
                 {#if list.description}
                 <div class="px-2">
                     <p class=" bg-zinc-950 text-base rounded-md px-2 py-1 my-2">{list.description}</p>
@@ -81,18 +81,19 @@
                 {/if}
 
 
-                <div class="w-full h-full grid grid-cols-1 grid-rows-3 gap-1 bg-zinc-950 rounded-[1.25rem] p-1">
+                <div class="w-full h-fit grid grid-cols-1 grid-rows-3 gap-1 bg-zinc-950 rounded-[1.25rem] p-1">
                     {#each list.blogsList as blog (blog._id)}
-                        <Listcontent
-                                title={blog.blogTitle}
-                                date={formatDate(blog.createdAt)}
-                                blogid={`${blog.blogId}`}
-                                blogUrl={`${baseUrl}blog/${blog.blogId}`}
-                        ></Listcontent>
+                    <Listcontent
+                            title={blog.blogTitle}
+                            date={formatDate(blog.createdAt)}
+                            blogid={`${blog.blogId}`}
+                            blogUrl={`${baseUrl}blog/${blog.blogId}`}
+                    ></Listcontent>
                     {/each}
                 </div>
                     
-                <Button variant="secondary" class="w-fit px-4 self-center mt-2" disabled>Show more</Button>
+                <div class="flex-1"></div>
+                <Button variant="secondary" class="w-fit px-4 self-center mt-2" on:click={() => {window.open(`/list/${list._id}`, "_self")}}>Show more</Button>
 
 
             </div>

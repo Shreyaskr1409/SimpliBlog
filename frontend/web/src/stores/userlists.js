@@ -1,6 +1,6 @@
 import {writable} from "svelte/store";
 
-export const blogslist = writable({
+export const userlists = writable({
     userLists: [
         // {
         // description: null,

@@ -77,7 +77,7 @@
 
 
         <h1 class="scroll-m-20 self-start text-4xl font-extrabold tracking-tight lg:text-5xl pb-4 mt-8">
-            Blogs:
+            Blog:
         </h1>
 
 
