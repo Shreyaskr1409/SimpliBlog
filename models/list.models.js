@@ -19,6 +19,7 @@ const listSchema = new mongoose.Schema(
             },
             blogTitle: String,
             blogSubtitle: String,
+            blogBody: String,
             author: {
                 type: Schema.Types.ObjectId,
                 ref: "User"

@@ -4,8 +4,8 @@
     import * as HoverCard from "$lib/components/ui/hover-card/index.js";
     
     import { user } from "../../../stores/user.js";
-  import { formatDate } from "$lib/util/dateFormat.js";
-  import Skeleton from "$lib/components/ui/skeleton/skeleton.svelte";
+    import { formatDate } from "$lib/util/dateFormat.js";
+    import Skeleton from "$lib/components/ui/skeleton/skeleton.svelte";
     $: url = `/user/${$user.username}`
 </script>
 

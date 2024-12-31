@@ -39,6 +39,7 @@ const createList = asyncHandler( async (req, res) => {
             blogId: blog._id,
             blogTitle: blog.title,
             blogSubtitle: blog.subtitle,
+            blogBody: blog.body.slice(0, 280).concat("..."),
             // even though i only need author username, I can not add just username
             // this is because username can be changed by the user
             author: blog.author,
@@ -59,7 +60,7 @@ const createList = asyncHandler( async (req, res) => {
 const getList = asyncHandler(async (req, res) => {
     const { listId } = req.params
 
-    const list = await List.findById(listId).populate('blogsList.author', 'username')
+    const list = await List.findById(listId).populate('blogsList.author', 'username avatar aboutme fullname')
 
     if (!list) {
         throw new ApiError(404, "List was not found")
@@ -104,6 +105,7 @@ const addToList = asyncHandler( async (req, res) => {
         blogId: blog._id,
         blogTitle: blog.title,
         blogSubtitle: blog.subtitle,
+        blogBody: blog.body.slice(0, 280).concat("..."),
         // even though i only need author username, I can not add just username
         // this is because username can be changed by the user
         author: blog.author,
