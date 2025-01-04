@@ -557,6 +557,99 @@ const passwordValidation = asyncHandler( async (req, res) => {
     }
 } )
 
+const registerOrLoginWithGoogle = asyncHandler(async (req, res) => {
+    const { authorizationCode } = req.body;
+
+    if (!authorizationCode) {
+        throw new ApiError(400, "Authorization code is required");
+    }
+
+    let tokenData
+    try {
+        const tokenResponse = await fetch('https://oauth2.googleapis.com/token', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+                client_id: process.env.GOOGLE_CLIENT_ID,
+                client_secret: process.env.GOOGLE_CLIENT_SECRET,
+                code: authorizationCode,
+                grant_type: 'authorization_code',
+                redirect_uri: process.env.GOOGLE_REDIRECT_URI,
+            }),
+        });
+
+        tokenData = await tokenResponse.json();
+    } catch (error) {
+        console.error("Google OAuth error:", error);
+        throw new ApiError(500, "Google OAuth failed");
+    }
+
+    if (tokenData.error) {
+        throw new ApiError(400, `Error exchanging code: ${tokenData.error}`);
+    }
+    const { id_token, access_token } = tokenData;
+    let userInfo;
+    
+    try {
+        const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + id_token);
+        userInfo = await userInfoResponse.json();
+    } catch (error) {
+        console.error("Google OAuth error:", error);
+        throw new ApiError(500, "Google OAuth failed");
+    }
+    
+    if (!userInfo || userInfo.error_description) {
+        throw new ApiError(400, `Error fetching user info: ${userInfo.error_description}`);
+    }
+    
+    const { email, name, sub: googleId } = userInfo;
+    const [firstName, lastName = ""] = name.split(" ");
+    
+    // Extract username from email
+    let username = email.split('@')[0];
+    
+    // Check if the username is already taken, and append a suffix if necessary
+    let user = await User.findOne({ username });
+    
+    let suffix = 1;
+    while (user) {
+        username = `${email.split('@')[0]}${suffix}`;
+        user = await User.findOne({ username });
+        suffix++;
+    }
+    
+    user = user || await User.create({
+        username,
+        fullname: name,
+        email,
+        password: "", // Empty as Google handles authentication
+        avatar: "",
+    });
+    
+
+    const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id);
+    const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
+
+    // Set cookies
+    const options = {
+        httpOnly: true,
+        secure: true,
+    };
+
+    return res
+        .status(200)
+        .cookie("accessToken", accessToken, options)
+        .cookie("refreshToken", refreshToken, options)
+        .json(
+            new ApiResponse(200, "User authenticated with Google successfully", {
+                user: loggedInUser,
+                accessToken,
+                refreshToken,
+            })
+        );
+});
+
+
 export {
     generateAccessAndRefreshTokens,
     registerUser,
@@ -576,5 +669,6 @@ export {
     removeUserAvatar,
     updateAllUserDetails,
     getBasicUserInfo,
-    passwordValidation
+    passwordValidation,
+    registerOrLoginWithGoogle
 }
