@@ -5,7 +5,7 @@
     import { Label } from "$lib/components/ui/label/index.js";
     import Reload from "svelte-radix/Reload.svelte";
 
-    import { PUBLIC_GOOGLE_CLIENT_ID } from '$env/static/public';
+    import { PUBLIC_GOOGLE_CLIENT_ID, PUBLIC_REDIRECT_URI } from '$env/static/public';
 
     let loginUserName =     ""
     let loginUserPassword = ""
@@ -70,7 +70,7 @@
     }
 
     const googleClientId = PUBLIC_GOOGLE_CLIENT_ID;
-    const redirectUri = "http://localhost:5173/login/redirect";
+    const redirectUri = PUBLIC_REDIRECT_URI
 
     function handleGoogleLogin() {
         const oauthUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${googleClientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=openid%20email%20profile`;

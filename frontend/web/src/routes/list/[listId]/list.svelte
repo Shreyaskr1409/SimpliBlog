@@ -4,7 +4,7 @@
     import ListComponent from "./listComponent.svelte";
 
     onMount( async() => {
-        $: console.log($list.blogsList);
+        console.log($list.blogsList);
     })
 </script>
 
