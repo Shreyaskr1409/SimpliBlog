@@ -86,8 +86,12 @@
     >
         {#if $user.avatar !== ""}
             <img id="avatar" src={$user.avatar} alt="avatar">
-        {:else}
+        {:else if loading}
             <Skeleton class="w-[150px] h-[150px] rounded-xl"></Skeleton>
+        {:else}
+            <div class="w-[150px] h-[150px] rounded-xl bg-black flex justify-center items-center">
+                <h1>No Profile Picture</h1>
+            </div>
         {/if}
     </Dialog.Trigger
     >
@@ -99,8 +103,12 @@
             <div class="grid gap-4 py-4">
                 {#if $user.avatar !== ""}
                 <img id="avatarDisplay" src={$user.avatar} alt="avatarDisplay">
-                {:else}
+                {:else if loading}
                 <Skeleton class="w-full aspect-square"></Skeleton>
+                {:else}
+                <div class="w-full aspect-square rounded-xl bg-black border-2 flex justify-center items-center">
+                    <h1>No Profile Picture</h1>
+                </div>
                 {/if}
             </div>
 

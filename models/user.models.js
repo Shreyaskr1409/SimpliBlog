@@ -27,7 +27,7 @@ const userSchema = new Schema(
         },
         password: {
             type:      String,
-            required:  [true, "Password is Required"]
+            // required:  [true, "Password is Required"] // in google auth, password is not required
         },
         avatar: {
             type:      String

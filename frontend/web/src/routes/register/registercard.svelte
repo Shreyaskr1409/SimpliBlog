@@ -5,6 +5,9 @@
     import { Label } from "$lib/components/ui/label/index.js";
     import Reload from "svelte-radix/Reload.svelte";
 
+    import { PUBLIC_GOOGLE_CLIENT_ID } from '$env/static/public';
+
+
     let registerEmail =           ""
     let registerUsername =        ""
     let registerFullname =        ""
@@ -72,6 +75,15 @@
             }
         })()
     }
+
+    const googleClientId = PUBLIC_GOOGLE_CLIENT_ID;
+    const redirectUri = "http://localhost:5173/login/redirect"; // Replace with your frontend redirect URI
+
+    function handleGoogleLogin() {
+        const oauthUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${googleClientId}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=openid%20email%20profile`;
+        window.location.href = oauthUrl;
+    }
+
 </script>
 
 <Card.Root class="w-[350px] md:w-[500px] bg-zinc-900">
@@ -123,6 +135,14 @@
     </Card.Content>
     <Card.Footer class="flex justify-between">
         <Button variant="outline" {disabled} on:click={() => window.history.back()}>Back</Button>
+        <Button variant="outline" on:click={handleGoogleLogin}>
+            <img
+                class="w-5 h-5 mr-2"
+                src="https://upload.wikimedia.org/wikipedia/commons/archive/c/c1/20230822192910%21Google_%22G%22_logo.svg"
+                alt="Google Icon"
+            />
+            Sign Up with Google
+        </Button>
         <Button on:click={registerInfo} {disabled}>
             {#if loading}
                 <Reload class="mr-2 h-4 w-4 animate-spin" ></Reload>
