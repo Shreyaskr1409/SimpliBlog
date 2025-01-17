@@ -7,7 +7,7 @@
     import { Calendar } from "svelte-radix";
   import { HoverCard, HoverCardContent, HoverCardTrigger } from "$lib/components/ui/hover-card";
   import Blogcontent from "./blogcontent.svelte";
-  import Button from "$lib/components/ui/button/button.svelte";
+  import { Button } from "@/components/ui/button";
 
     export let blog = {
         author: {
@@ -31,7 +31,7 @@
 </script>
 
 {#if blog.blogId !== null}
-    <div class="w-full min-h-60 bg-zinc-900 hover:bg-zinc-800 relative rounded-[15px] p-[5px] flex flex-col gap-2">
+    <div class="w-full min-h-60 bg-zinc-900 hover:bg-zinc-800 relative rounded-[15px] p-[5px] pb-12 flex flex-col gap-2">
         {#if blog.blogImageUrl}
             <div class="relative w-full h-[300px] rounded-[20px] border-2 flex justify-center items-center overflow-hidden">
                 <div class="absolute inset-0 bg-center bg-cover filter blur-sm opacity-50"
@@ -46,7 +46,7 @@
                     class="relative z-10 bg-transparent object-contain object-center h-full"
                 />
 
-                <Button variant="outline" onclick={() => {window.open(`/blog/${blog.blogId}`)}} class="absolute bottom-0 right-0">Read more</Button>
+                <Button variant="outline" on:click={() => {window.open(`/blog/${blog.blogId}`, "_self")}} class="z-10 absolute bottom-2 right-2">Read more</Button>
             </div>
         {:else}
             <div class="relative w-full h-[300px] rounded-[20px] border-2 flex justify-center items-center overflow-hidden">
@@ -62,7 +62,7 @@
                     class="relative z-10 bg-transparent object-contain object-center h-full"
                 />
 
-                <Button variant="outline" onclick={() => {window.open(`/blog/${blog.blogId}`)}} class="absolute bottom-0 right-0">Read more</Button>
+                <Button variant="outline" on:click={() => {window.open(`/blog/${blog.blogId}`, "_self")}} class="z-10 absolute bottom-2 right-2">Read more</Button>
                 <h1 class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 bg-zinc-950 rounded-lg border-2 px-4 py-2">No blog images</h1>
             </div>
         {/if}

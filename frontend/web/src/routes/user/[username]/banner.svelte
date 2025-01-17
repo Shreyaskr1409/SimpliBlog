@@ -2,7 +2,7 @@
 
 <style>
     .bgimg_banner {
-        background-image: url("https://wallpapercave.com/wp/xIzYo2d.jpg");
+        background-image: url("/assets/xIzYo2d.jpg");
         background-size: cover;
         background-position: 50%;
     }

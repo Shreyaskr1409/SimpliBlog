@@ -5,29 +5,6 @@
 <div class="blog-content" >{@html markdownHTML}</div>
 
 <style>
-    :global(.blog-content p) {
-        @apply mb-3;
-    }
-    :global(.blog-content h1) {
-        @apply mb-3;
-    }
-    :global(.blog-content h2) {
-        @apply mb-3;
-    }
-    :global(.blog-content h3) {
-        @apply mb-3;
-    }
-    :global(.blog-content h4) {
-        @apply mb-3;
-    }
-    :global(.blog-content h5) {
-        @apply mb-3;
-    }
-    :global(.blog-content h6) {
-        @apply mb-3;
-    }
-
-
     :global(.blog-content ul) {
         @apply list-disc pl-5 mb-6;
     }

@@ -9,6 +9,8 @@
     import { basic } from "../../../stores/basic";
     import Skeleton from "$lib/components/ui/skeleton/skeleton.svelte";
     import Reload from "svelte-radix/Reload.svelte";
+  import { onMount } from "svelte";
+  import { waitUntilNotEqual } from "@/util/waitTillNotEqual";
 
     let editImageContent = false
     let dialogOpen = false
@@ -21,13 +23,20 @@
 
     // YET TO IMPLEMENT LOADING ANIMATION
 
-    let loading = false
+    let loading = true
     let disabled = ""
     $: if (loading) {
         disabled = "disabled"
     } else {
         disabled = ""
     }
+
+    onMount(async() => {
+        loading = true
+        await waitUntilNotEqual(() => $user._id, null)
+        loading = false
+    })
+
     async function removeImage() {
         loading = true
         try {

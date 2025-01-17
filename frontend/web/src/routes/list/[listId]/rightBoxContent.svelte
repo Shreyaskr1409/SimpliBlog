@@ -4,9 +4,11 @@
     import Skeleton from '../../../lib/components/ui/skeleton/skeleton.svelte';
     import Separator from "../../../lib/components/ui/separator/separator.svelte";
     import {formatDate} from "$lib/util/dateFormat.js";
+  import { basic } from "../../../stores/basic.js";
 
     let errorMessage = ""
     let loading = true
+    basic.set({ sameUser: 2 })
     onMount(async() => {
         try {
             const url = new URL(window.location.href);
@@ -23,6 +25,7 @@
             console.log(error)
         } finally {
             loading = false
+            basic.set({ sameUser: 3 })
         }
     })
 </script>

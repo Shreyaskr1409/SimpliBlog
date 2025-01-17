@@ -48,6 +48,6 @@
         <h1 class="mb-2 font-bold tracking-tight text-2xl">
             {@html disp}
         </h1>
-        <Button>Go to login page</Button>
+        <Button variant="secondary">Go to login page</Button>
     </div>
 </div>
