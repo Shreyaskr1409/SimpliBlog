@@ -96,5 +96,5 @@ jobs:
           echo "PUBLIC_REDIRECT_URI=${{ secrets.PUBLIC_REDIRECT_URI }}" >> .env
 
       - name: Deploy the build
-        run: node --name "frontend" -- -r dotenv/config build
+        run: node -r dotenv/config build
         working-directory: frontend/web
