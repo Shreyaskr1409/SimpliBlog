@@ -12,7 +12,7 @@ on:
 jobs:
   test_build:
     name: Testing if the build was successful
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -30,7 +30,7 @@ jobs:
           
   backend_deploy:
     name: Deploy the backend
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -42,7 +42,7 @@ jobs:
   frontend_deploy:
     name: Deploy the frontend
     needs: test_build
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - run: cd frontend/web
