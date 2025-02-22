@@ -88,6 +88,11 @@ jobs:
           path: frontend/web/build/
 
       
+      - uses: actions/setup-node@v3
+      - name: Install dotenv
+        run: npm install dotenv
+        working-directory: frontend/web
+      
       - name: Create frontend .env file
         run: |
           echo "PORT=${{ secrets.PORT }}" >> .env
