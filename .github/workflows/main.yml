@@ -13,6 +13,7 @@ jobs:
   test_build:
     name: Testing if the build was successful
     runs-on: ubuntu-latest
+    environment: frontend
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -21,6 +22,10 @@ jobs:
         
       - name: Install dependencies
         run: npm install
+        working-directory: frontend/web
+
+      - name: Create frontend .env file
+        run: echo "PORT=${{ secrets.PORT }}" >> .env
         working-directory: frontend/web
 
       - name: Build the frontend
@@ -36,18 +41,27 @@ jobs:
   backend_deploy:
     name: Deploy the backend
     runs-on: ubuntu-latest
+    environment: backend
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 20
-      - run: npm ci
-      - run: npm run dev # this will fail as i have yet to include the secrets #
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create backend .env file
+        run: echo "PORT=${{ secrets.PORT }}" >> .env
+
+      - name: Start backend
+        run: npm run dev
       
   frontend_deploy:
     name: Deploy the frontend
     needs: test_build
     runs-on: ubuntu-latest
+    environment: frontend
 
     steps:
       - name: Download build artifact
@@ -55,6 +69,10 @@ jobs:
         with:
           name: build_artifact
           path: frontend/web/build/
+
+      - name: Create frontend .env file
+        run: echo "PORT=${{ secrets.PORT }}" >> .env
+        working-directory: frontend/web
 
       - name: Deploy the build
         run: node --name "frontend" -- -r dotenv/config build
