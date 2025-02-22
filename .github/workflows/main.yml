@@ -12,13 +12,14 @@ on:
 jobs:
   test_build:
     name: Testing if the build was successful
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: 20
-      - run: npm ci
+        
+      - run: cd frontend/web
       - run: npm run build
 
       - name: Upload build artifact
@@ -26,12 +27,26 @@ jobs:
         with:
           name: build_artifact
           path: build/
+          
+  backend_deploy:
+    name: Deploy the backend
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm run dev # this will fail as i have yet to include the secrets #
       
-  deploy:
+  frontend_deploy:
+    name: Deploy the frontend
     needs: test_build
     runs-on: self-hosted
 
     steps:
+      - run: cd frontend/web
+      
       - name: Download build artifact
         uses: actions/download-artifact@v3
         with:
@@ -39,5 +54,5 @@ jobs:
           path: build/
 
       - name: Deploy the build
-        run: | # To be done #
+        run: node --name "frontend" -- -r dotenv/config build # this will fail as i have yet to include the secrets #
       
