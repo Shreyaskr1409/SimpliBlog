@@ -9,3 +9,6 @@ tests/apiTests
 .env.production
 
 DISCUSSION.md
+
+Dockerfile
+.dockerignore
