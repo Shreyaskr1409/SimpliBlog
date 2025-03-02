@@ -1,0 +1,105 @@
+name: CI/CD pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test_build:
+    name: Testing if the build was successful
+    runs-on: ubuntu-latest
+    environment: frontend
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - name: Create frontend .env file
+        run: |
+          echo "PORT=${{ secrets.PORT }}" >> .env
+          echo "HOST=${{ secrets.HOST }}" >> .env
+          echo "PUBLIC_GOOGLE_CLIENT_ID=${{ secrets.PUBLIC_GOOGLE_CLIENT_ID }}" >> .env
+          echo "PUBLIC_REDIRECT_URI=${{ secrets.PUBLIC_REDIRECT_URI }}" >> .env
+        working-directory: frontend/web
+        
+      - name: Install dependencies
+        run: npm install
+        working-directory: frontend/web
+
+      - name: Build the frontend
+        run: npm run build
+        working-directory: frontend/web
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build_artifact
+          path: frontend/web/build/
+          
+  backend_deploy:
+    name: Deploy the backend
+    runs-on: ubuntu-latest
+    environment: backend
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Create backend .env file
+        run: |
+          echo "ACCESS_TOKEN_EXPIRY=${{ secrets.ACCESS_TOKEN_EXPIRY }}" >> .env
+          echo "ACCESS_TOKEN_SECRET=${{ secrets.ACCESS_TOKEN_SECRET }}" >> .env
+          echo "CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}" >> .env
+          echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" >> .env
+          echo "CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}" >> .env
+          echo "CORS_ORIGIN=${{ secrets.CORS_ORIGIN }}" >> .env
+          echo "DBNAME=${{ secrets.DBNAME }}" >> .env
+          echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env
+          echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> .env
+          echo "GOOGLE_REDIRECT_URI=${{ secrets.GOOGLE_REDIRECT_URI }}" >> .env
+          echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" >> .env
+          echo "PORT=${{ secrets.PORT }}" >> .env
+          echo "REFRESH_TOKEN_EXPIRY=${{ secrets.REFRESH_TOKEN_EXPIRY }}" >> .env
+          echo "REFRESH_TOKEN_SECRET=${{ secrets.REFRESH_TOKEN_SECRET }}" >> .env
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Start backend
+        run: npm run dev
+      
+  frontend_deploy:
+    name: Deploy the frontend
+    needs: test_build
+    runs-on: ubuntu-latest
+    environment: frontend
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build_artifact
+          path: frontend/web/build/
+
+      
+      - uses: actions/setup-node@v3
+      - name: Install dotenv
+        run: npm install dotenv
+        working-directory: frontend/web
+      
+      - name: Create frontend .env file
+        run: |
+          echo "PORT=${{ secrets.PORT }}" >> .env
+          echo "HOST=${{ secrets.HOST }}" >> .env
+          echo "PUBLIC_GOOGLE_CLIENT_ID=${{ secrets.PUBLIC_GOOGLE_CLIENT_ID }}" >> .env
+          echo "PUBLIC_REDIRECT_URI=${{ secrets.PUBLIC_REDIRECT_URI }}" >> .env
+
+      - name: Deploy the build
+        run: node -r dotenv/config build
+        working-directory: frontend/web
